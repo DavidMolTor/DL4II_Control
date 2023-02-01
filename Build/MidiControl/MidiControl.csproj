@@ -87,6 +87,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
@@ -110,6 +111,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="DL4MkII.ico" />
+    <Resource Include="Resources\DL4MkII Top.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\Midi\packages\Melanchall.DryWetMidi.6.1.4\build\Melanchall.DryWetMidi.targets" Condition="Exists('..\Midi\packages\Melanchall.DryWetMidi.6.1.4\build\Melanchall.DryWetMidi.targets')" />
