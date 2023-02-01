@@ -16,6 +16,9 @@ namespace MidiControl
         //Connection checking period in milliseconds
         public const int CONNECTION_PERIOD = 2000;
 
+        //No device found connected value
+        public const int NO_DEVICE = -1;
+
         //DL4 MIDI device name
         public const string DL4_PRODUCT_NAME = "DL4 MkII MIDI";
     }
