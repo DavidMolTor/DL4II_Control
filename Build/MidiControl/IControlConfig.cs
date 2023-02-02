@@ -53,6 +53,58 @@ namespace MidiControl
         }
 
         /*
+        Returns the configured MIDI channel
+        */
+        public int GetChannelMIDI()
+        {
+            return int.Parse(configMain.AppSettings.Settings["CHANNEL_MIDI"].Value);
+        }
+
+        /*
+        Saves the configured MIDI channel
+        */
+        public bool SaveChannelMIDI(int iChannelMIDI)
+        {
+            try
+            {
+                configMain.AppSettings.Settings["CHANNEL_MIDI"].Value = iChannelMIDI.ToString();
+                configMain.Save(ConfigurationSaveMode.Minimal, false);
+            }
+            catch (ConfigurationErrorsException)
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        /*
+        Returns the selected preset
+        */
+        public int GetSelectedPreset()
+        {
+            return int.Parse(configMain.AppSettings.Settings["SELECTED_PRESET"].Value);
+        }
+
+        /*
+        Saves the selected preset
+        */
+        public bool SaveSelectedPreset(int iSelectedPreset)
+        {
+            try
+            {
+                configMain.AppSettings.Settings["SELECTED_PRESET"].Value = iSelectedPreset.ToString();
+                configMain.Save(ConfigurationSaveMode.Minimal, false);
+            }
+            catch (ConfigurationErrorsException)
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        /*
         Returns the configuration for the given preset
         */
         public DeviceConfig GetPreset(int iPreset)
