@@ -1,4 +1,4 @@
-<p align="center"><img src="/Build/MidiControl/Resources/Original/DL4MkII Top.png" alt="DL4MkII Icon"></p>
+<p align="center"><img src="/Build/MidiControl/Resources/Original/DL4MkII Mod.png" alt="DL4MkII MOD"></p>
 
 # MIDI Controller for Line6 DL4 MkII
 
