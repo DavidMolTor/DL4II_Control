@@ -71,7 +71,6 @@ namespace MidiControl
             { "ANALOG",         new Tuple<string, string>("BASS", "TREBLE") },
             { "ANALOG MOD",     new Tuple<string, string>("RATE", "DEPTH") },
             { "LO RES DELAY",   new Tuple<string, string>("TONE", "RESOLUTION") }
-
         };
 
         //Available reverb dictionary

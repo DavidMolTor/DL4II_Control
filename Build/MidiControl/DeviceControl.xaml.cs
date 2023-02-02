@@ -26,6 +26,27 @@ namespace MidiControl
         public DeviceControl()
         {
             InitializeComponent();
+
+            DeviceConfig configOriginal = new DeviceConfig()
+            {
+                iPresetNumber   = 50,
+                iDelaySelected  = 10,
+                iDelayTime      = 27,
+                iDelayRepeats   = 6,
+                iDelayTweak     = 67,
+                iDelayTweez     = 54,
+                iDelayMix       = 20,
+                iReverbSelected = 13,
+                iReverbDecay    = 98,
+                iReverbTweak    = 34,
+                iReverbRouting  = 1,
+                iReverbMix      = 23,
+                bAlternative    = true
+            };
+
+            IControlConfig.Instance.SavePreset(1, configOriginal);
+
+            DeviceConfig configResult = IControlConfig.Instance.GetPreset(1);
         }
 
         //Variables for rotary knob actions
