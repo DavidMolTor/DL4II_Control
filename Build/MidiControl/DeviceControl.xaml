@@ -78,7 +78,7 @@
             <Image x:Name="imageKnob_ReverbMix" Source="/Resources/DL4 MkII Knob.png" Height="104" Width="104" VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="686,0,0,221" RenderTransformOrigin="0.5,0.5" MouseDown="Knob_MouseDown" MouseMove="Knob_MouseMove" MouseUp="Knob_MouseUp"/>
 
             <Button x:Name="buttonAlt" Style="{StaticResource ImageButton}" Width="36" Height="36" Background="#00000000" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0,279,341,0" Click="ButtonAlt_Click">
-                <Image x:Name="imageAlt" Source="/Resources/DL4 MkII Alt White.png" Height="36" Width="36" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0"/>
+                <Image x:Name="imageAlternative" Source="/Resources/DL4 MkII Alt White.png" Height="36" Width="36" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0"/>
             </Button>
             
             <Button x:Name="buttonFoot_A" Style="{StaticResource ImageButton}" Width="75" Height="75" Background="#00000000" VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="0,0,848,82" Click="ButtonFoot_Click">
@@ -128,7 +128,7 @@
             </Grid>
 
             <Grid x:Name="gridSavePreset" Height="100" Width="310" Margin="0,600,0,0" VerticalAlignment="Top" HorizontalAlignment="Center" Background="#FF1E1E1E">
-                <Button x:Name="buttonSavePreset" Content="SAVE PRESET" Width="180" Height="50" FontSize="20" FontFamily="Yu Gothic UI" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0"/>
+                <Button x:Name="buttonSavePreset" Content="SAVE PRESET" Width="180" Height="50" FontSize="20" FontFamily="Yu Gothic UI" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0" Click="ButtonSavePreset_Click"/>
             </Grid>
             
         </Grid>

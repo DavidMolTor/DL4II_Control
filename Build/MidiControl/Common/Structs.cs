@@ -22,7 +22,6 @@ namespace MidiControl
     public struct DeviceConfig
     {
         //Attributes
-        public int iPresetNumber;
         public int iDelaySelected;
         public int iDelayTime;
         public int iDelayRepeats;
@@ -34,14 +33,12 @@ namespace MidiControl
         public int iReverbTweak;
         public int iReverbRouting;
         public int iReverbMix;
-        public bool bAlternative;
 
         /*
         Public constructor
         */
         public DeviceConfig(bool bInit)
         {
-            iPresetNumber   = 0;
             iDelaySelected  = 0;
             iDelayTime      = 0;
             iDelayRepeats   = 0;
@@ -53,7 +50,6 @@ namespace MidiControl
             iReverbTweak    = 0;
             iReverbRouting  = 0;
             iReverbMix      = 0;
-            bAlternative    = false;
         }
 
         //Structure serialization declarations
