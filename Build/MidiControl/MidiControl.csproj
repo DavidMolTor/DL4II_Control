@@ -5,7 +5,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{BBD3D331-C43C-4845-81FE-9E4C357E1EA6}</ProjectGuid>
-    <OutputType>Exe</OutputType>
+    <OutputType>WinExe</OutputType>
     <RootNamespace>MidiControl</RootNamespace>
     <AssemblyName>MidiControl</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
@@ -68,6 +68,7 @@
       <DependentUpon>DeviceControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Enums.cs" />
+    <Compile Include="Functions.cs" />
     <Compile Include="MainWindow.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -104,14 +105,20 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Page Include="DeviceControl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
+    <Content Include="DL4MkII.ico" />
+    <Resource Include="Resources\DL4 MkII Alt White.png" />
+    <Resource Include="Resources\DL4 MkII Alt Green.png" />
+    <Resource Include="Resources\DL4MkII Empty.png" />
+    <Resource Include="Resources\DL4 MkII Knob.png" />
+    <Resource Include="Resources\DL4 MkII Foot Red.png" />
+    <Resource Include="Resources\DL4 MkII Foot None.png" />
+    <Resource Include="Resources\DL4 MkII Foot Green.png" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="DL4MkII.ico" />
-    <Resource Include="Resources\DL4MkII Top.png" />
+    <Page Include="DeviceControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\Midi\packages\Melanchall.DryWetMidi.6.1.4\build\Melanchall.DryWetMidi.targets" Condition="Exists('..\Midi\packages\Melanchall.DryWetMidi.6.1.4\build\Melanchall.DryWetMidi.targets')" />

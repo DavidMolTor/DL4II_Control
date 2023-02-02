@@ -21,5 +21,11 @@ namespace MidiControl
 
         //DL4 MIDI device name
         public const string DL4_PRODUCT_NAME = "DL4 MkII MIDI";
+
+        //DL4 knob rotation steps and limits
+        public const int SELECT_KNOB_STEPS = 16;
+        public const int KNOB_MIN_ROTATION = -150;
+        public const int KNOB_MAX_ROTATION = 150;
+        public const int PIXELS_PER_DEGREE = 2;
     }
 }

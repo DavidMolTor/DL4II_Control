@@ -37,7 +37,7 @@
             // 
             this.hostDeviceControl.Location = new System.Drawing.Point(0, 0);
             this.hostDeviceControl.Name = "hostDeviceControl";
-            this.hostDeviceControl.Size = new System.Drawing.Size(1280, 720);
+            this.hostDeviceControl.Size = new System.Drawing.Size(1400, 700);
             this.hostDeviceControl.TabIndex = 0;
             this.hostDeviceControl.Text = "hostDeviceControl";
             this.hostDeviceControl.Child = this.deviceControl;
@@ -45,7 +45,7 @@
             // MainWindow
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-            this.ClientSize = new System.Drawing.Size(1280, 720);
+            this.ClientSize = new System.Drawing.Size(1400, 700);
             this.Controls.Add(this.hostDeviceControl);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));

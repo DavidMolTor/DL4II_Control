@@ -63,9 +63,69 @@ namespace MidiControl.Properties {
         /// <summary>
         ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap DL4MkII_Top {
+        internal static System.Drawing.Bitmap DL4_MkII_Alt_Green {
             get {
-                object obj = ResourceManager.GetObject("DL4MkII_Top", resourceCulture);
+                object obj = ResourceManager.GetObject("DL4_MkII_Alt_Green", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap DL4_MkII_Alt_White {
+            get {
+                object obj = ResourceManager.GetObject("DL4_MkII_Alt_White", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap DL4_MkII_Foot_Green {
+            get {
+                object obj = ResourceManager.GetObject("DL4_MkII_Foot_Green", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap DL4_MkII_Foot_None {
+            get {
+                object obj = ResourceManager.GetObject("DL4_MkII_Foot_None", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap DL4_MkII_Foot_Red {
+            get {
+                object obj = ResourceManager.GetObject("DL4_MkII_Foot_Red", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap DL4_MkII_Knob {
+            get {
+                object obj = ResourceManager.GetObject("DL4_MkII_Knob", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap DL4MkII_Empty {
+            get {
+                object obj = ResourceManager.GetObject("DL4MkII_Empty", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
