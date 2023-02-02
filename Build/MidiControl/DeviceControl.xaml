@@ -7,19 +7,38 @@
              mc:Ignorable="d"
              Height="700" Width="1400">
     <UserControl.Resources>
-        <!-- Text box style -->
-        <Style x:Key="PaddedTextBox" TargetType="TextBox">
+        <!-- Text box style -->   
+        <Style x:Key="PaddedTextBox"  TargetType="{x:Type TextBox}">
             <Setter Property="Margin" Value="0"/>
             <Setter Property="TextWrapping" Value="NoWrap"/>
             <Setter Property="VerticalContentAlignment" Value="Center"/>
-            <Setter Property="FontFamily" Value="Arial"/>
-            <Setter Property="FontSize" Value="36"/>
-            <Setter Property="Background" Value="#FF0A0A0A"/>
-            <Setter Property="Foreground" Value="#FFCCCCCC"/>
-            <Setter Property="BorderBrush" Value="#FFCCCCCC"/>
+            <Setter Property="FontFamily" Value="Yu Gothic UI"/>
+            <Setter Property="FontSize" Value="32"/>
+            <Setter Property="Background" Value="#00000000"/>
+            <Setter Property="Foreground" Value="#FF32864C"/>
+            <Setter Property="BorderBrush" Value="#00000000"/>
             <Setter Property="AcceptsReturn" Value="False"/>
             <Setter Property="TextAlignment" Value="Right"/>
             <Setter Property="Padding" Value="5,0,5,0"/>
+            <Setter Property="SnapsToDevicePixels" Value="True"/>
+            <Setter Property="OverridesDefaultStyle" Value="True"/>
+            <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+            <Setter Property="AllowDrop" Value="true"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type TextBoxBase}">
+                        <Border Name="Border" BorderThickness="0">
+                            <ScrollViewer Margin="0" x:Name="PART_ContentHost"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter TargetName="Border" Property="Background" Value="#00000000"/>
+                                <Setter TargetName="Border" Property="BorderBrush" Value="#00000000"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
         </Style>
         <!-- Button style for full image -->
         <Style x:Key="ImageButton" TargetType="Button">
@@ -41,9 +60,6 @@
         </Style>
     </UserControl.Resources>
     <Grid Background="#FF141414">
-        <Grid x:Name="gridParam" Height="700" Width="300" VerticalAlignment="Center" HorizontalAlignment="Right">
-            <TextBox x:Name="textboxChannel" Style="{StaticResource PaddedTextBox}" HorizontalAlignment="Center" VerticalAlignment="Center" Width="50" Height="48" MaxLength="1" HorizontalContentAlignment="Center" PreviewTextInput="TextBoxNumber_PreviewTextInput" Text="2" />
-        </Grid>
         <Grid x:Name="gridDevice" Height="700" Width="1100" VerticalAlignment="Center" HorizontalAlignment="Left">
             
             <Image Source="/Resources/DL4MkII Empty.png" Height="700" Width="1100"/>
@@ -77,6 +93,43 @@
             <Button x:Name="buttonFoot_D" Style="{StaticResource ImageButton}" Width="75" Height="75" Background="#00000000" VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="848,0,0,82">
                 <Image x:Name="imageFoot_TAP" Source="/Resources/DL4 MkII Foot None.png" Height="75" Width="75" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0"/>
             </Button>
+            
+        </Grid>
+        <Grid x:Name="gridParam" Height="700" Width="310" VerticalAlignment="Center" HorizontalAlignment="Right" Background="#FF1E1E1E">
+            
+            <Grid x:Name="gridChannel" Height="100" Width="310" Margin="0,0,0,0" VerticalAlignment="Top" HorizontalAlignment="Center" Background="#FF1E1E1E">
+                <Label x:Name="labelChannel" Content="MIDI CH" HorizontalAlignment="Left" Margin="0" VerticalAlignment="Center" Width="160" Foreground="#FF32864C" HorizontalContentAlignment="Center" FontSize="32" FontFamily="Yu Gothic UI"/>
+                <TextBox x:Name="textboxChannel" Style="{StaticResource PaddedTextBox}" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,20,0" Width="120" Height="46" MaxLength="1" HorizontalContentAlignment="Center" PreviewTextInput="TextBoxNumber_PreviewTextInput" Text="2"/>
+            </Grid>
+            
+            <Grid x:Name="gridPreset" Height="100" Width="310" Margin="0,100,0,0" VerticalAlignment="Top" HorizontalAlignment="Center" Background="#FF282828">
+                <Label x:Name="labelPreset" Content="PRESET" HorizontalAlignment="Left" Margin="0" VerticalAlignment="Center" Width="160" Foreground="#FF32864C" HorizontalContentAlignment="Center" FontSize="32" FontFamily="Yu Gothic UI"/>
+                <TextBox x:Name="textboxPreset" Style="{StaticResource PaddedTextBox}" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,20,0" Width="120" Height="46" MaxLength="3" HorizontalContentAlignment="Center" PreviewTextInput="TextBoxNumber_PreviewTextInput" Text="1"/>
+            </Grid>
+            
+            <Grid x:Name="gridDelayTweak" Height="100" Width="310" Margin="0,200,0,0" VerticalAlignment="Top" HorizontalAlignment="Center" Background="#FF1E1E1E">
+                <Label x:Name="labelDelayTweak" Content="TWEAK" HorizontalAlignment="Left" Margin="0" VerticalAlignment="Center" Width="160" Foreground="#FFCCCCCC" HorizontalContentAlignment="Center" FontSize="32" FontFamily="Yu Gothic UI"/>
+                <Label x:Name="labelDelayTweak_Value" Content="VALUE" HorizontalAlignment="Right" Margin="0,0,20,0" VerticalAlignment="Center" Width="120" Foreground="#FFCCCCCC" HorizontalContentAlignment="Center" FontSize="32" FontFamily="Yu Gothic UI"/>
+            </Grid>
+            
+            <Grid x:Name="gridDelayTweez" Height="100" Width="310" Margin="0,300,0,0" VerticalAlignment="Top" HorizontalAlignment="Center" Background="#FF282828">
+                <Label x:Name="labelDelayTweez" Content="TWEEZ" HorizontalAlignment="Left" Margin="0" VerticalAlignment="Center" Width="160" Foreground="#FFCCCCCC" HorizontalContentAlignment="Center" FontSize="32" FontFamily="Yu Gothic UI"/>
+                <Label x:Name="labelDelayTweez_Value" Content="VALUE" HorizontalAlignment="Right" Margin="0,0,20,0" VerticalAlignment="Center" Width="120" Foreground="#FFCCCCCC" HorizontalContentAlignment="Center" FontSize="32" FontFamily="Yu Gothic UI"/>
+            </Grid>
+
+            <Grid x:Name="gridReverbTweak" Height="100" Width="310" Margin="0,400,0,0" VerticalAlignment="Top" HorizontalAlignment="Center" Background="#FF1E1E1E">
+                <Label x:Name="labelReverbTweak" Content="TWEAK" HorizontalAlignment="Left" Margin="0" VerticalAlignment="Center" Width="160" Foreground="#FFE97F00" HorizontalContentAlignment="Center" FontSize="32" FontFamily="Yu Gothic UI"/>
+                <Label x:Name="labelReverbTweez_Value" Content="VALUE" HorizontalAlignment="Right" Margin="0,0,20,0" VerticalAlignment="Center" Width="120" Foreground="#FFE97F00" HorizontalContentAlignment="Center" FontSize="32" FontFamily="Yu Gothic UI"/>
+            </Grid>
+            
+            <Grid x:Name="gridReverbRouting" Height="100" Width="310" Margin="0,500,0,0" VerticalAlignment="Top" HorizontalAlignment="Center" Background="#FF282828">
+                <Label x:Name="labelReverbRouting" Content="ROUTE" HorizontalAlignment="Left" Margin="0" VerticalAlignment="Center" Width="160" Foreground="#FFE97F00" HorizontalContentAlignment="Center" FontSize="32" FontFamily="Yu Gothic UI"/>
+                <Label x:Name="labelReverbRouting_Value" Content="VALUE" HorizontalAlignment="Right" Margin="0,0,20,0" VerticalAlignment="Center" Width="120" Foreground="#FFE97F00" HorizontalContentAlignment="Center" FontSize="32" FontFamily="Yu Gothic UI"/>
+            </Grid>
+
+            <Grid x:Name="gridSavePreset" Height="100" Width="310" Margin="0,600,0,0" VerticalAlignment="Top" HorizontalAlignment="Center" Background="#FF1E1E1E">
+                <Button x:Name="buttonSavePreset" Content="SAVE PRESET" Width="180" Height="50" FontSize="20" FontFamily="Yu Gothic UI" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0"/>
+            </Grid>
             
         </Grid>
     </Grid>
