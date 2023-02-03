@@ -9,7 +9,6 @@ Constants.cs
 - Version: 0.1
 */
 
-using System;
 using System.Collections.Generic;
 
 namespace MidiControl
@@ -26,9 +25,9 @@ namespace MidiControl
         public const string DL4_PRODUCT_NAME = "DL4 MkII MIDI";
 
         //DL4 knob rotation steps and limits
-        public const int KNOB_ROTATION_MIN  = -150;
-        public const int KNOB_ROTATION_MAX  = 150;
-        public const int KNOB_ROTATION_RATE = 10;
+        public const double KNOB_ROTATION_MIN   = -150;
+        public const double KNOB_ROTATION_MAX   = 150;
+        public const double KNOB_ROTATION_RATE  = 10;
 
         //Number of presets available
         public const int PRESET_COUNT_MIN   = 1;
@@ -36,68 +35,75 @@ namespace MidiControl
 
         //Selection knob parameters
         public const int ALTDELAY_INITIAL   = 15;
+        public const int MAX_KNOB_VALUES    = 128;
 
-        //Available delay dictionary
-        public readonly Dictionary<string, Tuple<string, string>> dictDelays = new Dictionary<string, Tuple<string, string>>()
+        /*
+        Delay models list
+        */
+        public static readonly List<DelayModels> LIST_DELAY = new List<DelayModels>()
         {
-            { "VINTAGE DELAY",  new Tuple<string, string>("BITS", "DEPTH") },
-            { "CRISSCROSS",     new Tuple<string, string>("TIME B", " CROSS") },
-            { "EUCLIDEAN",      new Tuple<string, string>("FILL", "ROTATE") },
-            { "DUAL DELAY",     new Tuple<string, string>("TIME B", "FEED B") },
-            { "PITCH ECHO",     new Tuple<string, string>("PITCH", "CENTS") },
-            { "ADT",            new Tuple<string, string>("DRIVE", "DEPTH") },
-            { "DUCKED",         new Tuple<string, string>("LIMIT", "AMOUNT") },
-            { "HARMONY",        new Tuple<string, string>("KEY", "MODES") },
-            { "LOOPER",         new Tuple<string, string>("ECHO", "VOLUME") },
-            { "HELIOSPHERE",    new Tuple<string, string>("REVERB", "DEPTH") },
-            { "TRANSISTOR",     new Tuple<string, string>("HEADROOM", "WOW") },
-            { "COSMOS",         new Tuple<string, string>("HEADS", "FEEDBACK") },
-            { "MULTI PASS",     new Tuple<string, string>("PATTERN", "MODE") },
-            { "ADRIATIC",       new Tuple<string, string>("RATE", "DEPTH") },
-            { "ELEPHANT MAN",   new Tuple<string, string>("DEPTH", "MODE") },
-            { "GLITCH",         new Tuple<string, string>("PITCH", "DEPTH") }
+            DelayModels.VintageDelay,
+            DelayModels.Crisscross,
+            DelayModels.Euclidean,
+            DelayModels.DualDelay,
+            DelayModels.PitchEcho,
+            DelayModels.ADT,
+            DelayModels.Ducked,
+            DelayModels.Harmony,
+            DelayModels.Looper,
+            DelayModels.Heliosphere,
+            DelayModels.Transistor,
+            DelayModels.Cosmos,
+            DelayModels.MultiPass,
+            DelayModels.Adriatic,
+            DelayModels.ElephantMan,
+            DelayModels.Glitch
         };
 
-        //Available legacy delay dictionary
-        public readonly Dictionary<string, Tuple<string, string>> dictLegacy = new Dictionary<string, Tuple<string, string>>()
+        /*
+        Legacy models list
+        */
+        public static readonly List<LegacyModels> LIST_LEGACY = new List<LegacyModels>()
         {
-            { "DIGITAL",        new Tuple<string, string>("BASS", "TREBLE") },
-            { "DIGITAL MOD",    new Tuple<string, string>("RATE", "DEPTH") },
-            { "ECHO PLATTER",   new Tuple<string, string>("WOW", "DRIVE") },
-            { "STEREO",         new Tuple<string, string>("TIME B", "REPEATS B") },
-            { "PING PONG",      new Tuple<string, string>("OFFSET", "SPREAD") },
-            { "REVERSE",        new Tuple<string, string>("RATE", "DEPTH") },
-            { "DYNAMIC",        new Tuple<string, string>("LIMIT", "DUCKING") },
-            { "AUTO-VOL",       new Tuple<string, string>("DEPTH", "SWELL") },
-            { "LOOPER",         new Tuple<string, string>("ECHO", "VOLUME") },
-            { "TUBE ECHO",      new Tuple<string, string>("WOW", "DRIVE") },
-            { "TAPE ECHO",      new Tuple<string, string>("BASS", "TREBLE") },
-            { "MULTI-HEAD",     new Tuple<string, string>("HEADS 1/2", "HEADS 3/4") },
-            { "SWEEP",          new Tuple<string, string>("RATE", "DEPTH") },
-            { "ANALOG",         new Tuple<string, string>("BASS", "TREBLE") },
-            { "ANALOG MOD",     new Tuple<string, string>("RATE", "DEPTH") },
-            { "LO RES DELAY",   new Tuple<string, string>("TONE", "RESOLUTION") }
+            LegacyModels.Digital,
+            LegacyModels.DigitalMod,
+            LegacyModels.EchoPlatter,
+            LegacyModels.Stereo,
+            LegacyModels.PingPong,
+            LegacyModels.Reverse,
+            LegacyModels.Dynamic,
+            LegacyModels.AutoVol,
+            LegacyModels.Looper,
+            LegacyModels.TubeEcho,
+            LegacyModels.TapeEcho,
+            LegacyModels.MultiHead,
+            LegacyModels.Sweep,
+            LegacyModels.Analog,
+            LegacyModels.AnalogMod,
+            LegacyModels.LoResDelay
         };
 
-        //Available reverb dictionary
-        public readonly Dictionary<string, string> dictReverbs = new Dictionary<string, string>()
+        /*
+        Reverb models list
+        */
+        public static readonly List<ReverbModels> LIST_REVERB = new List<ReverbModels>()
         {
-            { "ROOM",           "PREDELAY" },
-            { "SEARCHLIGHTS",   "MOD MIX" },
-            { "PARTICLE VERB",  "CONDITION" },
-            { "DOUBLE TANK",    "MOD DEPTH" },
-            { "OCTO",           "INTENSITY" },
-            { "TILE",           "PREDELAY" },
-            { "DUCKING",        "PREDELAY" },
-            { "PLATEAUX",       "PITCH MODES" },
-            { "REVERB OFF",     "N/A" },
-            { "CAVE",           "PREDELAY" },
-            { "PLATE",          "PREDELAY" },
-            { "GANYMEDE",       "MOD DEPTH" },
-            { "CHAMBER",        "PREDELAY" },
-            { "HOT SPRINGS",    "SPRING COUNT" },
-            { "HALL",           "PREDELAY" },
-            { "GLITZ",          "MOD DEPTH" }
+            ReverbModels.Room,
+            ReverbModels.Searchlights,
+            ReverbModels.ParticleVerb,
+            ReverbModels.DoubleTank,
+            ReverbModels.Octo,
+            ReverbModels.Tile,
+            ReverbModels.Ducking,
+            ReverbModels.Plateaux,
+            ReverbModels.ReverbOff,
+            ReverbModels.Cave,
+            ReverbModels.Plate,
+            ReverbModels.Ganymede,
+            ReverbModels.Chamber,
+            ReverbModels.HotSprings,
+            ReverbModels.Hall,
+            ReverbModels.Glitz
         };
     }
 }

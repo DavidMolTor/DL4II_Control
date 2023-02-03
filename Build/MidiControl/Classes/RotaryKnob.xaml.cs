@@ -27,64 +27,43 @@ namespace MidiControl
             InitializeComponent();
         }
 
-        //Steps list for the knob
-        public List<int> listSteps = new List<int>();
+        //Knob status variable
+        public int Status = 0;
+
+        //Knob step enumeration
+        List<int> Steps = new List<int>();
+
+        //Rotation limit variable
+        public bool Limited = true;
 
         /*
-        Sets the selected knob status
+        Sets the knob status
         */
-        public void SetKnob(int iValue)
+        public void SetKnob(int iStatus, List<int> listSteps, bool bLimited = true)
         {
-            /*
-            //Check the selected knob
-            double dAngle = 0;
-            switch (imageKnob.Name.Split('_').Last())
+            //Set the knob status
+            Status = iStatus;
+
+            //Set the knob step enumeration
+            Steps = listSteps;
+
+            //Set if the knob is limited
+            Limited = bLimited;
+
+            //Check if the knob is limited
+            if (Limited)
             {
-                case "DelaySelect":
-                    int iDelaySteps = iValue < Constants.ALTDELAY_INITIAL ? iValue : iValue - Constants.ALTDELAY_INITIAL;
-                    iDelaySteps     = iDelaySteps < Constants.LOOPER_POSITION ? iDelaySteps : iDelaySteps + 1;
-
-                    //Set the delay selector rotation
-                    RotateTransform rotateTransform_DelaySelect = new RotateTransform(iDelaySteps * 360 / Constants.SELECT_KNOB_STEPS);
-                    imageKnob.RenderTransform = rotateTransform_DelaySelect;
-                    break;
-                case "ReverbSelect":
-                    int iReverbSteps    = iValue < Constants.LOOPER_POSITION ? iValue : iValue + 1;
-                    iReverbSteps        = iValue != Constants.LOOPER_VALUE ? iReverbSteps : Constants.LOOPER_POSITION;
-
-                    //Set the reverb selector rotation
-                    RotateTransform rotateTransform_ReverbSelect = new RotateTransform(iReverbSteps * 360 / Constants.SELECT_KNOB_STEPS);
-                    imageKnob.RenderTransform = rotateTransform_ReverbSelect;
-                    break;
-                case "ReverbRouting":
-                    switch (iValue)
-                    {
-                        case 0:
-                            dAngle = Constants.KNOB_MIN_ROTATION;
-                            break;
-                        case 1:
-                            dAngle = 0;
-                            break;
-                        case 2:
-                            dAngle = Constants.KNOB_MAX_ROTATION;
-                            break;
-                    }
-
-                    //Set the reverb routing knob rotation
-                    RotateTransform rotateTransform_ReverbRouting = new RotateTransform(dAngle);
-                    imageKnob.RenderTransform = rotateTransform_ReverbRouting;
-                    break;
-                default:
-                    dAngle = Constants.KNOB_MIN_ROTATION + (Constants.KNOB_MAX_ROTATION - Constants.KNOB_MIN_ROTATION) * (double)iValue / Constants.KNOB_MAX_VALUE;
-                    RotateTransform rotateTransform = new RotateTransform(dAngle);
-                    imageKnob.RenderTransform = rotateTransform;
-                    break;
+                transformKnob.Angle = Constants.KNOB_ROTATION_MIN + (Constants.KNOB_ROTATION_MAX - Constants.KNOB_ROTATION_MIN) * (double)Steps.IndexOf(Status) / (Steps.Count - 1);
             }
-            */
+            else
+            {
+                transformKnob.Angle = 360 * (double)Steps.IndexOf(Status) / Steps.Count; 
+            }
         }
 
         //Variables for rotary knob actions
-        private Point pointMouse = new Point();
+        private Point pointMouse    = new Point();
+        private double dAngleActual = 0;
 
         /*
         Mouse press function for knob element
@@ -93,6 +72,9 @@ namespace MidiControl
         {
             //Reset the previous mouse position
             pointMouse = e.GetPosition(this);
+
+            //Set the initial angle
+            dAngleActual = transformKnob.Angle;
 
             //Make the knob capture the mouse
             gridKnob.CaptureMouse();
@@ -106,13 +88,13 @@ namespace MidiControl
             if (gridKnob.IsMouseCaptureWithin)
             {
                 //Calculate the amount of degrees to rotate
-                double dAngle = transformKnob.Angle + (e.GetPosition(this).Y - pointMouse.Y);
+                dAngleActual += (e.GetPosition(this).Y - pointMouse.Y);
 
                 //Reset the previous mouse position
                 pointMouse = e.GetPosition(this);
 
-                //Set the knob rotation
-                SetRotation(dAngle);
+                //Set the current knob rotation
+                SetRotation(ref dAngleActual);
             }
         }
 
@@ -129,31 +111,39 @@ namespace MidiControl
         */
         private void Knob_MouseWheel(object sender, MouseWheelEventArgs e)
         {
-            //Calculate the amount of degrees to rotate
-            double dAngle = transformKnob.Angle + Math.Sign(e.Delta) * Constants.KNOB_ROTATION_RATE;
+            //Add gap to the currenat angle
+            dAngleActual = transformKnob.Angle + Math.Sign(e.Delta) * Constants.KNOB_ROTATION_RATE;
 
-            //Set the knob rotation
-            SetRotation(dAngle);
+            //Set the current knob rotation
+            SetRotation(ref dAngleActual);
         }
 
         /*
         Sets the selected knob rotation
         */
-        private void SetRotation(double dAngle)
+        private void SetRotation(ref double dAngle)
         {
-            //Check the selected knob steps
-            if (listSteps.Count == 0)
+            //Check if the knob is limited
+            if (Limited)
             {
+                //Check if the knob has reached any limit
                 dAngle = dAngle > Constants.KNOB_ROTATION_MAX ? Constants.KNOB_ROTATION_MAX : dAngle;
-                dAngle = dAngle < Constants.KNOB_ROTATION_MIN ? Constants.KNOB_ROTATION_MIN : dAngle;  
+                dAngle = dAngle < Constants.KNOB_ROTATION_MIN ? Constants.KNOB_ROTATION_MIN : dAngle;
+
+                //Calculate the knob status and set its angle
+                Status = Steps[(int)Math.Floor((dAngle - Constants.KNOB_ROTATION_MIN) / (Constants.KNOB_ROTATION_MAX - Constants.KNOB_ROTATION_MIN) * (Steps.Count - 1))];
+                transformKnob.Angle = Constants.KNOB_ROTATION_MIN + (Constants.KNOB_ROTATION_MAX - Constants.KNOB_ROTATION_MIN) * (double)Steps.IndexOf(Status) / (Steps.Count - 1);
             }
             else
             {
-                dAngle = Math.Floor(dAngle / (360 / listSteps.Count)) * 360 / listSteps.Count;
-            }
+                //Set the angle as absolute
+                dAngle = dAngle >= 360 ? dAngle - 360 : dAngle;
+                dAngle = dAngle < 0 ? dAngle + 360 : dAngle;
 
-            //Apply the rotation transform
-            transformKnob.Angle = dAngle;
+                //Calculate the knob status and set its angle
+                Status = Steps[(int)Math.Floor(dAngle / 360 * Steps.Count)];
+                transformKnob.Angle = 360 * (double)Steps.IndexOf(Status) / Steps.Count;
+            }
         }
     }
 }

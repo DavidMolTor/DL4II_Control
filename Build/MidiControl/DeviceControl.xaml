@@ -64,6 +64,7 @@
             <local:Footswitch x:Name="footswitch_A" Width="75" Height="75" VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="0,0,848,82"/>
             <local:Footswitch x:Name="footswitch_B" Width="75" Height="75" VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="0,0,285,82"/>
             <local:Footswitch x:Name="footswitch_C" Width="75" Height="75" VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="283,0,0,82"/>
+            <local:Footswitch x:Name="footswitch_TAP" Width="75" Height="75" VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="848,0,0,82"/>
 
         </Grid>
         <Grid x:Name="gridParam" Height="700" Width="310" VerticalAlignment="Center" HorizontalAlignment="Right" Background="#FF1E1E1E">

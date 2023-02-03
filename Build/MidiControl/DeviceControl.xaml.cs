@@ -13,7 +13,6 @@ using System;
 using System.Linq;
 using System.Windows.Input;
 using System.Windows.Controls;
-using System.Windows.Media.Imaging;
 
 namespace MidiControl
 {
@@ -29,6 +28,23 @@ namespace MidiControl
             //Set the configurable elements
             textboxChannel.Text = IControlConfig.Instance.GetChannelMIDI().ToString();
             textboxPreset.Text  = IControlConfig.Instance.GetSelectedPreset().ToString();
+
+            DeviceConfig config = new DeviceConfig()
+            {
+                iDelaySelected  = 4,
+                iDelayTime      = 0,
+                iDelayRepeats   = 127,
+                iDelayTweak     = 0,
+                iDelayTweez     = 127,
+                iDelayMix       = 0,
+                iReverbSelected = 8,
+                iReverbDecay    = 127,
+                iReverbTweak    = 0,
+                iReverbRouting  = 1,
+                iReverbMix      = 127
+            };
+            
+            IControlConfig.Instance.SavePreset(1, config);
 
             //Set the current preset configuration
             currentConfig = IControlConfig.Instance.GetPreset(IControlConfig.Instance.GetSelectedPreset());
@@ -52,19 +68,32 @@ namespace MidiControl
         Public constructor
         */
         private void UpdateDevice()
-        {            
-            //Set the delay select knob steps
+        {
+            //Set the delay select control
             if (currentConfig.iDelaySelected < Constants.ALTDELAY_INITIAL)
             {
-                knobDelaySelect.listSteps = Enum.GetValues(typeof(DelayModels)).Cast<DelayModels>().Select(x => (int)x).ToList();
+                knobDelaySelect.SetKnob(currentConfig.iDelaySelected, Constants.LIST_DELAY.Select(x => (int)x).ToList(), false);
             }
             else
             {
-                knobDelaySelect.listSteps = Enum.GetValues(typeof(LegacyModels)).Cast<LegacyModels>().Select(x => (int)x).ToList();
+                knobDelaySelect.SetKnob(currentConfig.iDelaySelected, Constants.LIST_LEGACY.Select(x => (int)x).ToList(), false);
             }
 
+            //Set all delay control knobs
+            knobDelayTime.SetKnob(currentConfig.iDelayTime,         Enumerable.Range(0, Constants.MAX_KNOB_VALUES).ToList());
+            knobDelayRepeats.SetKnob(currentConfig.iDelayRepeats,   Enumerable.Range(0, Constants.MAX_KNOB_VALUES).ToList());
+            knobDelayTweak.SetKnob(currentConfig.iDelayTweak,       Enumerable.Range(0, Constants.MAX_KNOB_VALUES).ToList());
+            knobDelayTweez.SetKnob(currentConfig.iDelayTweez,       Enumerable.Range(0, Constants.MAX_KNOB_VALUES).ToList());
+            knobDelayMix.SetKnob(currentConfig.iDelayMix,           Enumerable.Range(0, Constants.MAX_KNOB_VALUES).ToList());
+
             //Set the reverb select knob steps
-            knobReverbSelect.listSteps = Enum.GetValues(typeof(ReverbModels)).Cast<ReverbModels>().Select(x => (int)x).ToList();
+            knobReverbSelect.SetKnob(currentConfig.iReverbSelected, Constants.LIST_REVERB.Select(x => (int)x).ToList(), false);
+
+            //Set all delay control knobs
+            knobReverbDecay.SetKnob(currentConfig.iReverbDecay,     Enumerable.Range(0, Constants.MAX_KNOB_VALUES).ToList());
+            knobReverbTweak.SetKnob(currentConfig.iReverbTweak,     Enumerable.Range(0, Constants.MAX_KNOB_VALUES).ToList());
+            knobReverbRouting.SetKnob(currentConfig.iReverbRouting, Enum.GetValues(typeof(ReverRouting)).Cast<ReverRouting>().Select(x => (int)x).ToList());
+            knobReverbMix.SetKnob(currentConfig.iReverbMix,         Enumerable.Range(0, Constants.MAX_KNOB_VALUES).ToList());
 
             //Reset all footswitches
             footswitch_A.SetStatus(FootswitchStatus.Off);
@@ -101,6 +130,17 @@ namespace MidiControl
         */
         private void HandleAltButtonPressed(object sender, EventArgs e)
         {
+            //Set the delay select knob list
+            if (altButton.Status == AltButtonStatus.White)
+            {
+                knobDelaySelect.SetKnob(knobDelaySelect.Status, Constants.LIST_LEGACY.Select(x => (int)x).ToList(), false);
+            }
+            else
+            {
+                knobDelaySelect.SetKnob(knobDelaySelect.Status, Constants.LIST_DELAY.Select(x => (int)x).ToList(), false);
+            }
+
+            //Set the alternative button status
             altButton.SetStatus(altButton.Status == AltButtonStatus.White ? AltButtonStatus.Green : AltButtonStatus.White);
         }
 

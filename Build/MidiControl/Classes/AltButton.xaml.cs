@@ -33,8 +33,10 @@ namespace MidiControl
         */
         public void SetStatus(AltButtonStatus status)
         {
+            //Set the current status
             Status = status;
 
+            //Set the proper image
             switch (status)
             {
                 case AltButtonStatus.White:

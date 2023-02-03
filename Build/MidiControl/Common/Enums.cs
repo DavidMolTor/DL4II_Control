@@ -36,14 +36,14 @@ namespace MidiControl
         ADT             = 5,
         Ducked          = 6,
         Harmony         = 7,
-        Looper          = 30,
         Heliosphere     = 8,
         Transistor      = 9,
         Cosmos          = 10,
         MultiPass       = 11,
         Adriatic        = 12,
         ElephantMan     = 13,
-        Glitch          = 14
+        Glitch          = 14,
+        Looper          = 30
     };
 
     /*
@@ -59,14 +59,14 @@ namespace MidiControl
         Reverse     = 20,
         Dynamic     = 21,
         AutoVol     = 22,
-        Looper      = 30,
         TubeEcho    = 23,
         TapeEcho    = 24,
         MultiHead   = 25,
         Sweep       = 26,
         Analog      = 27,
         AnalogMod   = 28,
-        LoResDelay  = 29
+        LoResDelay  = 29,
+        Looper      = 30
     };
 
     /*
@@ -82,14 +82,24 @@ namespace MidiControl
         Tile            = 5,
         Ducking         = 6,
         Plateaux        = 7,
-        ReverbOff       = 15,
         Cave            = 8,
         Plate           = 9,
         Ganymede        = 10,
         Chamber         = 11,
         HotSprings      = 12,
         Hall            = 13,
-        Glitz           = 14
+        Glitz           = 14,
+        ReverbOff       = 15
+    };
+
+    /*
+    Reverb routing enumeration
+    */
+    public enum ReverRouting
+    {
+        ReverbDelay = 0,
+        Parallel    = 1,
+        DelayReverb = 2
     };
 
     /*
