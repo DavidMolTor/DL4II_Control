@@ -64,13 +64,22 @@
     <Reference Include="WindowsFormsIntegration" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Classes\AltButton.xaml.cs">
+      <DependentUpon>AltButton.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Classes\Footswitch.xaml.cs">
+      <DependentUpon>Footswitch.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Classes\RotaryKnob.xaml.cs">
+      <DependentUpon>RotaryKnob.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Common\Constants.cs" />
     <Compile Include="DeviceControl.xaml.cs">
       <DependentUpon>DeviceControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Common\Enums.cs" />
     <Compile Include="Common\Functions.cs" />
-    <Compile Include="IControlConfig.cs" />
+    <Compile Include="Classes\IControlConfig.cs" />
     <Compile Include="MainWindow.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -118,6 +127,18 @@
     <Resource Include="Resources\DL4 MkII Foot Green.png" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="Classes\AltButton.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Classes\Footswitch.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Classes\RotaryKnob.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="DeviceControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:MidiControl"
              mc:Ignorable="d"
-             Height="700" Width="1400">
+             d:DesignHeight="700" d:DesignWidth="1400" Height="700" Width="1400">
     <UserControl.Resources>
         <!-- Text box style -->   
         <Style x:Key="PaddedTextBox"  TargetType="{x:Type TextBox}">
@@ -40,60 +40,31 @@
                 </Setter.Value>
             </Setter>
         </Style>
-        <!-- Button style for full image -->
-        <Style x:Key="ImageButton" TargetType="Button">
-            <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="Button">
-                        <Grid Name="HoverGrid" RenderTransformOrigin="{TemplateBinding RenderTransformOrigin}" Background="{TemplateBinding Background}">
-                            <Grid.RenderTransform>
-                                <ScaleTransform />
-                            </Grid.RenderTransform>
-                            <Border BorderThickness="0">
-                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
-                            </Border>
-                        </Grid>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
     </UserControl.Resources>
     <Grid Background="#FF141414">
         <Grid x:Name="gridDevice" Height="700" Width="1100" VerticalAlignment="Center" HorizontalAlignment="Left">
             
             <Image Source="/Resources/DL4MkII Empty.png" Height="700" Width="1100"/>
 
-            <Image x:Name="imageKnob_DelaySelect" Source="/Resources/DL4 MkII Knob.png" Height="104" Width="104" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0,218,619,0" RenderTransformOrigin="0.5,0.5" MouseDown="Knob_MouseDown" MouseMove="Knob_MouseMove" MouseUp="Knob_MouseUp"/>
-            <Image x:Name="imageKnob_DelayTime" Source="/Resources/DL4 MkII Knob.png" Height="104" Width="104" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0,218,166,0" RenderTransformOrigin="0.5,0.5" MouseDown="Knob_MouseDown" MouseMove="Knob_MouseMove" MouseUp="Knob_MouseUp"/>
-            <Image x:Name="imageKnob_DelayRepeats" Source="/Resources/DL4 MkII Knob.png" Height="104" Width="104" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="80,218,0,0" RenderTransformOrigin="0.5,0.5" MouseDown="Knob_MouseDown" MouseMove="Knob_MouseMove" MouseUp="Knob_MouseUp"/>
-            <Image x:Name="imageKnob_DelayTweak" Source="/Resources/DL4 MkII Knob.png" Height="104" Width="104" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="322,218,0,0" RenderTransformOrigin="0.5,0.5" MouseDown="Knob_MouseDown" MouseMove="Knob_MouseMove" MouseUp="Knob_MouseUp"/>
-            <Image x:Name="imageKnob_DelayTweez" Source="/Resources/DL4 MkII Knob.png" Height="104" Width="104" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="566,218,0,0" RenderTransformOrigin="0.5,0.5" MouseDown="Knob_MouseDown" MouseMove="Knob_MouseMove" MouseUp="Knob_MouseUp"/>
-            <Image x:Name="imageKnob_DelayMix" Source="/Resources/DL4 MkII Knob.png" Height="104" Width="104" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="810,218,0,0" RenderTransformOrigin="0.5,0.5" MouseDown="Knob_MouseDown" MouseMove="Knob_MouseMove" MouseUp="Knob_MouseUp"/>
+            <local:RotaryKnob x:Name="knobDelaySelect" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0,218,619,0"/>
+            <local:RotaryKnob x:Name="knobDelayTime" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0,218,166,0"/>
+            <local:RotaryKnob x:Name="knobDelayRepeats" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="80,218,0,0"/>
+            <local:RotaryKnob x:Name="knobDelayTweak" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="322,218,0,0"/>
+            <local:RotaryKnob x:Name="knobDelayTweez" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="566,218,0,0"/>
+            <local:RotaryKnob x:Name="knobDelayMix" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="810,218,0,0"/>
 
-            <Image x:Name="imageKnob_ReverbSelect" Source="/Resources/DL4 MkII Knob.png" Height="104" Width="104" VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="0,0,544,221" RenderTransformOrigin="0.5,0.5" MouseDown="Knob_MouseDown" MouseMove="Knob_MouseMove" MouseUp="Knob_MouseUp"/>
-            <Image x:Name="imageKnob_ReverbDecay" Source="/Resources/DL4 MkII Knob.png" Height="104" Width="104" VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="0,0,45,221" RenderTransformOrigin="0.5,0.5" MouseDown="Knob_MouseDown" MouseMove="Knob_MouseMove" MouseUp="Knob_MouseUp"/>
-            <Image x:Name="imageKnob_ReverbTweak" Source="/Resources/DL4 MkII Knob.png" Height="104" Width="104" VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="198,0,0,221" RenderTransformOrigin="0.5,0.5" MouseDown="Knob_MouseDown" MouseMove="Knob_MouseMove" MouseUp="Knob_MouseUp"/>
-            <Image x:Name="imageKnob_ReverbRouting" Source="/Resources/DL4 MkII Knob.png" Height="104" Width="104" VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="442,0,0,221" RenderTransformOrigin="0.5,0.5" MouseDown="Knob_MouseDown" MouseMove="Knob_MouseMove" MouseUp="Knob_MouseUp"/>
-            <Image x:Name="imageKnob_ReverbMix" Source="/Resources/DL4 MkII Knob.png" Height="104" Width="104" VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="686,0,0,221" RenderTransformOrigin="0.5,0.5" MouseDown="Knob_MouseDown" MouseMove="Knob_MouseMove" MouseUp="Knob_MouseUp"/>
+            <local:RotaryKnob x:Name="knobReverbSelect" VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="0,0,544,221"/>
+            <local:RotaryKnob x:Name="knobReverbDecay" VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="0,0,45,221"/>
+            <local:RotaryKnob x:Name="knobReverbTweak" VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="198,0,0,221"/>
+            <local:RotaryKnob x:Name="knobReverbRouting" VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="442,0,0,221"/>
+            <local:RotaryKnob x:Name="knobReverbMix" VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="686,0,0,221"/>
 
-            <Button x:Name="buttonAlt" Style="{StaticResource ImageButton}" Width="36" Height="36" Background="#00000000" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0,279,341,0" Click="ButtonAlt_Click">
-                <Image x:Name="imageAlternative" Source="/Resources/DL4 MkII Alt White.png" Height="36" Width="36" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0"/>
-            </Button>
-            
-            <Button x:Name="buttonFoot_A" Style="{StaticResource ImageButton}" Width="75" Height="75" Background="#00000000" VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="0,0,848,82" Click="ButtonFoot_Click">
-                <Image x:Name="imageFoot_A" Source="/Resources/DL4 MkII Foot None.png" Height="75" Width="75" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0"/>
-            </Button>
-            <Button x:Name="buttonFoot_B" Style="{StaticResource ImageButton}" Width="75" Height="75" Background="#00000000" VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="0,0,285,82" Click="ButtonFoot_Click">
-                <Image x:Name="imageFoot_B" Source="/Resources/DL4 MkII Foot None.png" Height="75" Width="75" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0"/>
-            </Button>
-            <Button x:Name="buttonFoot_C" Style="{StaticResource ImageButton}" Width="75" Height="75" Background="#00000000" VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="283,0,0,82" Click="ButtonFoot_Click">
-                <Image x:Name="imageFoot_C" Source="/Resources/DL4 MkII Foot None.png" Height="75" Width="75" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0"/>
-            </Button>
-            <Button x:Name="buttonFoot_D" Style="{StaticResource ImageButton}" Width="75" Height="75" Background="#00000000" VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="848,0,0,82">
-                <Image x:Name="imageFoot_TAP" Source="/Resources/DL4 MkII Foot None.png" Height="75" Width="75" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0"/>
-            </Button>
-            
+            <local:AltButton x:Name="altButton" Width="36" Height="36" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0,279,341,0"/>
+
+            <local:Footswitch x:Name="footswitch_A" Width="75" Height="75" VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="0,0,848,82"/>
+            <local:Footswitch x:Name="footswitch_B" Width="75" Height="75" VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="0,0,285,82"/>
+            <local:Footswitch x:Name="footswitch_C" Width="75" Height="75" VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="283,0,0,82"/>
+
         </Grid>
         <Grid x:Name="gridParam" Height="700" Width="310" VerticalAlignment="Center" HorizontalAlignment="Right" Background="#FF1E1E1E">
             

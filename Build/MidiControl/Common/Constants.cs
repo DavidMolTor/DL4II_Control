@@ -26,20 +26,16 @@ namespace MidiControl
         public const string DL4_PRODUCT_NAME = "DL4 MkII MIDI";
 
         //DL4 knob rotation steps and limits
-        public const int SELECT_KNOB_STEPS  = 16;
-        public const int KNOB_MIN_ROTATION  = -150;
-        public const int KNOB_MAX_ROTATION  = 150;
-        public const int PIXELS_PER_DEGREE  = 2;
-        public const int KNOB_MAX_VALUE     = 127;
+        public const int KNOB_ROTATION_MIN  = -150;
+        public const int KNOB_ROTATION_MAX  = 150;
+        public const int KNOB_ROTATION_RATE = 10;
 
         //Number of presets available
-        public const int PRESET_COUNT_MIN = 1;
-        public const int PRESET_COUNT_MAX = 128;
+        public const int PRESET_COUNT_MIN   = 1;
+        public const int PRESET_COUNT_MAX   = 128;
 
         //Selection knob parameters
         public const int ALTDELAY_INITIAL   = 15;
-        public const int LOOPER_POSITION    = 8;
-        public const int LOOPER_VALUE       = 15;
 
         //Available delay dictionary
         public readonly Dictionary<string, Tuple<string, string>> dictDelays = new Dictionary<string, Tuple<string, string>>()
