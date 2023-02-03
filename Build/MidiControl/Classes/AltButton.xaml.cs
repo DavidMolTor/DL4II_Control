@@ -56,7 +56,7 @@ namespace MidiControl
         */
         private void ButtonAlt_Click(object sender, System.Windows.RoutedEventArgs e)
         {
-            AltButtonPressed?.Invoke(this, e);
+            AltButtonPressed?.Invoke(this, EventArgs.Empty);
         }
     }
 }

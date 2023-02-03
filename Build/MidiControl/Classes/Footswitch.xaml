@@ -6,26 +6,5 @@
              xmlns:local="clr-namespace:MidiControl"
              mc:Ignorable="d" 
              d:DesignHeight="75" d:DesignWidth="75" Height="75" Width="75">
-    <UserControl.Resources>
-        <Style x:Key="ImageButton" TargetType="Button">
-            <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="Button">
-                        <Grid Name="HoverGrid" RenderTransformOrigin="{TemplateBinding RenderTransformOrigin}" Background="{TemplateBinding Background}">
-                            <Grid.RenderTransform>
-                                <ScaleTransform />
-                            </Grid.RenderTransform>
-                            <Border BorderThickness="0">
-                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
-                            </Border>
-                        </Grid>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-    </UserControl.Resources>
-    <Button x:Name="buttonFootswitch" Style="{StaticResource ImageButton}" Width="75" Height="75" Background="#00000000" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0" Click="ButtonFootswitch_Click">
-        <Image x:Name="imageFootswitch" Source="/Resources/DL4 MkII Foot None.png" Height="75" Width="75" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0"/>
-    </Button>
+    <Image x:Name="imageFootswitch" Source="/Resources/DL4 MkII Foot None.png" Height="75" Width="75" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0" MouseDown="Footswitch_MouseDown" MouseUp="Footswitch_MouseUp"/>
 </UserControl>

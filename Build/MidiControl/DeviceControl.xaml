@@ -93,16 +93,12 @@
                 <Label x:Name="labelReverbTweak" Content="TWEAK" HorizontalAlignment="Left" Margin="0" VerticalAlignment="Center" Width="160" Foreground="#FFE97F00" HorizontalContentAlignment="Center" FontSize="32" FontFamily="Yu Gothic UI"/>
                 <Label x:Name="labelReverbTweez_Value" Content="VALUE" HorizontalAlignment="Right" Margin="0,0,20,0" VerticalAlignment="Center" Width="120" Foreground="#FFE97F00" HorizontalContentAlignment="Center" FontSize="32" FontFamily="Yu Gothic UI"/>
             </Grid>
-            
+
             <Grid x:Name="gridReverbRouting" Height="100" Width="310" Margin="0,500,0,0" VerticalAlignment="Top" HorizontalAlignment="Center" Background="#FF282828">
                 <Label x:Name="labelReverbRouting" Content="ROUTE" HorizontalAlignment="Left" Margin="0" VerticalAlignment="Center" Width="160" Foreground="#FFE97F00" HorizontalContentAlignment="Center" FontSize="32" FontFamily="Yu Gothic UI"/>
                 <Label x:Name="labelReverbRouting_Value" Content="VALUE" HorizontalAlignment="Right" Margin="0,0,20,0" VerticalAlignment="Center" Width="120" Foreground="#FFE97F00" HorizontalContentAlignment="Center" FontSize="32" FontFamily="Yu Gothic UI"/>
             </Grid>
 
-            <Grid x:Name="gridSavePreset" Height="100" Width="310" Margin="0,600,0,0" VerticalAlignment="Top" HorizontalAlignment="Center" Background="#FF1E1E1E">
-                <Button x:Name="buttonSavePreset" Content="SAVE PRESET" Width="180" Height="50" FontSize="20" FontFamily="Yu Gothic UI" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0" Click="ButtonSavePreset_Click"/>
-            </Grid>
-            
         </Grid>
     </Grid>
 </UserControl>

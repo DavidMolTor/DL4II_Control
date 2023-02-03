@@ -11,7 +11,6 @@ DeviceControl.cs
 
 using System;
 using System.Linq;
-using System.Windows.Input;
 using System.Windows.Controls;
 
 namespace MidiControl
@@ -53,9 +52,12 @@ namespace MidiControl
             altButton.AltButtonPressed += HandleAltButtonPressed;
 
             //Set the footswitch events
-            footswitch_A.FootswitchPressed += HandleFootswitchPressed;
-            footswitch_B.FootswitchPressed += HandleFootswitchPressed;
-            footswitch_C.FootswitchPressed += HandleFootswitchPressed;
+            footswitch_A.FootswitchPressed  += HandleFootswitchPressed;
+            footswitch_A.FootswitchHold     += HandleFootswitchHold;
+            footswitch_B.FootswitchPressed  += HandleFootswitchPressed;
+            footswitch_B.FootswitchHold     += HandleFootswitchHold;
+            footswitch_C.FootswitchPressed  += HandleFootswitchPressed;
+            footswitch_C.FootswitchHold     += HandleFootswitchHold;
 
             //Update the device controls
             UpdateDevice();
@@ -149,33 +151,34 @@ namespace MidiControl
         */
         private void HandleFootswitchPressed(object sender, EventArgs e)
         {
-            //Check the pressed button
-            if (((Footswitch)sender).Status != FootswitchStatus.Green)
+            //Check if any footswitch is blinking
+            if (!footswitch_A.Blinking && !footswitch_B.Blinking && !footswitch_C.Blinking && !footswitch_TAP.Blinking)
             {
-                //Reset all footswitches
-                footswitch_A.SetStatus(FootswitchStatus.Off);
-                footswitch_B.SetStatus(FootswitchStatus.Off);
-                footswitch_C.SetStatus(FootswitchStatus.Off);
+                //Check the pressed button
+                if (((Footswitch)sender).Status != FootswitchStatus.Green)
+                {
+                    //Reset all footswitches
+                    footswitch_A.SetStatus(FootswitchStatus.Off);
+                    footswitch_B.SetStatus(FootswitchStatus.Off);
+                    footswitch_C.SetStatus(FootswitchStatus.Off);
 
-                //Set the selected one
-                ((Footswitch)sender).SetStatus(FootswitchStatus.Green);
+                    //Set the selected one
+                    ((Footswitch)sender).SetStatus(FootswitchStatus.Green);
+                }
             }
         }
 
         /*
-        Check if the input character is a number
+        Footswitch hold handler function
         */
-        private void TextBoxNumber_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        private void HandleFootswitchHold(object sender, EventArgs e)
         {
-            e.Handled = !char.IsDigit(e.Text.ToCharArray()[0]);
-        }
+            int iPreset = 0;
 
-        /*
-        Saves the current device configuration
-        */
-        private void ButtonSavePreset_Click(object sender, System.Windows.RoutedEventArgs e)
-        {
-            int iPreset = int.Parse(textboxPreset.Text);
+            //Get the current selected preset
+            Dispatcher.Invoke(new Action(() => iPreset = int.Parse(textboxPreset.Text)));
+
+            //Check the preset number
             if (iPreset >= Constants.PRESET_COUNT_MIN && iPreset <= Constants.PRESET_COUNT_MAX)
             {
                 IControlConfig.Instance.SavePreset(iPreset, currentConfig);
@@ -184,6 +187,14 @@ namespace MidiControl
             {
                 Console.WriteLine("Error: Preset number outside bounds");
             }
+        }
+
+        /*
+        Check if the input character is a number
+        */
+        private void TextBoxNumber_PreviewTextInput(object sender, System.Windows.Input.TextCompositionEventArgs e)
+        {
+            e.Handled = !char.IsDigit(e.Text.ToCharArray()[0]);
         }
     }
 }

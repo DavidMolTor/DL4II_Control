@@ -10,6 +10,8 @@ Footswitch.cs
 */
 
 using System;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
 
@@ -27,6 +29,9 @@ namespace MidiControl
 
         //Current footswitch status variable
         public FootswitchStatus Status = FootswitchStatus.Off;
+
+        //Blinking status variable
+        public bool Blinking { get; private set; }
 
         /*
         Sets the footswitch status
@@ -54,12 +59,91 @@ namespace MidiControl
         //Footswitch pressed event
         public EventHandler FootswitchPressed;
 
+        //Footswitch hold event
+        public EventHandler FootswitchHold;
+
+        //Hold status objects
+        private Task taskHold;
+        private bool bHolding = false;
+
         /*
-        Button clicked event handler
+        Mouse press function for footswitch element
         */
-        private void ButtonFootswitch_Click(object sender, System.Windows.RoutedEventArgs e)
+        private void Footswitch_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
-            FootswitchPressed?.Invoke(this, e);
+
+            //Make the footswitch capture the mouse
+            imageFootswitch.CaptureMouse();
+
+            //Check the current status
+            if (Status == FootswitchStatus.Green)
+            {
+                //Reset the holding status
+                bHolding = true;
+
+                //Start the hold task
+                taskHold = new Task(Footswitch_MouseHold);
+                taskHold.Start();
+            }
+        }
+
+        /*
+        Mouse hold thread for footswitch element
+        */
+        public void Footswitch_MouseHold()
+        {
+            //Check for cancellation
+            long iTimestamp = DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond;
+            while (bHolding && DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond - iTimestamp < Constants.FOOTSWITCH_HOLD)
+            {
+                Task.Delay(10);
+            }
+
+            //Invoke the footswitch hold event
+            FootswitchHold?.Invoke(this, EventArgs.Empty);
+
+            //Set the blinking status
+            Blinking = true;
+
+            //Start the blinking task
+            for (int i = 0; i < Constants.FOOTSWITCH_BLINK_COUNT; i++)
+            {
+                Thread.Sleep(Constants.FOOTSWITCH_BLINK_PERIOD);
+                Dispatcher.Invoke(new Action(() => SetStatus(FootswitchStatus.Off)));
+                Thread.Sleep(Constants.FOOTSWITCH_BLINK_PERIOD);
+                Dispatcher.Invoke(new Action(() => SetStatus(FootswitchStatus.Green)));
+            }
+
+            //Reset the blinking status
+            Blinking = false;
+        }
+
+        /*
+        Mouse release function for footswitch element
+        */
+        private void Footswitch_MouseUp(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            //Check if the footswitch is currently blinking
+            if (!Blinking)
+            {
+                //Check the holding status
+                if (bHolding)
+                {
+                    //Cancel the holding thread
+                    bHolding = false;
+
+                    //Send the footswitch pressed event
+                    FootswitchPressed?.Invoke(this, EventArgs.Empty);
+                }
+                else if (Status == FootswitchStatus.Off)
+                {
+                    //Send the footswitch pressed event
+                    FootswitchPressed?.Invoke(this, EventArgs.Empty);
+                }
+            }
+
+            //Release the mouse
+            imageFootswitch.ReleaseMouseCapture();
         }
     }
 }

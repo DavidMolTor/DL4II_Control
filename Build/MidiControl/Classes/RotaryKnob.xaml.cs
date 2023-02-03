@@ -11,7 +11,6 @@ RotaryKnob.cs
 
 using System;
 using System.Windows;
-using System.Windows.Input;
 using System.Windows.Controls;
 using System.Collections.Generic;
 
@@ -68,7 +67,7 @@ namespace MidiControl
         /*
         Mouse press function for knob element
         */
-        private void Knob_MouseDown(object sender, MouseButtonEventArgs e)
+        private void Knob_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
             //Reset the previous mouse position
             pointMouse = e.GetPosition(this);
@@ -83,7 +82,7 @@ namespace MidiControl
         /*
         Mouse move function for knob element
         */
-        private void Knob_MouseMove(object sender, MouseEventArgs e)
+        private void Knob_MouseMove(object sender, System.Windows.Input.MouseEventArgs e)
         {
             if (gridKnob.IsMouseCaptureWithin)
             {
@@ -101,7 +100,7 @@ namespace MidiControl
         /*
         Mouse release function for knob element
         */
-        private void Knob_MouseUp(object sender, MouseButtonEventArgs e)
+        private void Knob_MouseUp(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
             gridKnob.ReleaseMouseCapture();
         }
@@ -109,7 +108,7 @@ namespace MidiControl
         /*
         Mouse wheel function for knob element
         */
-        private void Knob_MouseWheel(object sender, MouseWheelEventArgs e)
+        private void Knob_MouseWheel(object sender, System.Windows.Input.MouseWheelEventArgs e)
         {
             //Add gap to the currenat angle
             dAngleActual = transformKnob.Angle + Math.Sign(e.Delta) * Constants.KNOB_ROTATION_RATE;
@@ -144,6 +143,8 @@ namespace MidiControl
                 Status = Steps[(int)Math.Floor(dAngle / 360 * Steps.Count)];
                 transformKnob.Angle = 360 * (double)Steps.IndexOf(Status) / Steps.Count;
             }
+
+            Console.WriteLine("Changed {0}: {1}", this.Name, Status);
         }
     }
 }
