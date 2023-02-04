@@ -143,8 +143,6 @@ namespace MidiControl
                 Status = Steps[(int)Math.Floor(dAngle / 360 * Steps.Count)];
                 transformKnob.Angle = 360 * (double)Steps.IndexOf(Status) / Steps.Count;
             }
-
-            Console.WriteLine("Changed {0}: {1}", this.Name, Status);
         }
     }
 }

@@ -37,7 +37,7 @@ namespace MidiControl
             Status = status;
 
             //Set the proper image
-            switch (status)
+            switch (Status)
             {
                 case AltButtonStatus.White:
                     imageAlt.Source = new BitmapImage(new Uri("pack://application:,,,/Resources/DL4 MkII Alt White.png"));

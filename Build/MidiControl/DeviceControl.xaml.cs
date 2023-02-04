@@ -24,10 +24,6 @@ namespace MidiControl
         {
             InitializeComponent();
 
-            //Set the configurable elements
-            textboxChannel.Text = IControlConfig.Instance.GetChannelMIDI().ToString();
-            textboxPreset.Text  = IControlConfig.Instance.GetSelectedPreset().ToString();
-
             DeviceConfig config = new DeviceConfig()
             {
                 iDelaySelected  = 4,
@@ -71,6 +67,10 @@ namespace MidiControl
         */
         private void UpdateDevice()
         {
+            //Set the configurable elements
+            textboxChannel.Text = IControlConfig.Instance.GetChannelMIDI().ToString();
+            textboxPreset.Text  = IControlConfig.Instance.GetSelectedPreset().ToString();
+
             //Set the delay select control
             if (currentConfig.iDelaySelected < Constants.ALTDELAY_INITIAL)
             {
@@ -157,13 +157,25 @@ namespace MidiControl
                 //Check the pressed button
                 if (((Footswitch)sender).Status != FootswitchStatus.Green)
                 {
-                    //Reset all footswitches
-                    footswitch_A.SetStatus(FootswitchStatus.Off);
-                    footswitch_B.SetStatus(FootswitchStatus.Off);
-                    footswitch_C.SetStatus(FootswitchStatus.Off);
+                    //Check the footswitch pressed
+                    if (sender == footswitch_A)
+                    {
+                        currentConfig = IControlConfig.Instance.GetPreset(1);
+                        IControlConfig.Instance.SaveSelectedPreset(1);
+                    }
+                    else if (sender == footswitch_B)
+                    {
+                        currentConfig = IControlConfig.Instance.GetPreset(2);
+                        IControlConfig.Instance.SaveSelectedPreset(2);
+                    }
+                    else if (sender == footswitch_C)
+                    {
+                        currentConfig = IControlConfig.Instance.GetPreset(3);
+                        IControlConfig.Instance.SaveSelectedPreset(3);
+                    }
 
-                    //Set the selected one
-                    ((Footswitch)sender).SetStatus(FootswitchStatus.Green);
+                    //Update the device settings
+                    UpdateDevice();
                 }
             }
         }
@@ -182,6 +194,47 @@ namespace MidiControl
             if (iPreset >= Constants.PRESET_COUNT_MIN && iPreset <= Constants.PRESET_COUNT_MAX)
             {
                 IControlConfig.Instance.SavePreset(iPreset, currentConfig);
+            }
+            else
+            {
+                Console.WriteLine("Error: Preset number outside bounds");
+            }
+        }
+
+        /*
+        Channel text changed event handler
+        */
+        private void TextboxChannel_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            int iChannel = 0;
+
+            //Get the current selected MIDI channel
+            Dispatcher.Invoke(new Action(() => iChannel = int.Parse(textboxChannel.Text)));
+
+            //Save the selected MIDI channel
+            IControlConfig.Instance.SaveChannelMIDI(iChannel);
+        }
+
+        /*
+        Preset text changed event handler
+        */
+        private void TextboxPreset_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            int iPreset = 0;
+
+            //Get the current selected preset
+            bool bParse = int.TryParse(textboxPreset.Text, out iPreset);
+
+            if (bParse)
+            {
+                //Check if the preset is outside bounds
+                iPreset = iPreset > Constants.PRESET_COUNT_MAX ? Constants.PRESET_COUNT_MAX : iPreset;
+                iPreset = iPreset < Constants.PRESET_COUNT_MIN ? Constants.PRESET_COUNT_MIN : iPreset;
+
+                //Save the delected preset and update the device
+                IControlConfig.Instance.SaveSelectedPreset(iPreset);
+                currentConfig = IControlConfig.Instance.GetPreset(iPreset);
+                UpdateDevice();
             }
             else
             {

@@ -42,7 +42,7 @@ namespace MidiControl
             Status = status;
 
             //Set the proper image
-            switch (status)
+            switch (Status)
             {
                 case FootswitchStatus.Off:
                     imageFootswitch.Source = new BitmapImage(new Uri("pack://application:,,,/Resources/DL4 MkII Foot None.png"));
