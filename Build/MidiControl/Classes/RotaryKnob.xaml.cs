@@ -52,12 +52,15 @@ namespace MidiControl
             //Check if the knob is limited
             if (Limited)
             {
-                transformKnob.Angle = Constants.KNOB_ROTATION_MIN + (Constants.KNOB_ROTATION_MAX - Constants.KNOB_ROTATION_MIN) * (double)Steps.IndexOf(Status) / (Steps.Count - 1);
+                dAngleActual = Constants.KNOB_ROTATION_MIN + (Constants.KNOB_ROTATION_MAX - Constants.KNOB_ROTATION_MIN) * (double)Steps.IndexOf(Status) / (Steps.Count - 1);
             }
             else
             {
-                transformKnob.Angle = 360 * (double)Steps.IndexOf(Status) / Steps.Count; 
+                dAngleActual = 360 * (double)Steps.IndexOf(Status) / Steps.Count; 
             }
+
+            //Set the knob rotation
+            SetRotation(ref dAngleActual);
         }
 
         //Variables for rotary knob actions

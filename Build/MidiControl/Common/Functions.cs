@@ -9,66 +9,13 @@ Functions.cs
 - Version: 0.1
 */
 
-using System;
 using System.Windows;
 using System.Windows.Media;
-
-//MIDI libraries
-using Sanford.Multimedia.Midi;
 
 namespace MidiControl
 {
     internal class Functions
     {
-        //Midi output device object
-        private static OutputDevice device = null;
-
-        /*
-        Initializes the output device
-        */
-        public static void SetDevice()
-        {
-            for (int i = 0; i < OutputDevice.DeviceCount; i++)
-            {
-                //Check the MIDI device name
-                if (OutputDevice.GetDeviceCapabilities(i).name == Constants.DL4_PRODUCT_NAME)
-                {
-                    device = new OutputDevice(i);
-                }
-            }
-        }
-
-        /*
-        Sends the given command
-        */
-        public static bool SendCommand(ChannelCommand iType, int iChannel, int iCommand, int iValue = 0)
-        {
-            try
-            {
-                Console.WriteLine("Send to channel {0}: {1}, {2}, {3}", iChannel, iType, iCommand, iValue);
-
-                //Build the channel command
-                ChannelMessageBuilder builder = new ChannelMessageBuilder()
-                {
-                    MidiChannel = iChannel - 1,
-                    Command     = iType,
-                    Data1       = iCommand,
-                    Data2       = iValue
-                };
-                builder.Build();
-
-                //Send the channel command
-                device.Send(builder.Result);
-
-                return true;
-            }
-            catch
-            {
-                Console.WriteLine("Error: Could not send the channel command");
-                return false;
-            }
-        }
-
         /*
         Returns the children of the given object with the given name
         */

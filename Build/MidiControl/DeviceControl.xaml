@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:MidiControl"
              mc:Ignorable="d"
-             d:DesignHeight="700" d:DesignWidth="1400" Height="700" Width="1400">
+             d:DesignHeight="700" d:DesignWidth="1375" Height="700" Width="1375" IsEnabled="false">
     <UserControl.Resources>
         <!-- Text box style -->   
         <Style x:Key="PaddedTextBox"  TargetType="{x:Type TextBox}">

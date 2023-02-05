@@ -72,6 +72,7 @@
     <Compile Include="Classes\Footswitch.xaml.cs">
       <DependentUpon>Footswitch.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Classes\IControlMIDI.cs" />
     <Compile Include="Classes\RotaryKnob.xaml.cs">
       <DependentUpon>RotaryKnob.xaml</DependentUpon>
     </Compile>
