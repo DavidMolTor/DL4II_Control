@@ -43,14 +43,15 @@ rem ----------------------------------------------------------------------------
 
 mkdir "%OUT_FOLDER%dll"
 
-move "%OUT_FOLDER%*.dll" 		"%OUT_FOLDER%\dll" >NUL
-move "%OUT_FOLDER%*.xml" 		"%OUT_FOLDER%\dll" >NUL
+move "%OUT_FOLDER%*.dll" 	"%OUT_FOLDER%\dll" >NUL
+move "%OUT_FOLDER%*.xml" 	"%OUT_FOLDER%\dll" >NUL
 move "%OUT_FOLDER%*.dylib" 	"%OUT_FOLDER%\dll" >NUL
 
 rem ----------------------------------------------------------------------------
 rem ---- COPY GENERATED FILES TO TARGET DIRECTORY
 rem ----------------------------------------------------------------------------
 
+mkdir "%PROJECT_ROOT%..\..\Install"
 rmdir "%PROJECT_ROOT%..\..\Install\DL4MkII Control" /S /Q >NUL
 mkdir "%PROJECT_ROOT%..\..\Install\DL4MkII Control"
 xcopy "%OUT_FOLDER%" "%PROJECT_ROOT%..\..\Install\DL4MkII Control\" /S /E /Y >NUL
