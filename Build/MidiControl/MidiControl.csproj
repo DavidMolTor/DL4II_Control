@@ -20,7 +20,8 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
+    <OutputPath>..\..\Bin\Debug\</OutputPath>
+    <IntermediateOutputPath>..\..\Obj\Debug\</IntermediateOutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -29,7 +30,8 @@
     <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
+    <OutputPath>..\..\Bin\Release\</OutputPath>
+    <IntermediateOutputPath>..\..\Obj\Release\</IntermediateOutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -153,4 +155,9 @@
     </PropertyGroup>
     <Error Condition="!Exists('..\Midi\packages\Melanchall.DryWetMidi.6.1.4\build\Melanchall.DryWetMidi.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\Midi\packages\Melanchall.DryWetMidi.6.1.4\build\Melanchall.DryWetMidi.targets'))" />
   </Target>
+  <PropertyGroup>
+    <PostBuildEvent>rd "$(ProjectDir)bin" /S /Q
+rd "$(ProjectDir)obj" /S /Q
+Call "$(ProjectDir)Tools\PostBuild.cmd" $(ProjectDir) $(OutDir) $(ConfigurationName) $(PlatformName)</PostBuildEvent>
+  </PropertyGroup>
 </Project>
