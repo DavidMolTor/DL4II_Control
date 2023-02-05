@@ -25,7 +25,7 @@ namespace MidiControl
         /*
         Sends the given command
         */
-        public bool SendCommand(CommandType iType, int iChannel, int iCommand, int iValue)
+        public static bool SendCommand(CommandType iType, int iChannel, int iCommand, int iValue = 0)
         {
             //Check if the device is connected
             if (OutputDevice.GetAll().Any(x => x.Name == Constants.DL4_PRODUCT_NAME))

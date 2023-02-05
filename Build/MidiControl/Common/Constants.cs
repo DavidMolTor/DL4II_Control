@@ -18,6 +18,9 @@ namespace MidiControl
         //Connection checking period in milliseconds
         public const int CONNECTION_PERIOD = 2000;
 
+        //Device configuration update period in milliseconds
+        public const int DEVICE_UPDATE_PERIOD = 100;
+
         //No device found connected value
         public const int NO_DEVICE = -1;
 

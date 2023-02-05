@@ -83,6 +83,16 @@ namespace MidiControl.Properties {
         /// <summary>
         ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap DL4_MkII_Foot_Dim {
+            get {
+                object obj = ResourceManager.GetObject("DL4_MkII_Foot_Dim", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap DL4_MkII_Foot_Green {
             get {
                 object obj = ResourceManager.GetObject("DL4_MkII_Foot_Green", resourceCulture);

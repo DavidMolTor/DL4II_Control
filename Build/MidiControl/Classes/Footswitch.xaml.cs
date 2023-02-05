@@ -50,6 +50,9 @@ namespace MidiControl
                 case FootswitchStatus.Green:
                     imageFootswitch.Source = new BitmapImage(new Uri("pack://application:,,,/Resources/DL4 MkII Foot Green.png"));
                     break;
+                case FootswitchStatus.Dim:
+                    imageFootswitch.Source = new BitmapImage(new Uri("pack://application:,,,/Resources/DL4 MkII Foot Dim.png"));
+                    break;
                 case FootswitchStatus.Red:
                     imageFootswitch.Source = new BitmapImage(new Uri("pack://application:,,,/Resources/DL4 MkII Foot Red.png"));
                     break;
@@ -99,23 +102,27 @@ namespace MidiControl
                 Task.Delay(10);
             }
 
-            //Invoke the footswitch hold event
-            FootswitchHold?.Invoke(this, EventArgs.Empty);
-
-            //Set the blinking status
-            Blinking = true;
-
-            //Start the blinking task
-            for (int i = 0; i < Constants.FOOTSWITCH_BLINK_COUNT; i++)
+            //Check if the footswitch has been held
+            if (bHolding)
             {
-                Thread.Sleep(Constants.FOOTSWITCH_BLINK_PERIOD);
-                Dispatcher.Invoke(new Action(() => SetStatus(FootswitchStatus.Off)));
-                Thread.Sleep(Constants.FOOTSWITCH_BLINK_PERIOD);
-                Dispatcher.Invoke(new Action(() => SetStatus(FootswitchStatus.Green)));
-            }
+                //Invoke the footswitch hold event
+                FootswitchHold?.Invoke(this, EventArgs.Empty);
 
-            //Reset the blinking status
-            Blinking = false;
+                //Set the blinking status
+                Blinking = true;
+
+                //Start the blinking task
+                for (int i = 0; i < Constants.FOOTSWITCH_BLINK_COUNT; i++)
+                {
+                    Thread.Sleep(Constants.FOOTSWITCH_BLINK_PERIOD);
+                    Dispatcher.Invoke(new Action(() => SetStatus(FootswitchStatus.Off)));
+                    Thread.Sleep(Constants.FOOTSWITCH_BLINK_PERIOD);
+                    Dispatcher.Invoke(new Action(() => SetStatus(FootswitchStatus.Green)));
+                }
+
+                //Reset the blinking status
+                Blinking = false;
+            }
         }
 
         /*
@@ -135,7 +142,7 @@ namespace MidiControl
                     //Send the footswitch pressed event
                     FootswitchPressed?.Invoke(this, EventArgs.Empty);
                 }
-                else if (Status == FootswitchStatus.Off)
+                else if (Status == FootswitchStatus.Off || Status == FootswitchStatus.Dim)
                 {
                     //Send the footswitch pressed event
                     FootswitchPressed?.Invoke(this, EventArgs.Empty);

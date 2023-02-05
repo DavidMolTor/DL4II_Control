@@ -9,8 +9,6 @@ Enums.cs
 - Version: 0.1
 */
 
-using System;
-
 namespace MidiControl
 {
     /*
@@ -21,6 +19,29 @@ namespace MidiControl
         None            = 0,
         ProgramChange   = 1,
         ControlChange   = 2
+    }
+
+    /*
+    Command type enumeration
+    */
+    public enum SettingsCC
+    {
+        DelaySelected   = 1,
+        ReverbSelected  = 2,
+        ExpressionPedal = 3,
+        PresetBypass    = 4,
+        LooperMode      = 9,
+        DelayTime       = 11,
+        DelayNotes      = 12,
+        DelayRepeats    = 13,
+        DelayTweak      = 14,
+        DelayTweez      = 15,
+        DelayMix        = 16,
+        ReverbDecay     = 17,
+        ReverbTweak     = 18,
+        ReverbRouting   = 19,
+        ReverbMix       = 20,
+        TapTempo        = 64
     }
 
     /*
@@ -109,7 +130,8 @@ namespace MidiControl
     {
         Off     = 0,
         Green   = 1,
-        Red     = 2,
+        Dim     = 2,
+        Red     = 3
     };
 
     /*

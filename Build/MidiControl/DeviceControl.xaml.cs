@@ -11,6 +11,7 @@ DeviceControl.cs
 
 using System;
 using System.Linq;
+using System.Timers;
 using System.Windows.Controls;
 
 namespace MidiControl
@@ -24,25 +25,8 @@ namespace MidiControl
         {
             InitializeComponent();
 
-            DeviceConfig config = new DeviceConfig()
-            {
-                iDelaySelected  = 4,
-                iDelayTime      = 0,
-                iDelayRepeats   = 127,
-                iDelayTweak     = 0,
-                iDelayTweez     = 127,
-                iDelayMix       = 0,
-                iReverbSelected = 8,
-                iReverbDecay    = 127,
-                iReverbTweak    = 0,
-                iReverbRouting  = 1,
-                iReverbMix      = 127
-            };
-            
-            IControlConfig.Instance.SavePreset(1, config);
-
             //Set the current preset configuration
-            currentConfig = IControlConfig.Instance.GetPreset(IControlConfig.Instance.GetSelectedPreset());
+            configCurrent = IControlConfig.Instance.GetPreset(IControlConfig.Instance.GetSelectedPreset());
 
             //Set the alternative button event
             altButton.AltButtonPressed += HandleAltButtonPressed;
@@ -56,46 +40,53 @@ namespace MidiControl
             footswitch_C.FootswitchHold     += HandleFootswitchHold;
 
             //Update the device controls
-            UpdateDevice();
+            SetConfiguration(configCurrent);
+
+            //Initialize the device update timer
+            Timer timerUpdateDevice     = new Timer(Constants.DEVICE_UPDATE_PERIOD);
+            timerUpdateDevice.Elapsed   += TimerUpdateDevice_Elapsed;
+            timerUpdateDevice.Enabled   = true;
         }
 
         //Current configuration structure
-        DeviceConfig currentConfig = new DeviceConfig();
+        DeviceConfig configCurrent = new DeviceConfig();
 
         /*
-        Public constructor
+        Sets the given configuration
         */
-        private void UpdateDevice()
+        private void SetConfiguration(DeviceConfig config)
         {
             //Set the configurable elements
             textboxChannel.Text = IControlConfig.Instance.GetChannelMIDI().ToString();
             textboxPreset.Text  = IControlConfig.Instance.GetSelectedPreset().ToString();
 
             //Set the delay select control
-            if (currentConfig.iDelaySelected < Constants.ALTDELAY_INITIAL)
+            if (config.iDelaySelected < Constants.ALTDELAY_INITIAL)
             {
-                knobDelaySelect.SetKnob(currentConfig.iDelaySelected, Constants.LIST_DELAY.Select(x => (int)x).ToList(), false);
+                knobDelaySelected.SetKnob(config.iDelaySelected, Constants.LIST_DELAY.Select(x => (int)x).ToList(), false);
             }
             else
             {
-                knobDelaySelect.SetKnob(currentConfig.iDelaySelected, Constants.LIST_LEGACY.Select(x => (int)x).ToList(), false);
+                knobDelaySelected.SetKnob(config.iDelaySelected, Constants.LIST_LEGACY.Select(x => (int)x).ToList(), false);
             }
 
             //Set all delay control knobs
-            knobDelayTime.SetKnob(currentConfig.iDelayTime,         Enumerable.Range(0, Constants.MAX_KNOB_VALUES).ToList());
-            knobDelayRepeats.SetKnob(currentConfig.iDelayRepeats,   Enumerable.Range(0, Constants.MAX_KNOB_VALUES).ToList());
-            knobDelayTweak.SetKnob(currentConfig.iDelayTweak,       Enumerable.Range(0, Constants.MAX_KNOB_VALUES).ToList());
-            knobDelayTweez.SetKnob(currentConfig.iDelayTweez,       Enumerable.Range(0, Constants.MAX_KNOB_VALUES).ToList());
-            knobDelayMix.SetKnob(currentConfig.iDelayMix,           Enumerable.Range(0, Constants.MAX_KNOB_VALUES).ToList());
+            knobDelayTime.SetKnob(config.iDelayTime,        Enumerable.Range(0, Constants.MAX_KNOB_VALUES).ToList());
+            knobDelayRepeats.SetKnob(config.iDelayRepeats,  Enumerable.Range(0, Constants.MAX_KNOB_VALUES).ToList());
+            knobDelayTweak.SetKnob(config.iDelayTweak,      Enumerable.Range(0, Constants.MAX_KNOB_VALUES).ToList());
+            knobDelayTweez.SetKnob(config.iDelayTweez,      Enumerable.Range(0, Constants.MAX_KNOB_VALUES).ToList());
+            knobDelayMix.SetKnob(config.iDelayMix,          Enumerable.Range(0, Constants.MAX_KNOB_VALUES).ToList());
 
             //Set the reverb select knob steps
-            knobReverbSelect.SetKnob(currentConfig.iReverbSelected, Constants.LIST_REVERB.Select(x => (int)x).ToList(), false);
+            knobReverbSelected.SetKnob(config.iReverbSelected, Constants.LIST_REVERB.Select(x => (int)x).ToList(), false);
+
+            //Set the reverb routing knob steps
+            knobReverbRouting.SetKnob(config.iReverbRouting, Enum.GetValues(typeof(ReverRouting)).Cast<ReverRouting>().Select(x => (int)x).ToList());
 
             //Set all delay control knobs
-            knobReverbDecay.SetKnob(currentConfig.iReverbDecay,     Enumerable.Range(0, Constants.MAX_KNOB_VALUES).ToList());
-            knobReverbTweak.SetKnob(currentConfig.iReverbTweak,     Enumerable.Range(0, Constants.MAX_KNOB_VALUES).ToList());
-            knobReverbRouting.SetKnob(currentConfig.iReverbRouting, Enum.GetValues(typeof(ReverRouting)).Cast<ReverRouting>().Select(x => (int)x).ToList());
-            knobReverbMix.SetKnob(currentConfig.iReverbMix,         Enumerable.Range(0, Constants.MAX_KNOB_VALUES).ToList());
+            knobReverbDecay.SetKnob(config.iReverbDecay,    Enumerable.Range(0, Constants.MAX_KNOB_VALUES).ToList());
+            knobReverbTweak.SetKnob(config.iReverbTweak,    Enumerable.Range(0, Constants.MAX_KNOB_VALUES).ToList());
+            knobReverbMix.SetKnob(config.iReverbMix,        Enumerable.Range(0, Constants.MAX_KNOB_VALUES).ToList());
 
             //Reset all footswitches
             footswitch_A.SetStatus(FootswitchStatus.Off);
@@ -117,7 +108,7 @@ namespace MidiControl
             }
 
             //Set the alternative button status
-            if (currentConfig.iDelaySelected < Constants.ALTDELAY_INITIAL)
+            if (config.iDelaySelected < Constants.ALTDELAY_INITIAL)
             {
                 altButton.SetStatus(AltButtonStatus.White);
             }
@@ -128,6 +119,93 @@ namespace MidiControl
         }
 
         /*
+        Device update timer elapsed function
+        */
+        private void TimerUpdateDevice_Elapsed(object source, ElapsedEventArgs e)
+        {
+            UpdateDevice(false);
+        }
+
+        /*
+        Updates the device status
+        */
+        private void UpdateDevice(bool bForce)
+        {
+            //Store the current configuration
+            DeviceConfig configPrevious = new DeviceConfig(configCurrent);
+
+            //Set the new configuration parameters
+            configCurrent.iDelaySelected    = knobDelaySelected.Status;
+            configCurrent.iDelayTime        = knobDelayTime.Status;
+            configCurrent.iDelayRepeats     = knobDelayRepeats.Status;
+            configCurrent.iDelayTweak       = knobDelayTweak.Status;
+            configCurrent.iDelayTweez       = knobDelayTweez.Status;
+            configCurrent.iDelayMix         = knobDelayMix.Status;
+            configCurrent.iReverbSelected   = knobReverbSelected.Status;
+            configCurrent.iReverbDecay      = knobReverbDecay.Status;
+            configCurrent.iReverbTweak      = knobReverbTweak.Status;
+            configCurrent.iReverbRouting    = knobReverbRouting.Status;
+            configCurrent.iReverbMix        = knobReverbMix.Status;
+
+            //Get the channel selected
+            int iChannel = IControlConfig.Instance.GetChannelMIDI();
+
+            //Send the selected delay command if able
+            if (configCurrent.iDelaySelected != configPrevious.iDelaySelected || bForce)
+            {
+                if (configCurrent.iDelaySelected == (int)DelayModels.Looper)
+                {
+
+                }
+                else
+                {
+
+                    Functions.SendCommand(CommandType.ControlChange, iChannel, (int)SettingsCC.DelaySelected, configCurrent.iDelaySelected);
+                }
+            }
+
+            //Send the delay time command if able
+            if (configCurrent.iDelayTime != configPrevious.iDelayTime || bForce)
+                Functions.SendCommand(CommandType.ControlChange, iChannel, (int)SettingsCC.DelayTime, configCurrent.iDelayTime);
+
+            //Send the delay repeats command if able
+            if (configCurrent.iDelayRepeats != configPrevious.iDelayRepeats || bForce)
+                Functions.SendCommand(CommandType.ControlChange, iChannel, (int)SettingsCC.DelayRepeats, configCurrent.iDelayRepeats);
+
+            //Send the delay tweak command if able
+            if (configCurrent.iDelayTweak != configPrevious.iDelayTweak || bForce)
+                Functions.SendCommand(CommandType.ControlChange, iChannel, (int)SettingsCC.DelayTweak, configCurrent.iDelayTweak);
+
+            //Send the delay tweez command if able
+            if (configCurrent.iDelayTweez != configPrevious.iDelayTweez || bForce)
+                Functions.SendCommand(CommandType.ControlChange, iChannel, (int)SettingsCC.DelayTweez, configCurrent.iDelayTweez);
+
+            //Send the delay mix command if able
+            if (configCurrent.iDelayMix != configPrevious.iDelayMix || bForce)
+                Functions.SendCommand(CommandType.ControlChange, iChannel, (int)SettingsCC.DelayMix, configCurrent.iDelayMix);
+
+            //Send the reverb selected command if able
+            if (configCurrent.iReverbSelected != configPrevious.iReverbSelected || bForce)
+                Functions.SendCommand(CommandType.ControlChange, iChannel, (int)SettingsCC.ReverbSelected, configCurrent.iReverbSelected);
+
+            //Send the reverb decay command if able
+            if (configCurrent.iReverbDecay != configPrevious.iReverbDecay || bForce)
+                Functions.SendCommand(CommandType.ControlChange, iChannel, (int)SettingsCC.ReverbDecay, configCurrent.iReverbDecay);
+
+            //Send the reverb tweak command if able
+            if (configCurrent.iReverbTweak != configPrevious.iReverbTweak || bForce)
+                Functions.SendCommand(CommandType.ControlChange, iChannel, (int)SettingsCC.ReverbTweak, configCurrent.iReverbTweak);
+
+            //Send the reverb routing command if able
+            if (configCurrent.iReverbRouting != configPrevious.iReverbRouting || bForce)
+                Functions.SendCommand(CommandType.ControlChange, iChannel, (int)SettingsCC.ReverbRouting, configCurrent.iReverbRouting);
+
+            //Send the reverb mix command if able
+            if (configCurrent.iReverbMix != configPrevious.iReverbMix || bForce)
+                Functions.SendCommand(CommandType.ControlChange, iChannel, (int)SettingsCC.ReverbMix, configCurrent.iReverbMix);
+        }
+
+        /*
         Alternative button pressed handler function
         */
         private void HandleAltButtonPressed(object sender, EventArgs e)
@@ -135,11 +213,15 @@ namespace MidiControl
             //Set the delay select knob list
             if (altButton.Status == AltButtonStatus.White)
             {
-                knobDelaySelect.SetKnob(knobDelaySelect.Status, Constants.LIST_LEGACY.Select(x => (int)x).ToList(), false);
+                int iSelected = Constants.LIST_DELAY.IndexOf((DelayModels)configCurrent.iDelaySelected);
+                knobDelaySelected.SetKnob((int)Constants.LIST_LEGACY[iSelected], Constants.LIST_LEGACY.Select(x => (int)x).ToList(), false);
+                configCurrent.iDelaySelected = (int)Constants.LIST_LEGACY[iSelected];
             }
             else
             {
-                knobDelaySelect.SetKnob(knobDelaySelect.Status, Constants.LIST_DELAY.Select(x => (int)x).ToList(), false);
+                int iSelected = Constants.LIST_LEGACY.IndexOf((LegacyModels)configCurrent.iDelaySelected);
+                knobDelaySelected.SetKnob((int)Constants.LIST_DELAY[iSelected], Constants.LIST_DELAY.Select(x => (int)x).ToList(), false);
+                configCurrent.iDelaySelected = (int)Constants.LIST_DELAY[iSelected];
             }
 
             //Set the alternative button status
@@ -154,28 +236,59 @@ namespace MidiControl
             //Check if any footswitch is blinking
             if (!footswitch_A.Blinking && !footswitch_B.Blinking && !footswitch_C.Blinking && !footswitch_TAP.Blinking)
             {
-                //Check the pressed button
-                if (((Footswitch)sender).Status != FootswitchStatus.Green)
-                {
-                    //Check the footswitch pressed
-                    if (sender == footswitch_A)
-                    {
-                        currentConfig = IControlConfig.Instance.GetPreset(1);
-                        IControlConfig.Instance.SaveSelectedPreset(1);
-                    }
-                    else if (sender == footswitch_B)
-                    {
-                        currentConfig = IControlConfig.Instance.GetPreset(2);
-                        IControlConfig.Instance.SaveSelectedPreset(2);
-                    }
-                    else if (sender == footswitch_C)
-                    {
-                        currentConfig = IControlConfig.Instance.GetPreset(3);
-                        IControlConfig.Instance.SaveSelectedPreset(3);
-                    }
+                //Get the channel selected
+                int iChannel = IControlConfig.Instance.GetChannelMIDI();
 
-                    //Update the device settings
-                    UpdateDevice();
+                //Check the pressed button
+                switch (((Footswitch)sender).Status)
+                {
+                    case FootswitchStatus.Off:
+                        //Check the footswitch pressed
+                        if (sender == footswitch_A)
+                        {
+                            //Send the preset change command
+                            Functions.SendCommand(CommandType.ProgramChange, iChannel, 1);
+
+                            //Set the current configuration and store the selected preset
+                            configCurrent = IControlConfig.Instance.GetPreset(1);
+                            IControlConfig.Instance.SaveSelectedPreset(1);
+                        }
+                        else if (sender == footswitch_B)
+                        {
+                            //Send the preset change command
+                            Functions.SendCommand(CommandType.ProgramChange, iChannel, 2);
+
+                            //Set the current configuration and store the selected preset
+                            configCurrent = IControlConfig.Instance.GetPreset(2);
+                            IControlConfig.Instance.SaveSelectedPreset(2);
+                        }
+                        else if (sender == footswitch_C)
+                        {
+                            //Send the preset change command
+                            Functions.SendCommand(CommandType.ProgramChange, iChannel, 3);
+
+                            //Set the current configuration and store the selected preset
+                            configCurrent = IControlConfig.Instance.GetPreset(3);
+                            IControlConfig.Instance.SaveSelectedPreset(3);
+                        }
+
+                        //Update the device settings
+                        SetConfiguration(configCurrent);
+                        break;
+                    case FootswitchStatus.Green:
+                        //Send the preset bypass command
+                        Functions.SendCommand(CommandType.ProgramChange, iChannel, (int)SettingsCC.PresetBypass, 64);
+
+                        //Set the footswitch status
+                        ((Footswitch)sender).SetStatus(FootswitchStatus.Dim);
+                        break;
+                    case FootswitchStatus.Dim:
+                        //Send the preset bypass command
+                        Functions.SendCommand(CommandType.ProgramChange, iChannel, (int)SettingsCC.PresetBypass, 0);
+
+                        //Set the footswitch status
+                        ((Footswitch)sender).SetStatus(FootswitchStatus.Green);
+                        break;
                 }
             }
         }
@@ -193,7 +306,7 @@ namespace MidiControl
             //Check the preset number
             if (iPreset >= Constants.PRESET_COUNT_MIN && iPreset <= Constants.PRESET_COUNT_MAX)
             {
-                IControlConfig.Instance.SavePreset(iPreset, currentConfig);
+                IControlConfig.Instance.SavePreset(iPreset, configCurrent);
             }
             else
             {
@@ -206,13 +319,17 @@ namespace MidiControl
         */
         private void TextboxChannel_TextChanged(object sender, TextChangedEventArgs e)
         {
-            int iChannel = 0;
+            //Check if the channel text is empty
+            if (!string.IsNullOrEmpty(textboxChannel.Text))
+            {
+                int iChannel = 0;
 
-            //Get the current selected MIDI channel
-            Dispatcher.Invoke(new Action(() => iChannel = int.Parse(textboxChannel.Text)));
+                //Get the current selected MIDI channel
+                Dispatcher.Invoke(new Action(() => iChannel = int.Parse(textboxChannel.Text)));
 
-            //Save the selected MIDI channel
-            IControlConfig.Instance.SaveChannelMIDI(iChannel);
+                //Save the selected MIDI channel
+                IControlConfig.Instance.SaveChannelMIDI(iChannel);
+            }
         }
 
         /*
@@ -220,25 +337,29 @@ namespace MidiControl
         */
         private void TextboxPreset_TextChanged(object sender, TextChangedEventArgs e)
         {
-            int iPreset = 0;
-
-            //Get the current selected preset
-            bool bParse = int.TryParse(textboxPreset.Text, out iPreset);
-
-            if (bParse)
+            //Check if the preset text is empty
+            if (!string.IsNullOrEmpty(textboxPreset.Text))
             {
-                //Check if the preset is outside bounds
-                iPreset = iPreset > Constants.PRESET_COUNT_MAX ? Constants.PRESET_COUNT_MAX : iPreset;
-                iPreset = iPreset < Constants.PRESET_COUNT_MIN ? Constants.PRESET_COUNT_MIN : iPreset;
+                int iPreset;
 
-                //Save the delected preset and update the device
-                IControlConfig.Instance.SaveSelectedPreset(iPreset);
-                currentConfig = IControlConfig.Instance.GetPreset(iPreset);
-                UpdateDevice();
-            }
-            else
-            {
-                Console.WriteLine("Error: Preset number outside bounds");
+                //Get the current selected preset
+                bool bParse = int.TryParse(textboxPreset.Text, out iPreset);
+
+                if (bParse)
+                {
+                    //Check if the preset is outside bounds
+                    iPreset = iPreset > Constants.PRESET_COUNT_MAX ? Constants.PRESET_COUNT_MAX : iPreset;
+                    iPreset = iPreset < Constants.PRESET_COUNT_MIN ? Constants.PRESET_COUNT_MIN : iPreset;
+
+                    //Save the delected preset and update the device
+                    IControlConfig.Instance.SaveSelectedPreset(iPreset);
+                    configCurrent = IControlConfig.Instance.GetPreset(iPreset);
+                    SetConfiguration(configCurrent);
+                }
+                else
+                {
+                    Console.WriteLine("Error: Preset number outside bounds");
+                }
             }
         }
 

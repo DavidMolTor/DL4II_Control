@@ -37,19 +37,19 @@ namespace MidiControl
         /*
         Public constructor
         */
-        public DeviceConfig(bool bInit)
+        public DeviceConfig(DeviceConfig config)
         {
-            iDelaySelected  = 0;
-            iDelayTime      = 0;
-            iDelayRepeats   = 0;
-            iDelayTweak     = 0;
-            iDelayTweez     = 0;
-            iDelayMix       = 0;
-            iReverbSelected = 0;
-            iReverbDecay    = 0;
-            iReverbTweak    = 0;
-            iReverbRouting  = 0;
-            iReverbMix      = 0;
+            iDelaySelected  = config.iDelaySelected;
+            iDelayTime      = config.iDelayTime;
+            iDelayRepeats   = config.iDelayRepeats;
+            iDelayTweak     = config.iDelayTweak;
+            iDelayTweez     = config.iDelayTweez;
+            iDelayMix       = config.iDelayMix;
+            iReverbSelected = config.iReverbSelected;
+            iReverbDecay    = config.iReverbDecay;
+            iReverbTweak    = config.iReverbTweak;
+            iReverbRouting  = config.iReverbRouting;
+            iReverbMix      = config.iReverbMix;
         }
 
         //Structure serialization declarations

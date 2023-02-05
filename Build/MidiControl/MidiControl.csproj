@@ -118,6 +118,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="DL4MkII.ico" />
+    <Resource Include="Resources\DL4 MkII Foot Dim.png" />
     <Resource Include="Resources\DL4 MkII Alt White.png" />
     <Resource Include="Resources\DL4 MkII Alt Green.png" />
     <Resource Include="Resources\DL4MkII Empty.png" />

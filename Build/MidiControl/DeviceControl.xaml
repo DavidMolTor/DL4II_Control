@@ -46,14 +46,14 @@
             
             <Image Source="/Resources/DL4MkII Empty.png" Height="700" Width="1100"/>
 
-            <local:RotaryKnob x:Name="knobDelaySelect" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0,218,619,0"/>
+            <local:RotaryKnob x:Name="knobDelaySelected" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0,218,619,0"/>
             <local:RotaryKnob x:Name="knobDelayTime" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0,218,166,0"/>
             <local:RotaryKnob x:Name="knobDelayRepeats" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="80,218,0,0"/>
             <local:RotaryKnob x:Name="knobDelayTweak" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="322,218,0,0"/>
             <local:RotaryKnob x:Name="knobDelayTweez" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="566,218,0,0"/>
             <local:RotaryKnob x:Name="knobDelayMix" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="810,218,0,0"/>
 
-            <local:RotaryKnob x:Name="knobReverbSelect" VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="0,0,544,221"/>
+            <local:RotaryKnob x:Name="knobReverbSelected" VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="0,0,544,221"/>
             <local:RotaryKnob x:Name="knobReverbDecay" VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="0,0,45,221"/>
             <local:RotaryKnob x:Name="knobReverbTweak" VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="198,0,0,221"/>
             <local:RotaryKnob x:Name="knobReverbRouting" VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="442,0,0,221"/>
