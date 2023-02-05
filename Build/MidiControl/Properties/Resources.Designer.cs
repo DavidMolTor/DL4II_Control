@@ -133,6 +133,16 @@ namespace MidiControl.Properties {
         /// <summary>
         ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap DL4MkII_Addon {
+            get {
+                object obj = ResourceManager.GetObject("DL4MkII_Addon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap DL4MkII_Empty {
             get {
                 object obj = ResourceManager.GetObject("DL4MkII_Empty", resourceCulture);

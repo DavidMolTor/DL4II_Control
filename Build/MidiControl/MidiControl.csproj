@@ -5,7 +5,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{BBD3D331-C43C-4845-81FE-9E4C357E1EA6}</ProjectGuid>
-    <OutputType>WinExe</OutputType>
+    <OutputType>Exe</OutputType>
     <RootNamespace>MidiControl</RootNamespace>
     <AssemblyName>MidiControl</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
@@ -43,11 +43,11 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Melanchall.DryWetMidi, Version=6.1.4.0, Culture=neutral, PublicKeyToken=83d0ffad275219ad, processorArchitecture=MSIL">
-      <HintPath>..\Midi\packages\Melanchall.DryWetMidi.6.1.4\lib\net45\Melanchall.DryWetMidi.dll</HintPath>
-    </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
+    <Reference Include="Sanford.Multimedia.Midi, Version=6.6.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\Midi\packages\Sanford.Multimedia.Midi.6.6.2\lib\net20\Sanford.Multimedia.Midi.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
@@ -120,6 +120,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="DL4MkII.ico" />
+    <Resource Include="Resources\DL4MkII Addon.png" />
     <Resource Include="Resources\DL4 MkII Foot Dim.png" />
     <Resource Include="Resources\DL4 MkII Alt White.png" />
     <Resource Include="Resources\DL4 MkII Alt Green.png" />
@@ -148,13 +149,6 @@
     </Page>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <Import Project="..\Midi\packages\Melanchall.DryWetMidi.6.1.4\build\Melanchall.DryWetMidi.targets" Condition="Exists('..\Midi\packages\Melanchall.DryWetMidi.6.1.4\build\Melanchall.DryWetMidi.targets')" />
-  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
-    <PropertyGroup>
-      <ErrorText>Este proyecto hace referencia a los paquetes NuGet que faltan en este equipo. Use la restauración de paquetes NuGet para descargarlos. Para obtener más información, consulte http://go.microsoft.com/fwlink/?LinkID=322105. El archivo que falta es {0}.</ErrorText>
-    </PropertyGroup>
-    <Error Condition="!Exists('..\Midi\packages\Melanchall.DryWetMidi.6.1.4\build\Melanchall.DryWetMidi.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\Midi\packages\Melanchall.DryWetMidi.6.1.4\build\Melanchall.DryWetMidi.targets'))" />
-  </Target>
   <PropertyGroup>
     <PostBuildEvent>rd "$(ProjectDir)bin" /S /Q
 rd "$(ProjectDir)obj" /S /Q

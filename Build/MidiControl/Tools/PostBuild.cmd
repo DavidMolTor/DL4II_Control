@@ -45,7 +45,6 @@ mkdir "%OUT_FOLDER%dll"
 
 move "%OUT_FOLDER%*.dll" 	"%OUT_FOLDER%\dll" >NUL
 move "%OUT_FOLDER%*.xml" 	"%OUT_FOLDER%\dll" >NUL
-move "%OUT_FOLDER%*.dylib" 	"%OUT_FOLDER%\dll" >NUL
 
 rem ----------------------------------------------------------------------------
 rem ---- COPY GENERATED FILES TO TARGET DIRECTORY

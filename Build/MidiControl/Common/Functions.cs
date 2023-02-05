@@ -9,57 +9,62 @@ Functions.cs
 - Version: 0.1
 */
 
-using System.Linq;
+using System;
 using System.Windows;
 using System.Windows.Media;
 
 //MIDI libraries
-using Melanchall.DryWetMidi.Core;
-using Melanchall.DryWetMidi.Common;
-using Melanchall.DryWetMidi.Multimedia;
+using Sanford.Multimedia.Midi;
 
 namespace MidiControl
 {
     internal class Functions
     {
+        //Midi output device object
+        private static OutputDevice device = null;
+
+        /*
+        Initializes the output device
+        */
+        public static void SetDevice()
+        {
+            for (int i = 0; i < OutputDevice.DeviceCount; i++)
+            {
+                //Check the MIDI device name
+                if (OutputDevice.GetDeviceCapabilities(i).name == Constants.DL4_PRODUCT_NAME)
+                {
+                    device = new OutputDevice(i);
+                }
+            }
+        }
+
         /*
         Sends the given command
         */
-        public static bool SendCommand(CommandType iType, int iChannel, int iCommand, int iValue = 0)
+        public static bool SendCommand(ChannelCommand iType, int iChannel, int iCommand, int iValue = 0)
         {
-            //Check if the device is connected
-            if (OutputDevice.GetAll().Any(x => x.Name == Constants.DL4_PRODUCT_NAME))
+            try
             {
-                using (OutputDevice device = OutputDevice.GetByName(Constants.DL4_PRODUCT_NAME))
+                Console.WriteLine("Send to channel {0}: {1}, {2}, {3}", iChannel, iType, iCommand, iValue);
+
+                //Build the channel command
+                ChannelMessageBuilder builder = new ChannelMessageBuilder()
                 {
-                    switch (iType)
-                    {
-                        case CommandType.ProgramChange:
-                            ProgramChangeEvent programChange = new ProgramChangeEvent()
-                            {
-                                Channel         = (FourBitNumber)(iChannel - 1),
-                                ProgramNumber   = (SevenBitNumber)iCommand
-                            };
+                    MidiChannel = iChannel - 1,
+                    Command     = iType,
+                    Data1       = iCommand,
+                    Data2       = iValue
+                };
+                builder.Build();
 
-                            device.SendEvent(programChange);
-                            break;
-                        case CommandType.ControlChange:
-                            ControlChangeEvent controlChange = new ControlChangeEvent()
-                            {
-                                Channel         = (FourBitNumber)(iChannel - 1),
-                                ControlNumber   = (SevenBitNumber)iCommand,
-                                ControlValue    = (SevenBitNumber)iValue
-                            };
-
-                            device.SendEvent(controlChange);
-                            break;
-                    }
-                }
+                //Send the channel command
+                device.Send(builder.Result);
 
                 return true;
             }
-            else
+            catch
             {
+                Console.WriteLine("Error: Could not send the channel command");
                 return false;
             }
         }

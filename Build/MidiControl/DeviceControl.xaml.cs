@@ -14,6 +14,9 @@ using System.Linq;
 using System.Timers;
 using System.Windows.Controls;
 
+//MIDI libraries
+using Sanford.Multimedia.Midi;
+
 namespace MidiControl
 {
     public partial class DeviceControl : UserControl
@@ -155,54 +158,58 @@ namespace MidiControl
             {
                 if (configCurrent.iDelaySelected == (int)DelayModels.Looper)
                 {
-
+                    //Enable the classic looper mode
+                    Functions.SendCommand(ChannelCommand.Controller, iChannel, (int)SettingsCC.DelaySelected, 64);
                 }
                 else
                 {
+                    //Disable the classic looper mode
+                    Functions.SendCommand(ChannelCommand.Controller, iChannel, (int)SettingsCC.LooperMode, 0);
 
-                    Functions.SendCommand(CommandType.ControlChange, iChannel, (int)SettingsCC.DelaySelected, configCurrent.iDelaySelected);
+                    //Set the selected delay model
+                    Functions.SendCommand(ChannelCommand.Controller, iChannel, (int)SettingsCC.DelaySelected, configCurrent.iDelaySelected);
                 }
             }
 
             //Send the delay time command if able
             if (configCurrent.iDelayTime != configPrevious.iDelayTime || bForce)
-                Functions.SendCommand(CommandType.ControlChange, iChannel, (int)SettingsCC.DelayTime, configCurrent.iDelayTime);
+                Functions.SendCommand(ChannelCommand.Controller, iChannel, (int)SettingsCC.DelayTime, configCurrent.iDelayTime);
 
             //Send the delay repeats command if able
             if (configCurrent.iDelayRepeats != configPrevious.iDelayRepeats || bForce)
-                Functions.SendCommand(CommandType.ControlChange, iChannel, (int)SettingsCC.DelayRepeats, configCurrent.iDelayRepeats);
+                Functions.SendCommand(ChannelCommand.Controller, iChannel, (int)SettingsCC.DelayRepeats, configCurrent.iDelayRepeats);
 
             //Send the delay tweak command if able
             if (configCurrent.iDelayTweak != configPrevious.iDelayTweak || bForce)
-                Functions.SendCommand(CommandType.ControlChange, iChannel, (int)SettingsCC.DelayTweak, configCurrent.iDelayTweak);
+                Functions.SendCommand(ChannelCommand.Controller, iChannel, (int)SettingsCC.DelayTweak, configCurrent.iDelayTweak);
 
             //Send the delay tweez command if able
             if (configCurrent.iDelayTweez != configPrevious.iDelayTweez || bForce)
-                Functions.SendCommand(CommandType.ControlChange, iChannel, (int)SettingsCC.DelayTweez, configCurrent.iDelayTweez);
+                Functions.SendCommand(ChannelCommand.Controller, iChannel, (int)SettingsCC.DelayTweez, configCurrent.iDelayTweez);
 
             //Send the delay mix command if able
             if (configCurrent.iDelayMix != configPrevious.iDelayMix || bForce)
-                Functions.SendCommand(CommandType.ControlChange, iChannel, (int)SettingsCC.DelayMix, configCurrent.iDelayMix);
+                Functions.SendCommand(ChannelCommand.Controller, iChannel, (int)SettingsCC.DelayMix, configCurrent.iDelayMix);
 
             //Send the reverb selected command if able
             if (configCurrent.iReverbSelected != configPrevious.iReverbSelected || bForce)
-                Functions.SendCommand(CommandType.ControlChange, iChannel, (int)SettingsCC.ReverbSelected, configCurrent.iReverbSelected);
+                Functions.SendCommand(ChannelCommand.Controller, iChannel, (int)SettingsCC.ReverbSelected, configCurrent.iReverbSelected);
 
             //Send the reverb decay command if able
             if (configCurrent.iReverbDecay != configPrevious.iReverbDecay || bForce)
-                Functions.SendCommand(CommandType.ControlChange, iChannel, (int)SettingsCC.ReverbDecay, configCurrent.iReverbDecay);
+                Functions.SendCommand(ChannelCommand.Controller, iChannel, (int)SettingsCC.ReverbDecay, configCurrent.iReverbDecay);
 
             //Send the reverb tweak command if able
             if (configCurrent.iReverbTweak != configPrevious.iReverbTweak || bForce)
-                Functions.SendCommand(CommandType.ControlChange, iChannel, (int)SettingsCC.ReverbTweak, configCurrent.iReverbTweak);
+                Functions.SendCommand(ChannelCommand.Controller, iChannel, (int)SettingsCC.ReverbTweak, configCurrent.iReverbTweak);
 
             //Send the reverb routing command if able
             if (configCurrent.iReverbRouting != configPrevious.iReverbRouting || bForce)
-                Functions.SendCommand(CommandType.ControlChange, iChannel, (int)SettingsCC.ReverbRouting, configCurrent.iReverbRouting);
+                Functions.SendCommand(ChannelCommand.Controller, iChannel, (int)SettingsCC.ReverbRouting, configCurrent.iReverbRouting);
 
             //Send the reverb mix command if able
             if (configCurrent.iReverbMix != configPrevious.iReverbMix || bForce)
-                Functions.SendCommand(CommandType.ControlChange, iChannel, (int)SettingsCC.ReverbMix, configCurrent.iReverbMix);
+                Functions.SendCommand(ChannelCommand.Controller, iChannel, (int)SettingsCC.ReverbMix, configCurrent.iReverbMix);
         }
 
         /*
@@ -247,7 +254,7 @@ namespace MidiControl
                         if (sender == footswitch_A)
                         {
                             //Send the preset change command
-                            Functions.SendCommand(CommandType.ProgramChange, iChannel, 1);
+                            Functions.SendCommand(ChannelCommand.ProgramChange, iChannel, 0);
 
                             //Set the current configuration and store the selected preset
                             configCurrent = IControlConfig.Instance.GetPreset(1);
@@ -256,7 +263,7 @@ namespace MidiControl
                         else if (sender == footswitch_B)
                         {
                             //Send the preset change command
-                            Functions.SendCommand(CommandType.ProgramChange, iChannel, 2);
+                            Functions.SendCommand(ChannelCommand.ProgramChange, iChannel, 1);
 
                             //Set the current configuration and store the selected preset
                             configCurrent = IControlConfig.Instance.GetPreset(2);
@@ -265,7 +272,7 @@ namespace MidiControl
                         else if (sender == footswitch_C)
                         {
                             //Send the preset change command
-                            Functions.SendCommand(CommandType.ProgramChange, iChannel, 3);
+                            Functions.SendCommand(ChannelCommand.ProgramChange, iChannel, 2);
 
                             //Set the current configuration and store the selected preset
                             configCurrent = IControlConfig.Instance.GetPreset(3);
@@ -277,14 +284,14 @@ namespace MidiControl
                         break;
                     case FootswitchStatus.Green:
                         //Send the preset bypass command
-                        Functions.SendCommand(CommandType.ProgramChange, iChannel, (int)SettingsCC.PresetBypass, 64);
+                        Functions.SendCommand(ChannelCommand.Controller, iChannel, (int)SettingsCC.PresetBypass, 64);
 
                         //Set the footswitch status
                         ((Footswitch)sender).SetStatus(FootswitchStatus.Dim);
                         break;
                     case FootswitchStatus.Dim:
                         //Send the preset bypass command
-                        Functions.SendCommand(CommandType.ProgramChange, iChannel, (int)SettingsCC.PresetBypass, 0);
+                        Functions.SendCommand(ChannelCommand.Controller, iChannel, (int)SettingsCC.PresetBypass, 0);
 
                         //Set the footswitch status
                         ((Footswitch)sender).SetStatus(FootswitchStatus.Green);

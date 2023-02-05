@@ -67,11 +67,11 @@
             <local:Footswitch x:Name="footswitch_TAP" Width="75" Height="75" VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="848,0,0,82"/>
 
         </Grid>
-        <Grid x:Name="gridParam" Height="700" Width="310" VerticalAlignment="Center" HorizontalAlignment="Right" Background="#FF1E1E1E">
+        <Grid x:Name="gridParam" Height="700" Width="310" VerticalAlignment="Center" HorizontalAlignment="Right" Background="#FF1E1E1E" Visibility="Hidden">
             
             <Grid x:Name="gridChannel" Height="100" Width="310" Margin="0,0,0,0" VerticalAlignment="Top" HorizontalAlignment="Center" Background="#FF1E1E1E">
                 <Label x:Name="labelChannel" Content="MIDI CH" HorizontalAlignment="Left" Margin="0" VerticalAlignment="Center" Width="160" Foreground="#FF32864C" HorizontalContentAlignment="Center" FontSize="32" FontFamily="Yu Gothic UI"/>
-                <TextBox x:Name="textboxChannel" Style="{StaticResource PaddedTextBox}" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,20,0" Width="120" Height="46" MaxLength="1" HorizontalContentAlignment="Center" PreviewTextInput="TextBoxNumber_PreviewTextInput" TextChanged="TextboxChannel_TextChanged" Text="0"/>
+                <TextBox x:Name="textboxChannel" Style="{StaticResource PaddedTextBox}" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,20,0" Width="120" Height="46" MaxLength="1" HorizontalContentAlignment="Center" PreviewTextInput="TextBoxNumber_PreviewTextInput" TextChanged="TextboxChannel_TextChanged" Text="2"/>
             </Grid>
             
             <Grid x:Name="gridPreset" Height="100" Width="310" Margin="0,100,0,0" VerticalAlignment="Top" HorizontalAlignment="Center" Background="#FF282828">
@@ -98,6 +98,11 @@
                 <Label x:Name="labelReverbRouting" Content="ROUTE" HorizontalAlignment="Left" Margin="0" VerticalAlignment="Center" Width="160" Foreground="#FFE97F00" HorizontalContentAlignment="Center" FontSize="32" FontFamily="Yu Gothic UI"/>
                 <Label x:Name="labelReverbRouting_Value" Content="VALUE" HorizontalAlignment="Right" Margin="0,0,20,0" VerticalAlignment="Center" Width="120" Foreground="#FFE97F00" HorizontalContentAlignment="Center" FontSize="32" FontFamily="Yu Gothic UI"/>
             </Grid>
+
+        </Grid>
+        <Grid x:Name="gridParamTest" Height="700" Width="310" VerticalAlignment="Center" HorizontalAlignment="Right">
+
+            <Image Source="/Resources/DL4MkII Addon.png" Height="700" Width="310"/>
 
         </Grid>
     </Grid>

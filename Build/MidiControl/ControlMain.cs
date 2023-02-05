@@ -26,6 +26,9 @@ namespace MidiControl
             //Load the main configuration
             IControlConfig.Instance.LoadConfig();
 
+            //Set the MIDI device
+            Functions.SetDevice();
+
             //Run the main application
             Application.Run(new MainWindow());
         }
