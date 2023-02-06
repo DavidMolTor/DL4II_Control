@@ -18,6 +18,5 @@ The application splits the delay and reverb selection systems allowing you to se
  - Divided reverb and delay sections allowing you to visualize the changes for both effects simultaneously.
  - Preset bypass by pressing the currently active footswitch like in the real unit.
  - Preset selection via a number text box for now, in the future it will be possible to label presets.
- - Local preset storing via serialized configuration structures on the computer.
- - Storing of the the current configuration by holding the illuminated footswitch like in the real unit.
+ - Local preset storing via serialized strctures in the application configuration file.
  - Footswitch control to select between the three lowest presets for now.

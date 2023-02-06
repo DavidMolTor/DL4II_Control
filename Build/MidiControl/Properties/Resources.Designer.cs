@@ -149,5 +149,15 @@ namespace MidiControl.Properties {
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap DL4MkII_Labeled {
+            get {
+                object obj = ResourceManager.GetObject("DL4MkII_Labeled", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
     }
 }

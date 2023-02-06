@@ -7,7 +7,7 @@
              mc:Ignorable="d"
              d:DesignHeight="700" d:DesignWidth="1375" Height="700" Width="1375" IsEnabled="false">
     <UserControl.Resources>
-        <!-- Text box style -->   
+        <!-- Text box style -->
         <Style x:Key="PaddedTextBox"  TargetType="{x:Type TextBox}">
             <Setter Property="Margin" Value="0"/>
             <Setter Property="TextWrapping" Value="NoWrap"/>
@@ -43,7 +43,7 @@
     </UserControl.Resources>
     <Grid Background="#FF141414">
         <Grid x:Name="gridDevice" Height="700" Width="1100" VerticalAlignment="Center" HorizontalAlignment="Left">
-            
+
             <Image Source="/Resources/DL4MkII Empty.png" Height="700" Width="1100"/>
 
             <local:RotaryKnob x:Name="knobDelaySelected" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0,218,619,0"/>
@@ -59,31 +59,46 @@
             <local:RotaryKnob x:Name="knobReverbRouting" VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="442,0,0,221"/>
             <local:RotaryKnob x:Name="knobReverbMix" VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="686,0,0,221"/>
 
-            <local:AltButton x:Name="altButton" Width="36" Height="36" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0,279,341,0"/>
+            <local:AltButton x:Name="altButton" Width="36" Height="36" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="363,279,0,0"/>
 
             <local:Footswitch x:Name="footswitch_A" Width="75" Height="75" VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="0,0,848,82"/>
             <local:Footswitch x:Name="footswitch_B" Width="75" Height="75" VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="0,0,285,82"/>
             <local:Footswitch x:Name="footswitch_C" Width="75" Height="75" VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="283,0,0,82"/>
             <local:Footswitch x:Name="footswitch_TAP" Width="75" Height="75" VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="848,0,0,82"/>
 
+            <Label Content="ALT" HorizontalAlignment="Left" Margin="305,308,0,0" VerticalAlignment="Top" Width="160" Foreground="#FFCCCCCC" HorizontalContentAlignment="Center" FontFamily="Bahnschrift SemiBold Condensed" FontSize="14"/>
+            <Label Content="LEGACY" HorizontalAlignment="Left" Margin="300,321,0,0" VerticalAlignment="Top" Width="160" Foreground="#FF83DA87" HorizontalContentAlignment="Center" FontFamily="Bahnschrift SemiBold Condensed" FontSize="20"/>
+
+            <Label Content="TIME" HorizontalAlignment="Left" Margin="361,321,0,0" VerticalAlignment="Top" Width="160" Foreground="#FFCCCCCC" HorizontalContentAlignment="Center" FontFamily="Bahnschrift SemiBold Condensed" FontSize="20"/>
+            <Label Content="/SUBDIV" HorizontalAlignment="Left" Margin="403,321,0,0" VerticalAlignment="Top" Width="160" Foreground="#FFCCCCCC" HorizontalContentAlignment="Center" FontFamily="Bahnschrift Light Condensed" FontSize="20"/>
+            <Label Content="REPEATS" HorizontalAlignment="Left" Margin="508,321,0,0" VerticalAlignment="Top" Width="160" Foreground="#FFCCCCCC" HorizontalContentAlignment="Center" FontFamily="Bahnschrift SemiBold Condensed" FontSize="20"/>
+            <Label Content="TWEAK" HorizontalAlignment="Left" Margin="630,321,0,0" VerticalAlignment="Top" Width="160" Foreground="#FFCCCCCC" HorizontalContentAlignment="Center" FontFamily="Bahnschrift SemiBold Condensed" FontSize="20"/>
+            <Label Content="TWEEZ" HorizontalAlignment="Left" Margin="752,321,0,0" VerticalAlignment="Top" Width="160" Foreground="#FFCCCCCC" HorizontalContentAlignment="Center" FontFamily="Bahnschrift SemiBold Condensed" FontSize="20"/>
+            <Label Content="MIX" HorizontalAlignment="Left" Margin="876,321,0,0" VerticalAlignment="Top" Width="160" Foreground="#FFCCCCCC" HorizontalContentAlignment="Center" FontFamily="Bahnschrift SemiBold Condensed" FontSize="20"/>
+
+            <Label Content="REVERB DECAY" HorizontalAlignment="Center" Margin="0,0,46,188" VerticalAlignment="Bottom" Width="160" Foreground="#FFD97600" HorizontalContentAlignment="Center" FontFamily="Bahnschrift SemiBold Condensed" FontSize="20"/>
+            <Label Content="TWEAK" HorizontalAlignment="Center" Margin="198,0,0,188" VerticalAlignment="Bottom" Width="160" Foreground="#FFD97600" HorizontalContentAlignment="Center" FontFamily="Bahnschrift SemiBold Condensed" FontSize="20"/>
+            <Label Content="ROUTING" HorizontalAlignment="Center" Margin="443,0,0,188" VerticalAlignment="Bottom" Width="160" Foreground="#FFD97600" HorizontalContentAlignment="Center" FontFamily="Bahnschrift SemiBold Condensed" FontSize="20"/>
+            <Label Content="REVERB MIX" HorizontalAlignment="Center" Margin="686,0,0,188" VerticalAlignment="Bottom" Width="160" Foreground="#FFD97600" HorizontalContentAlignment="Center" FontFamily="Bahnschrift SemiBold Condensed" FontSize="20"/>
+
         </Grid>
         <Grid x:Name="gridParam" Height="700" Width="310" VerticalAlignment="Center" HorizontalAlignment="Right" Background="#FF1E1E1E" Visibility="Hidden">
-            
+
             <Grid x:Name="gridChannel" Height="100" Width="310" Margin="0,0,0,0" VerticalAlignment="Top" HorizontalAlignment="Center" Background="#FF1E1E1E">
                 <Label x:Name="labelChannel" Content="MIDI CH" HorizontalAlignment="Left" Margin="0" VerticalAlignment="Center" Width="160" Foreground="#FF32864C" HorizontalContentAlignment="Center" FontSize="32" FontFamily="Yu Gothic UI"/>
                 <TextBox x:Name="textboxChannel" Style="{StaticResource PaddedTextBox}" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,20,0" Width="120" Height="46" MaxLength="1" HorizontalContentAlignment="Center" PreviewTextInput="TextBoxNumber_PreviewTextInput" TextChanged="TextboxChannel_TextChanged" Text="2"/>
             </Grid>
-            
+
             <Grid x:Name="gridPreset" Height="100" Width="310" Margin="0,100,0,0" VerticalAlignment="Top" HorizontalAlignment="Center" Background="#FF282828">
                 <Label x:Name="labelPreset" Content="PRESET" HorizontalAlignment="Left" Margin="0" VerticalAlignment="Center" Width="160" Foreground="#FF32864C" HorizontalContentAlignment="Center" FontSize="32" FontFamily="Yu Gothic UI"/>
                 <TextBox x:Name="textboxPreset" Style="{StaticResource PaddedTextBox}" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,20,0" Width="120" Height="46" MaxLength="3" HorizontalContentAlignment="Center" PreviewTextInput="TextBoxNumber_PreviewTextInput" TextChanged="TextboxPreset_TextChanged" Text="0"/>
             </Grid>
-            
+
             <Grid x:Name="gridDelayTweak" Height="100" Width="310" Margin="0,200,0,0" VerticalAlignment="Top" HorizontalAlignment="Center" Background="#FF1E1E1E">
                 <Label x:Name="labelDelayTweak" Content="TWEAK" HorizontalAlignment="Left" Margin="0" VerticalAlignment="Center" Width="160" Foreground="#FFCCCCCC" HorizontalContentAlignment="Center" FontSize="32" FontFamily="Yu Gothic UI"/>
                 <Label x:Name="labelDelayTweak_Value" Content="VALUE" HorizontalAlignment="Right" Margin="0,0,20,0" VerticalAlignment="Center" Width="120" Foreground="#FFCCCCCC" HorizontalContentAlignment="Center" FontSize="32" FontFamily="Yu Gothic UI"/>
             </Grid>
-            
+
             <Grid x:Name="gridDelayTweez" Height="100" Width="310" Margin="0,300,0,0" VerticalAlignment="Top" HorizontalAlignment="Center" Background="#FF282828">
                 <Label x:Name="labelDelayTweez" Content="TWEEZ" HorizontalAlignment="Left" Margin="0" VerticalAlignment="Center" Width="160" Foreground="#FFCCCCCC" HorizontalContentAlignment="Center" FontSize="32" FontFamily="Yu Gothic UI"/>
                 <Label x:Name="labelDelayTweez_Value" Content="VALUE" HorizontalAlignment="Right" Margin="0,0,20,0" VerticalAlignment="Center" Width="120" Foreground="#FFCCCCCC" HorizontalContentAlignment="Center" FontSize="32" FontFamily="Yu Gothic UI"/>
@@ -103,6 +118,8 @@
         <Grid x:Name="gridParamTest" Height="700" Width="310" VerticalAlignment="Center" HorizontalAlignment="Right">
 
             <Image Source="/Resources/DL4MkII Addon.png" Height="700" Width="310"/>
+
+            <local:Footswitch x:Name="footswitch_ADD" Width="75" Height="75" VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="0,0,0,82"/>
 
         </Grid>
     </Grid>
