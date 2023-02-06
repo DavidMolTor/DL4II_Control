@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:MidiControl"
              mc:Ignorable="d"
-             d:DesignHeight="700" d:DesignWidth="1375" Height="700" Width="1375" IsEnabled="false">
+             d:DesignHeight="700" d:DesignWidth="1375" Height="700" Width="1375" IsEnabled="true">
     <UserControl.Resources>
         <Style x:Key="PaddedTextBox"  TargetType="{x:Type TextBox}">
             <Setter Property="Margin" Value="0"/>
@@ -82,7 +82,7 @@
             <Label x:Name="labelReverbTweak" Content="VALUE" HorizontalAlignment="Center" Margin="0,98,100,0" VerticalAlignment="Center" Width="160" Foreground="#FFD97600" HorizontalContentAlignment="Center" FontFamily="Bahnschrift SemiBold Condensed" FontSize="14"/>
             <Label x:Name="labelReverbRouting" Content="VALUE" HorizontalAlignment="Center" Margin="100,98,0,0" VerticalAlignment="Center" Width="160" Foreground="#FFD97600" HorizontalContentAlignment="Center" FontFamily="Bahnschrift SemiBold Condensed" FontSize="14"/>
 
-            <Label x:Name="labelError" Content="-" HorizontalAlignment="Center" Margin="0,256,0,0" VerticalAlignment="Center" Width="160" Foreground="#FF41A25F" HorizontalContentAlignment="Center" FontFamily="Bahnschrift SemiBold Condensed" FontSize="14"/>
+            <Label x:Name="labelError" Content="NONE" HorizontalAlignment="Center" Margin="0,256,0,0" VerticalAlignment="Center" Width="160" Foreground="#FF41A25F" HorizontalContentAlignment="Center" FontFamily="Bahnschrift SemiBold Condensed" FontSize="14"/>
 
         </Grid>
     </Grid>

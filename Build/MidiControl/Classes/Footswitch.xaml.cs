@@ -97,7 +97,7 @@ namespace MidiControl
         {
             //Check for cancellation
             long iTimestamp = DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond;
-            while (bHolding && DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond - iTimestamp < Constants.FOOTSWITCH_HOLD)
+            while (bHolding && DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond - iTimestamp < Constants.FOOTSWITCH_HOLD_TIME)
             {
                 Task.Delay(10);
             }

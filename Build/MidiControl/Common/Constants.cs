@@ -41,77 +41,77 @@ namespace MidiControl
         public const int MAX_KNOB_VALUES    = 128;
 
         //Footswitch parameters
-        public const int FOOTSWITCH_HOLD            = 2000;
+        public const int FOOTSWITCH_HOLD_TIME       = 2000;
         public const int FOOTSWITCH_BLINK_PERIOD    = 200;
         public const int FOOTSWITCH_BLINK_COUNT     = 4;
 
         /*
         Delay models list
         */
-        public static readonly List<DelayModels> LIST_DELAY = new List<DelayModels>()
+        public static readonly Dictionary<DelayModels, string> DICT_DELAY = new Dictionary<DelayModels, string>()
         {
-            DelayModels.VintageDelay,
-            DelayModels.Crisscross,
-            DelayModels.Euclidean,
-            DelayModels.DualDelay,
-            DelayModels.PitchEcho,
-            DelayModels.ADT,
-            DelayModels.Ducked,
-            DelayModels.Harmony,
-            DelayModels.Looper,
-            DelayModels.Heliosphere,
-            DelayModels.Transistor,
-            DelayModels.Cosmos,
-            DelayModels.MultiPass,
-            DelayModels.Adriatic,
-            DelayModels.ElephantMan,
-            DelayModels.Glitch
+            { DelayModels.VintageDigital,   "RESOLUTION| MOD DEPTH" },
+            { DelayModels.Crisscross,       "DELAY TIME B| CROSS AMOUNT" },
+            { DelayModels.Euclidean,        "STEP FILL|ROTATE" },
+            { DelayModels.DualDelay,        "RIGHT DELAY TIME| RIGHT FEEDBACK" },
+            { DelayModels.PitchEcho,        "PITCH INTERVAL|PITCH CENTS" },
+            { DelayModels.ADT,              "DISTORTION|MOD DEPTH" },
+            { DelayModels.Ducked,           "THRESHOLD|DUCKING AMOUNT" },
+            { DelayModels.Harmony,          "KEY|PITCH MODES" },
+            { DelayModels.Looper,           "ECHO MOD|ECHO VOLUME" },
+            { DelayModels.Heliosphere,      "REVERB MIX|MOD DEPTH" },
+            { DelayModels.Transistor,       "HEADROOM| WOW & FLUTTER" },
+            { DelayModels.Cosmos,           "HEADS SELECT| WOW & FLUTTER" },
+            { DelayModels.MultiPass,        "TAP PATTERN|DELAY MODE" },
+            { DelayModels.Adriatic,         "MOD RATE|MOD DEPTH" },
+            { DelayModels.ElephantMan,      "MOD DEPTH|MODE" },
+            { DelayModels.Glitch,           "PITCH|GLITCH AMOUNT" }
         };
 
         /*
         Legacy models list
         */
-        public static readonly List<LegacyModels> LIST_LEGACY = new List<LegacyModels>()
+        public static readonly Dictionary<LegacyModels, string> DICT_LEGACY = new Dictionary<LegacyModels, string>()
         {
-            LegacyModels.Digital,
-            LegacyModels.DigitalMod,
-            LegacyModels.EchoPlatter,
-            LegacyModels.Stereo,
-            LegacyModels.PingPong,
-            LegacyModels.Reverse,
-            LegacyModels.Dynamic,
-            LegacyModels.AutoVol,
-            LegacyModels.Looper,
-            LegacyModels.TubeEcho,
-            LegacyModels.TapeEcho,
-            LegacyModels.MultiHead,
-            LegacyModels.Sweep,
-            LegacyModels.Analog,
-            LegacyModels.AnalogMod,
-            LegacyModels.LoResDelay
+            { LegacyModels.Digital,     "BASS|TREBLE" },
+            { LegacyModels.DigitalMod,  "MOD RATE|MOD DEPTH" },
+            { LegacyModels.EchoPlatter, "WOW & FLUTTER|DRIVE" },
+            { LegacyModels.Stereo,      "RIGHT DELAY TIME|RIGHT REPEATS" },
+            { LegacyModels.PingPong,    "TIME OFFSET|STEREO SPREAD" },
+            { LegacyModels.Reverse,     "MOD RATE|MOD DEPTH" },
+            { LegacyModels.Dynamic,     "THRESHOLD|DUCKING" },
+            { LegacyModels.AutoVol,     "MOD DEPTH|SWELL TIME" },
+            { LegacyModels.Looper,      "ECHO MOD|ECHO VOLUME" },
+            { LegacyModels.TubeEcho,    "WOW & FLUTTER|DRIVE" },
+            { LegacyModels.TapeEcho,    "BASS|TREBLE" },
+            { LegacyModels.MultiHead,   "HEADS 1/2|HEADS 3/4" },
+            { LegacyModels.Sweep,       "SWEEP RATE|SWEEP DEPTH" },
+            { LegacyModels.Analog,      "BASS|TREBLE" },
+            { LegacyModels.AnalogMod,   "MOD RATE|MOD DEPTH" },
+            { LegacyModels.LoResDelay,  "TONE|RESOLUTION" }
         };
 
         /*
         Reverb models list
         */
-        public static readonly List<ReverbModels> LIST_REVERB = new List<ReverbModels>()
+        public static readonly Dictionary<ReverbModels, string> DICT_REVERB = new Dictionary<ReverbModels, string>()
         {
-            ReverbModels.Room,
-            ReverbModels.Searchlights,
-            ReverbModels.ParticleVerb,
-            ReverbModels.DoubleTank,
-            ReverbModels.Octo,
-            ReverbModels.Tile,
-            ReverbModels.Ducking,
-            ReverbModels.Plateaux,
-            ReverbModels.ReverbOff,
-            ReverbModels.Cave,
-            ReverbModels.Plate,
-            ReverbModels.Ganymede,
-            ReverbModels.Chamber,
-            ReverbModels.HotSprings,
-            ReverbModels.Hall,
-            ReverbModels.Glitz
+            { ReverbModels.Room,            "PREDELAY" },
+            { ReverbModels.Searchlights,    "INTENSITY" },
+            { ReverbModels.ParticleVerb,    "CONDITION" },
+            { ReverbModels.DoubleTank,      "MOD DEPTH" },
+            { ReverbModels.Octo,            "INTENSITY" },
+            { ReverbModels.Tile,            "PREDELAY" },
+            { ReverbModels.Ducking,         "PREDELAY" },
+            { ReverbModels.Plateaux,        "PITCH MODES" },
+            { ReverbModels.ReverbOff,       "NONE" },
+            { ReverbModels.Cave,            "PREDELAY" },
+            { ReverbModels.Plate,           "PREDELAY" },
+            { ReverbModels.Ganymede,        "MOD DEPTH" },
+            { ReverbModels.Chamber,         "PREDELAY" },
+            { ReverbModels.HotSprings,      "SPRING COUNT" },
+            { ReverbModels.Hall,            "PREDELAY" },
+            { ReverbModels.Glitz,           "MOD DEPTH" }
         };
     }
 }

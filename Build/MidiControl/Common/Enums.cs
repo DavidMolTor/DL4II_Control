@@ -39,7 +39,7 @@ namespace MidiControl
     */
     public enum DelayModels
     {
-        VintageDelay    = 0,
+        VintageDigital  = 0,
         Crisscross      = 1,
         Euclidean       = 2,
         DualDelay       = 3,

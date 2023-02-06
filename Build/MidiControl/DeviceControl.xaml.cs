@@ -48,7 +48,7 @@ namespace MidiControl
             //Initialize the device connection timer
             Timer timerConnection   = new Timer(Constants.CONNECTION_PERIOD);
             timerConnection.Elapsed += TimerConnection_Elapsed;
-            timerConnection.Enabled = true;
+            timerConnection.Enabled = false;
 
             //Initialize the device update timer
             Timer timerUpdateDevice     = new Timer(Constants.DEVICE_UPDATE_PERIOD);
@@ -71,11 +71,11 @@ namespace MidiControl
             //Set the delay select control
             if (config.iDelaySelected < Constants.ALTDELAY_INITIAL)
             {
-                knobDelaySelected.SetKnob(config.iDelaySelected, Constants.LIST_DELAY.Select(x => (int)x).ToList(), false);
+                knobDelaySelected.SetKnob(config.iDelaySelected, Constants.DICT_DELAY.Select(x => (int)x.Key).ToList(), false);
             }
             else
             {
-                knobDelaySelected.SetKnob(config.iDelaySelected, Constants.LIST_LEGACY.Select(x => (int)x).ToList(), false);
+                knobDelaySelected.SetKnob(config.iDelaySelected, Constants.DICT_LEGACY.Select(x => (int)x.Key).ToList(), false);
             }
 
             //Set all delay control knobs
@@ -86,7 +86,7 @@ namespace MidiControl
             knobDelayMix.SetKnob(config.iDelayMix,          Enumerable.Range(0, Constants.MAX_KNOB_VALUES).ToList());
 
             //Set the reverb select knob steps
-            knobReverbSelected.SetKnob(config.iReverbSelected, Constants.LIST_REVERB.Select(x => (int)x).ToList(), false);
+            knobReverbSelected.SetKnob(config.iReverbSelected, Constants.DICT_REVERB.Select(x => (int)x.Key).ToList(), false);
 
             //Set the reverb routing knob steps
             knobReverbRouting.SetKnob(config.iReverbRouting, Enum.GetValues(typeof(ReverRouting)).Cast<ReverRouting>().Select(x => (int)x).ToList());
@@ -131,7 +131,11 @@ namespace MidiControl
         */
         private void TimerConnection_Elapsed(object source, ElapsedEventArgs e)
         {
-            //Dispatcher.Invoke(new Action(() => this.IsEnabled = IControlMIDI.Instance.ConnectDevice()));
+            //Check the device connection status
+            if (!IControlMIDI.Instance.ConnectDevice())
+            {
+                Dispatcher.Invoke(new Action(() => SetError("DEVICE NOT CONNECTED")));
+            }
         }
 
         /*
@@ -172,57 +176,107 @@ namespace MidiControl
                 if (configCurrent.iDelaySelected == (int)DelayModels.Looper)
                 {
                     //Enable the classic looper mode
-                    IControlMIDI.Instance.SendCommand(ChannelCommand.Controller, iChannel, (int)SettingsCC.LooperMode, 64);
+                    if (!IControlMIDI.Instance.SendCommand(ChannelCommand.Controller, iChannel, (int)SettingsCC.LooperMode, 64))
+                        SetError("LOOPER MODE ON COMMAND");
                 }
                 else
                 {
                     //Disable the classic looper mode
-                    IControlMIDI.Instance.SendCommand(ChannelCommand.Controller, iChannel, (int)SettingsCC.LooperMode, 0);
+                    if (!IControlMIDI.Instance.SendCommand(ChannelCommand.Controller, iChannel, (int)SettingsCC.LooperMode, 0))
+                        SetError("LOOPER MODE OFF COMMAND");
 
                     //Set the selected delay model
-                    IControlMIDI.Instance.SendCommand(ChannelCommand.Controller, iChannel, (int)SettingsCC.DelaySelected, configCurrent.iDelaySelected);
+                    if (!IControlMIDI.Instance.SendCommand(ChannelCommand.Controller, iChannel, (int)SettingsCC.DelaySelected, configCurrent.iDelaySelected))
+                        SetError("DELAY SELECT COMMAND");
                 }
             }
 
             //Send the delay time command if able
             if (configCurrent.iDelayTime != configPrevious.iDelayTime || bForce)
-                IControlMIDI.Instance.SendCommand(ChannelCommand.Controller, iChannel, (int)SettingsCC.DelayTime, configCurrent.iDelayTime);
+                if (!IControlMIDI.Instance.SendCommand(ChannelCommand.Controller, iChannel, (int)SettingsCC.DelayTime, configCurrent.iDelayTime))
+                    SetError("DELAY TIME COMMAND");
 
             //Send the delay repeats command if able
             if (configCurrent.iDelayRepeats != configPrevious.iDelayRepeats || bForce)
-                IControlMIDI.Instance.SendCommand(ChannelCommand.Controller, iChannel, (int)SettingsCC.DelayRepeats, configCurrent.iDelayRepeats);
+                if (!IControlMIDI.Instance.SendCommand(ChannelCommand.Controller, iChannel, (int)SettingsCC.DelayRepeats, configCurrent.iDelayRepeats))
+                    SetError("DELAY REPEATS COMMAND");
 
             //Send the delay tweak command if able
             if (configCurrent.iDelayTweak != configPrevious.iDelayTweak || bForce)
-                IControlMIDI.Instance.SendCommand(ChannelCommand.Controller, iChannel, (int)SettingsCC.DelayTweak, configCurrent.iDelayTweak);
+                if (!IControlMIDI.Instance.SendCommand(ChannelCommand.Controller, iChannel, (int)SettingsCC.DelayTweak, configCurrent.iDelayTweak))
+                    SetError("DELAY TWEAK COMMAND");
 
             //Send the delay tweez command if able
             if (configCurrent.iDelayTweez != configPrevious.iDelayTweez || bForce)
-                IControlMIDI.Instance.SendCommand(ChannelCommand.Controller, iChannel, (int)SettingsCC.DelayTweez, configCurrent.iDelayTweez);
+                if (!IControlMIDI.Instance.SendCommand(ChannelCommand.Controller, iChannel, (int)SettingsCC.DelayTweez, configCurrent.iDelayTweez))
+                    SetError("DELAY TWEEZ COMMAND");
 
             //Send the delay mix command if able
             if (configCurrent.iDelayMix != configPrevious.iDelayMix || bForce)
-                IControlMIDI.Instance.SendCommand(ChannelCommand.Controller, iChannel, (int)SettingsCC.DelayMix, configCurrent.iDelayMix);
+                if (!IControlMIDI.Instance.SendCommand(ChannelCommand.Controller, iChannel, (int)SettingsCC.DelayMix, configCurrent.iDelayMix))
+                    SetError("DELAY MIX COMMAND");
 
             //Send the reverb selected command if able
             if (configCurrent.iReverbSelected != configPrevious.iReverbSelected || bForce)
-                IControlMIDI.Instance.SendCommand(ChannelCommand.Controller, iChannel, (int)SettingsCC.ReverbSelected, configCurrent.iReverbSelected);
+                if (!IControlMIDI.Instance.SendCommand(ChannelCommand.Controller, iChannel, (int)SettingsCC.ReverbSelected, configCurrent.iReverbSelected))
+                    SetError("REVERB SELECT COMMAND");
 
             //Send the reverb decay command if able
             if (configCurrent.iReverbDecay != configPrevious.iReverbDecay || bForce)
-                IControlMIDI.Instance.SendCommand(ChannelCommand.Controller, iChannel, (int)SettingsCC.ReverbDecay, configCurrent.iReverbDecay);
+                if (!IControlMIDI.Instance.SendCommand(ChannelCommand.Controller, iChannel, (int)SettingsCC.ReverbDecay, configCurrent.iReverbDecay))
+                    SetError("REVERB DECAY COMMAND");
 
             //Send the reverb tweak command if able
             if (configCurrent.iReverbTweak != configPrevious.iReverbTweak || bForce)
-                IControlMIDI.Instance.SendCommand(ChannelCommand.Controller, iChannel, (int)SettingsCC.ReverbTweak, configCurrent.iReverbTweak);
+                if (!IControlMIDI.Instance.SendCommand(ChannelCommand.Controller, iChannel, (int)SettingsCC.ReverbTweak, configCurrent.iReverbTweak))
+                    SetError("REVERB TWEAK COMMAND");
 
             //Send the reverb routing command if able
             if (configCurrent.iReverbRouting != configPrevious.iReverbRouting || bForce)
-                IControlMIDI.Instance.SendCommand(ChannelCommand.Controller, iChannel, (int)SettingsCC.ReverbRouting, configCurrent.iReverbRouting);
+                if (!IControlMIDI.Instance.SendCommand(ChannelCommand.Controller, iChannel, (int)SettingsCC.ReverbRouting, configCurrent.iReverbRouting))
+                    SetError("REVERB ROUTING COMMAND");
 
             //Send the reverb mix command if able
             if (configCurrent.iReverbMix != configPrevious.iReverbMix || bForce)
-                IControlMIDI.Instance.SendCommand(ChannelCommand.Controller, iChannel, (int)SettingsCC.ReverbMix, configCurrent.iReverbMix);
+                if (!IControlMIDI.Instance.SendCommand(ChannelCommand.Controller, iChannel, (int)SettingsCC.ReverbMix, configCurrent.iReverbMix))
+                    SetError("REVERB MIX COMMAND");
+
+            //Check the delay selector status and set the labels
+            if (configCurrent.iDelaySelected < Constants.ALTDELAY_INITIAL)
+            {
+                string[] sParts = Constants.DICT_DELAY[(DelayModels)configCurrent.iDelaySelected].Split('|');
+                Dispatcher.Invoke(new Action(() => labelDelayTweak.Content = sParts.First()));
+                Dispatcher.Invoke(new Action(() => labelDelayTweez.Content = sParts.Last()));
+            }
+            else
+            {
+                string[] sParts = Constants.DICT_LEGACY[(LegacyModels)configCurrent.iDelaySelected].Split('|');
+                Dispatcher.Invoke(new Action(() => labelDelayTweak.Content = sParts.First()));
+                Dispatcher.Invoke(new Action(() => labelDelayTweez.Content = sParts.Last()));
+            }
+
+            //Set the reverb parameter labels
+            Dispatcher.Invoke(new Action(() => labelReverbTweak.Content = Constants.DICT_REVERB[(ReverbModels)configCurrent.iReverbSelected]));
+            switch ((ReverRouting)configCurrent.iReverbRouting)
+            {
+                case ReverRouting.ReverbDelay:
+                    Dispatcher.Invoke(new Action(() => labelReverbRouting.Content = "REVERB ► DELAY"));
+                    break;
+                case ReverRouting.Parallel:
+                    Dispatcher.Invoke(new Action(() => labelReverbRouting.Content = "REVERB  =  DELAY"));
+                    break;
+                case ReverRouting.DelayReverb:
+                    Dispatcher.Invoke(new Action(() => labelReverbRouting.Content = "DELAY ► REVERB"));
+                    break;
+            }
+        }
+
+        /*
+        Sets the given message as an error
+        */
+        private void SetError(string sMessage)
+        {
+
         }
 
         /*
@@ -233,15 +287,15 @@ namespace MidiControl
             //Set the delay select knob list
             if (altButton.Status == AltButtonStatus.White)
             {
-                int iSelected = Constants.LIST_DELAY.IndexOf((DelayModels)configCurrent.iDelaySelected);
-                knobDelaySelected.SetKnob((int)Constants.LIST_LEGACY[iSelected], Constants.LIST_LEGACY.Select(x => (int)x).ToList(), false);
-                configCurrent.iDelaySelected = (int)Constants.LIST_LEGACY[iSelected];
+                int iSelected = Constants.DICT_DELAY.Keys.ToList().IndexOf((DelayModels)configCurrent.iDelaySelected);
+                knobDelaySelected.SetKnob((int)Constants.DICT_LEGACY.ElementAt(iSelected).Key, Constants.DICT_LEGACY.Select(x => (int)x.Key).ToList(), false);
+                configCurrent.iDelaySelected = (int)Constants.DICT_LEGACY.ElementAt(iSelected).Key;
             }
             else
             {
-                int iSelected = Constants.LIST_LEGACY.IndexOf((LegacyModels)configCurrent.iDelaySelected);
-                knobDelaySelected.SetKnob((int)Constants.LIST_DELAY[iSelected], Constants.LIST_DELAY.Select(x => (int)x).ToList(), false);
-                configCurrent.iDelaySelected = (int)Constants.LIST_DELAY[iSelected];
+                int iSelected = Constants.DICT_LEGACY.Keys.ToList().IndexOf((LegacyModels)configCurrent.iDelaySelected);
+                knobDelaySelected.SetKnob((int)Constants.DICT_DELAY.ElementAt(iSelected).Key, Constants.DICT_DELAY.Select(x => (int)x.Key).ToList(), false);
+                configCurrent.iDelaySelected = (int)Constants.DICT_DELAY.ElementAt(iSelected).Key;
             }
 
             //Set the alternative button status
@@ -330,7 +384,7 @@ namespace MidiControl
             }
             else
             {
-                Console.WriteLine("Error: Preset number outside bounds");
+                SetError("INVALID PRESET");
             }
         }
 
@@ -378,7 +432,7 @@ namespace MidiControl
                 }
                 else
                 {
-                    Console.WriteLine("Error: Preset number outside bounds");
+                    SetError("INVALID PRESET");
                 }
             }
         }
