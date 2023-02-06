@@ -96,7 +96,7 @@ namespace MidiControl
 
                 return true;
             }
-            catch
+            catch (NullReferenceException)
             {
                 Console.WriteLine("Error: Could not send the command to channel {0}: {1}, {2}", iChannel, iCommand, iValue);
                 return false;

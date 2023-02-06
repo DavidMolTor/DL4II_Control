@@ -28,6 +28,7 @@ namespace MidiControl
 
             //Run the main application
             Application.Run(new MainWindow());
+            Environment.Exit(0);
         }
     }
 }
