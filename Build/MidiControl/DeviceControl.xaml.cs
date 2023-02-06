@@ -12,7 +12,9 @@ DeviceControl.cs
 using System;
 using System.Linq;
 using System.Timers;
+using System.Threading.Tasks;
 using System.Windows.Controls;
+using System.Collections.Generic;
 
 //MIDI libraries
 using Sanford.Multimedia.Midi;
@@ -46,14 +48,17 @@ namespace MidiControl
             SetConfiguration(configCurrent);
 
             //Initialize the device connection timer
-            Timer timerConnection   = new Timer(Constants.CONNECTION_PERIOD);
+            Timer timerConnection   = new Timer(Constants.DEVICE_CONNECTION_PERIOD);
             timerConnection.Elapsed += TimerConnection_Elapsed;
-            timerConnection.Enabled = false;
+            timerConnection.Enabled = true;
 
             //Initialize the device update timer
             Timer timerUpdateDevice     = new Timer(Constants.DEVICE_UPDATE_PERIOD);
             timerUpdateDevice.Elapsed   += TimerUpdateDevice_Elapsed;
             timerUpdateDevice.Enabled   = true;
+
+            //Start the error management task
+            Task.Run(() => ManageErrors());
         }
 
         //Current configuration structure
@@ -271,12 +276,44 @@ namespace MidiControl
             }
         }
 
+        //Communication error list
+        List<string> listErrors = new List<string>();
+
         /*
-        Sets the given message as an error
+        Store the given message as an error
         */
         private void SetError(string sMessage)
         {
+            lock (listErrors)
+            {
+                listErrors.Add(sMessage);
+            }
+        }
 
+        /*
+        Sets the given message as an error
+        */
+        private void ManageErrors()
+        {
+            while (true)
+            {
+                lock (listErrors)
+                {
+                    //Check if there are any pending errors
+                    if (listErrors.Count > 1)
+                    {
+                        Dispatcher.Invoke(new Action(() => labelError.Content = listErrors[0]));
+                        listErrors.RemoveAt(0);
+                    }
+                    else
+                    {
+                        Dispatcher.Invoke(new Action(() => labelError.Content = "NONE"));
+                    }
+                }
+
+                //Wait for some time until the next loop
+                System.Threading.Thread.Sleep(Constants.DEVICE_ERROR_PERIOD);
+            }
         }
 
         /*

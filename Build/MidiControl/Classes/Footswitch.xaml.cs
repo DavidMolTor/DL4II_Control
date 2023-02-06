@@ -65,8 +65,7 @@ namespace MidiControl
         //Footswitch hold event
         public EventHandler FootswitchHold;
 
-        //Hold status objects
-        private Task taskHold;
+        //Hold status variable
         private bool bHolding = false;
 
         /*
@@ -85,15 +84,14 @@ namespace MidiControl
                 bHolding = true;
 
                 //Start the hold task
-                taskHold = new Task(Footswitch_MouseHold);
-                taskHold.Start();
+                Task.Run(() => Footswitch_MouseHold(sender, e));
             }
         }
 
         /*
         Mouse hold thread for footswitch element
         */
-        public void Footswitch_MouseHold()
+        public void Footswitch_MouseHold(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
             //Check for cancellation
             long iTimestamp = DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond;
