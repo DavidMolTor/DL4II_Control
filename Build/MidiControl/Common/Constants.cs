@@ -41,7 +41,7 @@ namespace MidiControl
         public const int MAX_KNOB_VALUES    = 128;
 
         //Footswitch parameters
-        public const int FOOTSWITCH_HOLD            = 4000;
+        public const int FOOTSWITCH_HOLD            = 2000;
         public const int FOOTSWITCH_BLINK_PERIOD    = 200;
         public const int FOOTSWITCH_BLINK_COUNT     = 4;
 

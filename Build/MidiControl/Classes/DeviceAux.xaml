@@ -1,0 +1,16 @@
+﻿<UserControl x:Class="MidiControl.DeviceAux"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:MidiControl"
+             mc:Ignorable="d" 
+             d:DesignHeight="700" d:DesignWidth="310" Height="700" Width="310">
+    <Grid Height="700" Width="310" VerticalAlignment="Center" HorizontalAlignment="Right">
+        
+        <Image Source="/Resources/DL4MkII Addon.png" Height="700" Width="310"/>
+        
+        <local:Footswitch x:Name="footswitch_ADD" Width="75" Height="75" VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="0,0,0,82"/>
+        
+    </Grid>
+</UserControl>

@@ -1,0 +1,78 @@
+﻿<UserControl x:Class="MidiControl.DeviceMain"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:MidiControl"
+             mc:Ignorable="d" 
+             d:DesignHeight="700" d:DesignWidth="1100" Height="700" Width="1100">
+    <Grid Height="700" Width="1100" VerticalAlignment="Center" HorizontalAlignment="Left">
+
+        <Image Source="/Resources/DL4MkII Empty.png" Height="700" Width="1100"/>
+
+        <Label Content="VINTAGE DIGITAL" HorizontalAlignment="Left" Margin="144,186,0,0" VerticalAlignment="Top" Width="160" Foreground="#FFCCCCCC" HorizontalContentAlignment="Center" FontFamily="Bahnschrift SemiBold Condensed" FontSize="14"/>
+        <Label Content="DIGITAL" HorizontalAlignment="Left" Margin="198,186,0,0" VerticalAlignment="Top" Width="160" Foreground="#FF41A25F" HorizontalContentAlignment="Center" FontFamily="Bahnschrift SemiBold Condensed" FontSize="14"/>
+        <Label Content="CRISSCROSS" HorizontalAlignment="Left" Margin="217,199,0,0" VerticalAlignment="Top" Width="160" Foreground="#FFCCCCCC" HorizontalContentAlignment="Center" FontFamily="Bahnschrift SemiBold Condensed" FontSize="14"/>
+        <Label Content="DIGITAL w/ MOD" HorizontalAlignment="Left" Margin="282,199,0,0" VerticalAlignment="Top" Width="160" Foreground="#FF41A25F" HorizontalContentAlignment="Center" FontFamily="Bahnschrift SemiBold Condensed" FontSize="14"/>
+        <Label Content="EUCLIDEAN" HorizontalAlignment="Left" Margin="234,218,0,0" VerticalAlignment="Top" Width="160" Foreground="#FFCCCCCC" HorizontalContentAlignment="Center" FontFamily="Bahnschrift SemiBold Condensed" FontSize="14"/>
+        <Label Content="ECHO PLATTER" HorizontalAlignment="Left" Margin="292,218,0,0" VerticalAlignment="Top" Width="160" Foreground="#FF41A25F" HorizontalContentAlignment="Center" FontFamily="Bahnschrift SemiBold Condensed" FontSize="14"/>
+        <Label Content="DUAL DELAY" HorizontalAlignment="Left" Margin="248,238,0,0" VerticalAlignment="Top" Width="160" Foreground="#FFCCCCCC" HorizontalContentAlignment="Center" FontFamily="Bahnschrift SemiBold Condensed" FontSize="14"/>
+        <Label Content="STEREO" HorizontalAlignment="Left" Margin="292,238,0,0" VerticalAlignment="Top" Width="160" Foreground="#FF41A25F" HorizontalContentAlignment="Center" FontFamily="Bahnschrift SemiBold Condensed" FontSize="14"/>
+        <Label Content="PITCH" HorizontalAlignment="Left" Margin="238,257,0,0" VerticalAlignment="Top" Width="160" Foreground="#FFCCCCCC" HorizontalContentAlignment="Center" FontFamily="Bahnschrift SemiBold Condensed" FontSize="14"/>
+        <Label Content="PING PONG" HorizontalAlignment="Left" Margin="276,257,0,0" VerticalAlignment="Top" Width="160" Foreground="#FF41A25F" HorizontalContentAlignment="Center" FontFamily="Bahnschrift SemiBold Condensed" FontSize="14"/>
+        <Label Content="ADT" HorizontalAlignment="Left" Margin="230,276,0,0" VerticalAlignment="Top" Width="160" Foreground="#FFCCCCCC" HorizontalContentAlignment="Center" FontFamily="Bahnschrift SemiBold Condensed" FontSize="14"/>
+        <Label Content="REVERSE" HorizontalAlignment="Left" Margin="260,276,0,0" VerticalAlignment="Top" Width="160" Foreground="#FF41A25F" HorizontalContentAlignment="Center" FontFamily="Bahnschrift SemiBold Condensed" FontSize="14"/>
+        <Label Content="DUCKED" HorizontalAlignment="Left" Margin="225,297,0,0" VerticalAlignment="Top" Width="160" Foreground="#FFCCCCCC" HorizontalContentAlignment="Center" FontFamily="Bahnschrift SemiBold Condensed" FontSize="14"/>
+        <Label Content="DYNAMIC" HorizontalAlignment="Left" Margin="263,297,0,0" VerticalAlignment="Top" Width="160" Foreground="#FF41A25F" HorizontalContentAlignment="Center" FontFamily="Bahnschrift SemiBold Condensed" FontSize="14"/>
+        <Label Content="HARMONY" HorizontalAlignment="Left" Margin="210,315,0,0" VerticalAlignment="Top" Width="160" Foreground="#FFCCCCCC" HorizontalContentAlignment="Center" FontFamily="Bahnschrift SemiBold Condensed" FontSize="14"/>
+        <Label Content="AUTO-VOL" HorizontalAlignment="Left" Margin="254,315,0,0" VerticalAlignment="Top" Width="160" Foreground="#FF41A25F" HorizontalContentAlignment="Center" FontFamily="Bahnschrift SemiBold Condensed" FontSize="14"/>
+        <Label Content="LOOPER" HorizontalAlignment="Left" Margin="161,328,0,0" VerticalAlignment="Top" Width="160" Foreground="#FFCCCCCC" HorizontalContentAlignment="Center" FontFamily="Bahnschrift SemiBold Condensed" FontSize="14"/>
+        <Label Content="HELIOSPHERE" HorizontalAlignment="Left" Margin="102,315,0,0" VerticalAlignment="Top" Width="160" Foreground="#FFCCCCCC" HorizontalContentAlignment="Center" FontFamily="Bahnschrift SemiBold Condensed" FontSize="14"/>
+        <Label Content="TUBE ECHO" HorizontalAlignment="Left" Margin="47,315,0,0" VerticalAlignment="Top" Width="160" Foreground="#FF41A25F" HorizontalContentAlignment="Center" FontFamily="Bahnschrift SemiBold Condensed" FontSize="14"/>
+        <Label Content="TRANSISTOR" HorizontalAlignment="Left" Margin="86,297,0,0" VerticalAlignment="Top" Width="160" Foreground="#FFCCCCCC" HorizontalContentAlignment="Center" FontFamily="Bahnschrift SemiBold Condensed" FontSize="14"/>
+        <Label Content="TAPE ECHO" HorizontalAlignment="Left" Margin="33,297,0,0" VerticalAlignment="Top" Width="160" Foreground="#FF41A25F" HorizontalContentAlignment="Center" FontFamily="Bahnschrift SemiBold Condensed" FontSize="14"/>
+        <Label Content="COSMOS" HorizontalAlignment="Left" Margin="81,277,0,0" VerticalAlignment="Top" Width="160" Foreground="#FFCCCCCC" HorizontalContentAlignment="Center" FontFamily="Bahnschrift SemiBold Condensed" FontSize="14"/>
+        <Label Content="MULTI-HEAD" HorizontalAlignment="Left" Margin="34,277,0,0" VerticalAlignment="Top" Width="160" Foreground="#FF41A25F" HorizontalContentAlignment="Center" FontFamily="Bahnschrift SemiBold Condensed" FontSize="14"/>
+        <Label Content="MULTI PASS" HorizontalAlignment="Left" Margin="69,257,0,0" VerticalAlignment="Top" Width="160" Foreground="#FFCCCCCC" HorizontalContentAlignment="Center" FontFamily="Bahnschrift SemiBold Condensed" FontSize="14"/>
+        <Label Content="SWEEP" HorizontalAlignment="Left" Margin="27,257,0,0" VerticalAlignment="Top" Width="160" Foreground="#FF41A25F" HorizontalContentAlignment="Center" FontFamily="Bahnschrift SemiBold Condensed" FontSize="14"/>
+        <Label Content="ADRIATIC" HorizontalAlignment="Left" Margin="78,238,0,0" VerticalAlignment="Top" Width="160" Foreground="#FFCCCCCC" HorizontalContentAlignment="Center" FontFamily="Bahnschrift SemiBold Condensed" FontSize="14"/>
+        <Label Content="ANALOG" HorizontalAlignment="Left" Margin="39,238,0,0" VerticalAlignment="Top" Width="160" Foreground="#FF41A25F" HorizontalContentAlignment="Center" FontFamily="Bahnschrift SemiBold Condensed" FontSize="14"/>
+        <Label Content="ELEPHANT" HorizontalAlignment="Left" Margin="89,218,0,0" VerticalAlignment="Top" Width="160" Foreground="#FFCCCCCC" HorizontalContentAlignment="Center" FontFamily="Bahnschrift SemiBold Condensed" FontSize="14"/>
+        <Label Content="ANALOG MOD" HorizontalAlignment="Left" Margin="36,218,0,0" VerticalAlignment="Top" Width="160" Foreground="#FF41A25F" HorizontalContentAlignment="Center" FontFamily="Bahnschrift SemiBold Condensed" FontSize="14"/>
+        <Label Content="GLITCH" HorizontalAlignment="Left" Margin="115,199,0,0" VerticalAlignment="Top" Width="160" Foreground="#FFCCCCCC" HorizontalContentAlignment="Center" FontFamily="Bahnschrift SemiBold Condensed" FontSize="14"/>
+        <Label Content="LO RES DELAY" HorizontalAlignment="Left" Margin="67,199,0,0" VerticalAlignment="Top" Width="160" Foreground="#FF41A25F" HorizontalContentAlignment="Center" FontFamily="Bahnschrift SemiBold Condensed" FontSize="14"/>
+
+        <Label Content="ALT" HorizontalAlignment="Left" Margin="305,308,0,0" VerticalAlignment="Top" Width="160" Foreground="#FFCCCCCC" HorizontalContentAlignment="Center" FontFamily="Bahnschrift SemiBold Condensed" FontSize="14"/>
+        <Label Content="LEGACY" HorizontalAlignment="Left" Margin="300,321,0,0" VerticalAlignment="Top" Width="160" Foreground="#FF41A25F" HorizontalContentAlignment="Center" FontFamily="Bahnschrift SemiBold Condensed" FontSize="20"/>
+
+        <Label Content="TIME" HorizontalAlignment="Left" Margin="361,321,0,0" VerticalAlignment="Top" Width="160" Foreground="#FFCCCCCC" HorizontalContentAlignment="Center" FontFamily="Bahnschrift SemiBold Condensed" FontSize="20"/>
+        <Label Content="/SUBDIV" HorizontalAlignment="Left" Margin="403,321,0,0" VerticalAlignment="Top" Width="160" Foreground="#FFCCCCCC" HorizontalContentAlignment="Center" FontFamily="Bahnschrift Light Condensed" FontSize="20"/>
+        <Label Content="REPEATS" HorizontalAlignment="Left" Margin="508,321,0,0" VerticalAlignment="Top" Width="160" Foreground="#FFCCCCCC" HorizontalContentAlignment="Center" FontFamily="Bahnschrift SemiBold Condensed" FontSize="20"/>
+        <Label Content="TWEAK" HorizontalAlignment="Left" Margin="630,321,0,0" VerticalAlignment="Top" Width="160" Foreground="#FFCCCCCC" HorizontalContentAlignment="Center" FontFamily="Bahnschrift SemiBold Condensed" FontSize="20"/>
+        <Label Content="TWEEZ" HorizontalAlignment="Left" Margin="752,321,0,0" VerticalAlignment="Top" Width="160" Foreground="#FFCCCCCC" HorizontalContentAlignment="Center" FontFamily="Bahnschrift SemiBold Condensed" FontSize="20"/>
+        <Label Content="MIX" HorizontalAlignment="Left" Margin="876,321,0,0" VerticalAlignment="Top" Width="160" Foreground="#FFCCCCCC" HorizontalContentAlignment="Center" FontFamily="Bahnschrift SemiBold Condensed" FontSize="20"/>
+
+        <Label Content="ROOM" HorizontalAlignment="Left" Margin="199,0,0,329" VerticalAlignment="Bottom" Width="160" Foreground="#FFD97600" HorizontalContentAlignment="Center" FontFamily="Bahnschrift SemiBold Condensed" FontSize="14"/>
+        <Label Content="SEARCHLIGHTS" HorizontalAlignment="Left" Margin="261,0,0,316" VerticalAlignment="Bottom" Width="160" Foreground="#FFD97600" HorizontalContentAlignment="Center" FontFamily="Bahnschrift SemiBold Condensed" FontSize="14"/>
+        <Label Content="PARTICLE VERB" HorizontalAlignment="Left" Margin="282,0,0,297" VerticalAlignment="Bottom" Width="160" Foreground="#FFD97600" HorizontalContentAlignment="Center" FontFamily="Bahnschrift SemiBold Condensed" FontSize="14"/>
+        <Label Content="DOUBLE TANK" HorizontalAlignment="Left" Margin="290,0,0,278" VerticalAlignment="Bottom" Width="160" Foreground="#FFD97600" HorizontalContentAlignment="Center" FontFamily="Bahnschrift SemiBold Condensed" FontSize="14"/>
+        <Label Content="OCTO" HorizontalAlignment="Left" Margin="274,0,0,258" VerticalAlignment="Bottom" Width="160" Foreground="#FFD97600" HorizontalContentAlignment="Center" FontFamily="Bahnschrift SemiBold Condensed" FontSize="14"/>
+        <Label Content="TILE" HorizontalAlignment="Left" Margin="268,0,0,239" VerticalAlignment="Bottom" Width="160" Foreground="#FFD97600" HorizontalContentAlignment="Center" FontFamily="Bahnschrift SemiBold Condensed" FontSize="14"/>
+        <Label Content="DUCKING" HorizontalAlignment="Left" Margin="265,0,0,219" VerticalAlignment="Bottom" Width="160" Foreground="#FFD97600" HorizontalContentAlignment="Center" FontFamily="Bahnschrift SemiBold Condensed" FontSize="14" RenderTransformOrigin="0.51,1.236"/>
+        <Label Content="PLATEAUX" HorizontalAlignment="Left" Margin="248,0,0,201" VerticalAlignment="Bottom" Width="160" Foreground="#FFD97600" HorizontalContentAlignment="Center" FontFamily="Bahnschrift SemiBold Condensed" FontSize="14" RenderTransformOrigin="0.51,1.236"/>
+        <Label Content="REVERB OFF" HorizontalAlignment="Left" Margin="199,0,0,188" VerticalAlignment="Bottom" Width="160" Foreground="#FFD97600" HorizontalContentAlignment="Center" FontFamily="Bahnschrift SemiBold Condensed" FontSize="14" RenderTransformOrigin="0.51,1.236"/>
+        <Label Content="CAVE" HorizontalAlignment="Left" Margin="160,0,0,201" VerticalAlignment="Bottom" Width="160" Foreground="#FFD97600" HorizontalContentAlignment="Center" FontFamily="Bahnschrift SemiBold Condensed" FontSize="14" RenderTransformOrigin="0.51,1.236"/>
+        <Label Content="PLATE" HorizontalAlignment="Left" Margin="136,0,0,219" VerticalAlignment="Bottom" Width="160" Foreground="#FFD97600" HorizontalContentAlignment="Center" FontFamily="Bahnschrift SemiBold Condensed" FontSize="14" RenderTransformOrigin="0.51,1.236"/>
+        <Label Content="GANYMEDE" HorizontalAlignment="Left" Margin="113,0,0,239" VerticalAlignment="Bottom" Width="160" Foreground="#FFD97600" HorizontalContentAlignment="Center" FontFamily="Bahnschrift SemiBold Condensed" FontSize="14" RenderTransformOrigin="0.51,1.236"/>
+        <Label Content="CHAMBER" HorizontalAlignment="Left" Margin="110,0,0,258" VerticalAlignment="Bottom" Width="160" Foreground="#FFD97600" HorizontalContentAlignment="Center" FontFamily="Bahnschrift SemiBold Condensed" FontSize="14" RenderTransformOrigin="0.51,1.236"/>
+        <Label Content="HOT SPRINGS" HorizontalAlignment="Left" Margin="107,0,0,278" VerticalAlignment="Bottom" Width="160" Foreground="#FFD97600" HorizontalContentAlignment="Center" FontFamily="Bahnschrift SemiBold Condensed" FontSize="14" RenderTransformOrigin="0.51,1.236"/>
+        <Label Content="HALL" HorizontalAlignment="Left" Margin="139,0,0,297" VerticalAlignment="Bottom" Width="160" Foreground="#FFD97600" HorizontalContentAlignment="Center" FontFamily="Bahnschrift SemiBold Condensed" FontSize="14" RenderTransformOrigin="0.51,1.236"/>
+        <Label Content="GLITZ" HorizontalAlignment="Left" Margin="155,0,0,316" VerticalAlignment="Bottom" Width="160" Foreground="#FFD97600" HorizontalContentAlignment="Center" FontFamily="Bahnschrift SemiBold Condensed" FontSize="14" RenderTransformOrigin="0.51,1.236"/>
+
+        <Label Content="REVERB DECAY" HorizontalAlignment="Center" Margin="0,0,46,188" VerticalAlignment="Bottom" Width="160" Foreground="#FFD97600" HorizontalContentAlignment="Center" FontFamily="Bahnschrift SemiBold Condensed" FontSize="20"/>
+        <Label Content="TWEAK" HorizontalAlignment="Center" Margin="198,0,0,188" VerticalAlignment="Bottom" Width="160" Foreground="#FFD97600" HorizontalContentAlignment="Center" FontFamily="Bahnschrift SemiBold Condensed" FontSize="20"/>
+        <Label Content="ROUTING" HorizontalAlignment="Center" Margin="443,0,0,188" VerticalAlignment="Bottom" Width="160" Foreground="#FFD97600" HorizontalContentAlignment="Center" FontFamily="Bahnschrift SemiBold Condensed" FontSize="20"/>
+        <Label Content="REVERB MIX" HorizontalAlignment="Center" Margin="686,0,0,188" VerticalAlignment="Bottom" Width="160" Foreground="#FFD97600" HorizontalContentAlignment="Center" FontFamily="Bahnschrift SemiBold Condensed" FontSize="20"/>
+
+    </Grid>
+</UserControl>

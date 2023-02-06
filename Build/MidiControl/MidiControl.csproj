@@ -66,6 +66,9 @@
     <Reference Include="WindowsFormsIntegration" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Classes\DeviceAux.xaml.cs">
+      <DependentUpon>DeviceAux.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Classes\AltButton.xaml.cs">
       <DependentUpon>AltButton.xaml</DependentUpon>
     </Compile>
@@ -73,6 +76,9 @@
       <DependentUpon>Footswitch.xaml</DependentUpon>
     </Compile>
     <Compile Include="Classes\IControlMIDI.cs" />
+    <Compile Include="Classes\DeviceMain.xaml.cs">
+      <DependentUpon>DeviceMain.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Classes\RotaryKnob.xaml.cs">
       <DependentUpon>RotaryKnob.xaml</DependentUpon>
     </Compile>
@@ -133,11 +139,19 @@
     <Resource Include="Resources\DL4 MkII Foot Green.png" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="Classes\DeviceAux.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Classes\AltButton.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Classes\Footswitch.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Classes\DeviceMain.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
