@@ -2,7 +2,7 @@
 
 This is an attemp to make the DL4 MkII a little bit more usable while playing.
 
-With the unit on a pedalboard, it is a pain to try selecting delays, selecting reverbs is just completely impossible... Until soon!
+With the unit on a pedalboard, it is a pain to try selecting delays. Selecting reverbs is just completely impossible.
 
 ## Introduction
 
@@ -15,8 +15,15 @@ The application splits the delay and reverb selection systems allowing you to se
 ## Features
 
  - MIDI channel control for choosing where the events from the panel are sent.
+
  - Divided reverb and delay sections allowing you to visualize the changes for both effects simultaneously.
+
  - Preset bypass by pressing the currently active footswitch like in the real unit.
+
  - Preset selection via a number text box for now, in the future it will be possible to label presets.
+
  - Local preset storing via serialized strctures in the application configuration file.
+
  - Footswitch control to select between the three lowest presets for now.
+
+ - Error display for messages and configurations that could not be sent via MIDI.
