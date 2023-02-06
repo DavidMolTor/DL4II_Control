@@ -7,13 +7,12 @@
              mc:Ignorable="d"
              d:DesignHeight="700" d:DesignWidth="1375" Height="700" Width="1375" IsEnabled="false">
     <UserControl.Resources>
-        <!-- Text box style -->
         <Style x:Key="PaddedTextBox"  TargetType="{x:Type TextBox}">
             <Setter Property="Margin" Value="0"/>
             <Setter Property="TextWrapping" Value="NoWrap"/>
             <Setter Property="VerticalContentAlignment" Value="Center"/>
             <Setter Property="FontFamily" Value="Bahnschrift SemiBold Condensed"/>
-            <Setter Property="FontSize" Value="32"/>
+            <Setter Property="FontSize" Value="20"/>
             <Setter Property="Background" Value="#00000000"/>
             <Setter Property="Foreground" Value="#FF41A25F"/>
             <Setter Property="BorderBrush" Value="#00000000"/>
@@ -67,44 +66,23 @@
             <local:Footswitch x:Name="footswitch_TAP" Width="75" Height="75" VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="848,0,0,82"/>
 
         </Grid>
-        <Grid x:Name="gridParam" Height="700" Width="310" VerticalAlignment="Center" HorizontalAlignment="Right" Background="#FF1E1E1E" Visibility="Hidden">
-
-            <Grid x:Name="gridChannel" Height="100" Width="310" Margin="0,0,0,0" VerticalAlignment="Top" HorizontalAlignment="Center" Background="#FF1E1E1E">
-                <Label x:Name="labelChannel" Content="MIDI CH" HorizontalAlignment="Left" Margin="0" VerticalAlignment="Center" Width="160" Foreground="#FF32864C" HorizontalContentAlignment="Center" FontSize="32" FontFamily="Yu Gothic UI"/>
-                <TextBox x:Name="textboxChannel" Style="{StaticResource PaddedTextBox}" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,20,0" Width="120" Height="46" MaxLength="1" HorizontalContentAlignment="Center" PreviewTextInput="TextBoxNumber_PreviewTextInput" TextChanged="TextboxChannel_TextChanged" Text="2"/>
-            </Grid>
-
-            <Grid x:Name="gridPreset" Height="100" Width="310" Margin="0,100,0,0" VerticalAlignment="Top" HorizontalAlignment="Center" Background="#FF282828">
-                <Label x:Name="labelPreset" Content="PRESET" HorizontalAlignment="Left" Margin="0" VerticalAlignment="Center" Width="160" Foreground="#FF32864C" HorizontalContentAlignment="Center" FontSize="32" FontFamily="Yu Gothic UI"/>
-                <TextBox x:Name="textboxPreset" Style="{StaticResource PaddedTextBox}" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,20,0" Width="120" Height="46" MaxLength="3" HorizontalContentAlignment="Center" PreviewTextInput="TextBoxNumber_PreviewTextInput" TextChanged="TextboxPreset_TextChanged" Text="0"/>
-            </Grid>
-
-            <Grid x:Name="gridDelayTweak" Height="100" Width="310" Margin="0,200,0,0" VerticalAlignment="Top" HorizontalAlignment="Center" Background="#FF1E1E1E">
-                <Label x:Name="labelDelayTweak" Content="TWEAK" HorizontalAlignment="Left" Margin="0" VerticalAlignment="Center" Width="160" Foreground="#FFCCCCCC" HorizontalContentAlignment="Center" FontSize="32" FontFamily="Yu Gothic UI"/>
-                <Label x:Name="labelDelayTweak_Value" Content="VALUE" HorizontalAlignment="Right" Margin="0,0,20,0" VerticalAlignment="Center" Width="120" Foreground="#FFCCCCCC" HorizontalContentAlignment="Center" FontSize="32" FontFamily="Yu Gothic UI"/>
-            </Grid>
-
-            <Grid x:Name="gridDelayTweez" Height="100" Width="310" Margin="0,300,0,0" VerticalAlignment="Top" HorizontalAlignment="Center" Background="#FF282828">
-                <Label x:Name="labelDelayTweez" Content="TWEEZ" HorizontalAlignment="Left" Margin="0" VerticalAlignment="Center" Width="160" Foreground="#FFCCCCCC" HorizontalContentAlignment="Center" FontSize="32" FontFamily="Yu Gothic UI"/>
-                <Label x:Name="labelDelayTweez_Value" Content="VALUE" HorizontalAlignment="Right" Margin="0,0,20,0" VerticalAlignment="Center" Width="120" Foreground="#FFCCCCCC" HorizontalContentAlignment="Center" FontSize="32" FontFamily="Yu Gothic UI"/>
-            </Grid>
-
-            <Grid x:Name="gridReverbTweak" Height="100" Width="310" Margin="0,400,0,0" VerticalAlignment="Top" HorizontalAlignment="Center" Background="#FF1E1E1E">
-                <Label x:Name="labelReverbTweak" Content="TWEAK" HorizontalAlignment="Left" Margin="0" VerticalAlignment="Center" Width="160" Foreground="#FFE97F00" HorizontalContentAlignment="Center" FontSize="32" FontFamily="Yu Gothic UI"/>
-                <Label x:Name="labelReverbTweez_Value" Content="VALUE" HorizontalAlignment="Right" Margin="0,0,20,0" VerticalAlignment="Center" Width="120" Foreground="#FFE97F00" HorizontalContentAlignment="Center" FontSize="32" FontFamily="Yu Gothic UI"/>
-            </Grid>
-
-            <Grid x:Name="gridReverbRouting" Height="100" Width="310" Margin="0,500,0,0" VerticalAlignment="Top" HorizontalAlignment="Center" Background="#FF282828">
-                <Label x:Name="labelReverbRouting" Content="ROUTE" HorizontalAlignment="Left" Margin="0" VerticalAlignment="Center" Width="160" Foreground="#FFE97F00" HorizontalContentAlignment="Center" FontSize="32" FontFamily="Yu Gothic UI"/>
-                <Label x:Name="labelReverbRouting_Value" Content="VALUE" HorizontalAlignment="Right" Margin="0,0,20,0" VerticalAlignment="Center" Width="120" Foreground="#FFE97F00" HorizontalContentAlignment="Center" FontSize="32" FontFamily="Yu Gothic UI"/>
-            </Grid>
-
-        </Grid>
         <Grid x:Name="gridDeviceAux" Height="700" Width="310" VerticalAlignment="Center" HorizontalAlignment="Right">
 
             <local:DeviceAux Height="700" Width="310"/>
 
             <local:Footswitch x:Name="footswitch_ADD" Width="75" Height="75" VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="0,0,0,82"/>
+
+
+            <TextBox x:Name="textboxChannel" Style="{StaticResource PaddedTextBox}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,100,215" Width="160" MaxLength="1" HorizontalContentAlignment="Center" PreviewTextInput="TextBoxNumber_PreviewTextInput" TextChanged="TextboxChannel_TextChanged" Text="2"/>
+            <TextBox x:Name="textboxPreset" Style="{StaticResource PaddedTextBox}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="100,0,0,215" Width="160" Height="46" MaxLength="3" HorizontalContentAlignment="Center" PreviewTextInput="TextBoxNumber_PreviewTextInput" TextChanged="TextboxPreset_TextChanged" Text="0"/>
+
+            <Label x:Name="labelDelayTweak" Content="VALUE" HorizontalAlignment="Center" Margin="0,0,100,65" VerticalAlignment="Center" Width="160" Foreground="#FFCCCCCC" HorizontalContentAlignment="Center" FontFamily="Bahnschrift SemiBold Condensed" FontSize="14"/>
+            <Label x:Name="labelDelayTweez" Content="VALUE" HorizontalAlignment="Center" Margin="100,0,0,65" VerticalAlignment="Center" Width="160" Foreground="#FFCCCCCC" HorizontalContentAlignment="Center" FontFamily="Bahnschrift SemiBold Condensed" FontSize="14"/>
+
+            <Label x:Name="labelReverbTweak" Content="VALUE" HorizontalAlignment="Center" Margin="0,98,100,0" VerticalAlignment="Center" Width="160" Foreground="#FFD97600" HorizontalContentAlignment="Center" FontFamily="Bahnschrift SemiBold Condensed" FontSize="14"/>
+            <Label x:Name="labelReverbRouting" Content="VALUE" HorizontalAlignment="Center" Margin="100,98,0,0" VerticalAlignment="Center" Width="160" Foreground="#FFD97600" HorizontalContentAlignment="Center" FontFamily="Bahnschrift SemiBold Condensed" FontSize="14"/>
+
+            <Label x:Name="labelError" Content="-" HorizontalAlignment="Center" Margin="0,256,0,0" VerticalAlignment="Center" Width="160" Foreground="#FF41A25F" HorizontalContentAlignment="Center" FontFamily="Bahnschrift SemiBold Condensed" FontSize="14"/>
 
         </Grid>
     </Grid>

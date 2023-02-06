@@ -9,8 +9,17 @@
     <Grid Height="700" Width="310" VerticalAlignment="Center" HorizontalAlignment="Right">
         
         <Image Source="/Resources/DL4MkII Addon.png" Height="700" Width="310"/>
-        
-        <local:Footswitch x:Name="footswitch_ADD" Width="75" Height="75" VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="0,0,0,82"/>
-        
+
+        <Label Content="CHANNEL" HorizontalAlignment="Center" Margin="0,0,100,265" VerticalAlignment="Center" Width="160" Foreground="#FF41A25F" HorizontalContentAlignment="Center" FontFamily="Bahnschrift SemiBold Condensed" FontSize="20"/>
+        <Label Content="PRESET" HorizontalAlignment="Center" Margin="100,0,0,265" VerticalAlignment="Center" Width="160" Foreground="#FF41A25F" HorizontalContentAlignment="Center" FontFamily="Bahnschrift SemiBold Condensed" FontSize="20"/>
+
+        <Label Content="TWEAK" HorizontalAlignment="Center" Margin="0,0,100,115" VerticalAlignment="Center" Width="160" Foreground="#FFCCCCCC" HorizontalContentAlignment="Center" FontFamily="Bahnschrift SemiBold Condensed" FontSize="20"/>
+        <Label Content="TWEEZ" HorizontalAlignment="Center" Margin="100,0,0,115" VerticalAlignment="Center" Width="160" Foreground="#FFCCCCCC" HorizontalContentAlignment="Center" FontFamily="Bahnschrift SemiBold Condensed" FontSize="20"/>
+
+        <Label Content="TWEAK" HorizontalAlignment="Center" Margin="0,48,100,0" VerticalAlignment="Center" Width="160" Foreground="#FFD97600" HorizontalContentAlignment="Center" FontFamily="Bahnschrift SemiBold Condensed" FontSize="20"/>
+        <Label Content="ROUTING" HorizontalAlignment="Center" Margin="100,48,0,0" VerticalAlignment="Center" Width="160" Foreground="#FFD97600" HorizontalContentAlignment="Center" FontFamily="Bahnschrift SemiBold Condensed" FontSize="20"/>
+
+        <Label Content="MIDI ERROR" HorizontalAlignment="Center" Margin="0,206,0,0" VerticalAlignment="Center" Width="160" Foreground="#FF41A25F" HorizontalContentAlignment="Center" FontFamily="Bahnschrift SemiBold Condensed" FontSize="20"/>
+
     </Grid>
 </UserControl>

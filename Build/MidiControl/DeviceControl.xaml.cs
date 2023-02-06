@@ -131,7 +131,7 @@ namespace MidiControl
         */
         private void TimerConnection_Elapsed(object source, ElapsedEventArgs e)
         {
-            Dispatcher.Invoke(new Action(() => this.IsEnabled = IControlMIDI.Instance.ConnectDevice()));
+            //Dispatcher.Invoke(new Action(() => this.IsEnabled = IControlMIDI.Instance.ConnectDevice()));
         }
 
         /*
