@@ -140,7 +140,7 @@ namespace MidiControl
                     //Send the footswitch pressed event
                     FootswitchPressed?.Invoke(this, EventArgs.Empty);
                 }
-                else if (Status == FootswitchStatus.Off || Status == FootswitchStatus.Dim)
+                else
                 {
                     //Send the footswitch pressed event
                     FootswitchPressed?.Invoke(this, EventArgs.Empty);

@@ -24,6 +24,7 @@ namespace MidiControl
         //Attributes
         public int iDelaySelected;
         public int iDelayTime;
+        public int iDelayNotes;
         public int iDelayRepeats;
         public int iDelayTweak;
         public int iDelayTweez;
@@ -41,6 +42,7 @@ namespace MidiControl
         {
             iDelaySelected  = config.iDelaySelected;
             iDelayTime      = config.iDelayTime;
+            iDelayNotes     = config.iDelayNotes;
             iDelayRepeats   = config.iDelayRepeats;
             iDelayTweak     = config.iDelayTweak;
             iDelayTweez     = config.iDelayTweez;

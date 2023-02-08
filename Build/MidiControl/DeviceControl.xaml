@@ -70,7 +70,7 @@
 
             <local:DeviceAux Height="700" Width="310"/>
 
-            <local:Footswitch x:Name="footswitch_ADD" Width="75" Height="75" VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="0,0,0,82"/>
+            <local:Footswitch x:Name="footswitch_SET" Width="75" Height="75" VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="0,0,0,82"/>
 
 
             <TextBox x:Name="textboxChannel" Style="{StaticResource PaddedTextBox}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,100,215" Width="160" MaxLength="1" HorizontalContentAlignment="Center" PreviewTextInput="TextBoxNumber_PreviewTextInput" TextChanged="TextboxChannel_TextChanged" Text="2"/>

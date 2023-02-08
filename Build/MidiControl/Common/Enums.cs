@@ -132,4 +132,20 @@ namespace MidiControl
         White = 0,
         Green = 1
     };
+
+    /*
+    Time subdivisions enumeration
+    */
+    public enum TimeSubdivisions
+    {
+        EighthTriplet   = 0,
+        EighthFull      = 1,
+        EighthDotted    = 2,
+        QuarterTriplet  = 3,
+        QuarterFull     = 4,
+        QuarterDotted   = 5,
+        HalfTripplet    = 6,
+        HalfFull        = 7,
+        HalfDotted      = 8
+    };
 }

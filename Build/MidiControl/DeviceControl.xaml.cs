@@ -12,7 +12,9 @@ DeviceControl.cs
 using System;
 using System.Linq;
 using System.Timers;
+using System.Threading.Tasks;
 using System.Windows.Controls;
+using System.Collections.Generic;
 
 //MIDI libraries
 using Sanford.Multimedia.Midi;
@@ -42,9 +44,9 @@ namespace MidiControl
             footswitch_C.FootswitchPressed      += HandleFootswitchPressed;
             footswitch_C.FootswitchHold         += HandleFootswitchHold;
 
-            //Set the tap and additional footswitches
+            //Set the tap and set footswitches
             footswitch_TAP.FootswitchPressed += HandleFootswitchPressed;
-            footswitch_ADD.FootswitchPressed += HandleFootswitchPressed;
+            footswitch_SET.FootswitchPressed += HandleFootswitchPressed;
 
             //Set the current preset configuration
             DeviceConfig configInitial = IControlConfig.Instance.GetPreset(IControlConfig.Instance.GetSelectedPreset());
@@ -54,10 +56,16 @@ namespace MidiControl
             Timer timerUpdateDevice     = new Timer(Constants.DEVICE_UPDATE_PERIOD);
             timerUpdateDevice.Elapsed   += TimerUpdateDevice_Elapsed;
             timerUpdateDevice.Enabled   = true;
+
+            //Initialize the tap blink task
+            Task.Run(TapBlink);
         }
 
         //Current configuration structure
         DeviceConfig configCurrent = new DeviceConfig();
+
+        //Current note subdivision variable
+        int iCurrentSubdivision = 0;
 
         /*
         Sets the given configuration
@@ -124,6 +132,9 @@ namespace MidiControl
             {
                 altButton.SetStatus(AltButtonStatus.Green);
             }
+
+            //Set the notes subdivision variable
+            iCurrentSubdivision = config.iDelayNotes;
         }
 
         /*
@@ -137,6 +148,7 @@ namespace MidiControl
             //Set the new configuration parameters
             configCurrent.iDelaySelected    = knobDelaySelected.Status;
             configCurrent.iDelayTime        = knobDelayTime.Status;
+            configCurrent.iDelayNotes       = iCurrentSubdivision;
             configCurrent.iDelayRepeats     = knobDelayRepeats.Status;
             configCurrent.iDelayTweak       = knobDelayTweak.Status;
             configCurrent.iDelayTweez       = knobDelayTweez.Status;
@@ -171,6 +183,10 @@ namespace MidiControl
             //Send the delay time command if able
             if (configCurrent.iDelayTime != configPrevious.iDelayTime)
                 IControlMIDI.Instance.AddCommand(ChannelCommand.Controller, iChannel, (int)SettingsCC.DelayTime, configCurrent.iDelayTime);
+
+            //Send the delay notes command if able
+            if (configCurrent.iDelayNotes != configPrevious.iDelayNotes)
+                IControlMIDI.Instance.AddCommand(ChannelCommand.Controller, iChannel, (int)SettingsCC.DelayNotes, configCurrent.iDelayNotes);
 
             //Send the delay repeats command if able
             if (configCurrent.iDelayRepeats != configPrevious.iDelayRepeats)
@@ -239,6 +255,23 @@ namespace MidiControl
         }
 
         /*
+        Tap blink task function
+        */
+        private void TapBlink()
+        {
+            while (true)
+            {
+                //Reset the footswitch blink status
+                Dispatcher.Invoke(new Action(() => footswitch_TAP.SetStatus(FootswitchStatus.Off)));
+                System.Threading.Thread.Sleep(Constants.DICT_SUBDIVISIONS[(TimeSubdivisions)iCurrentSubdivision]);
+
+                //Set the footswitch blink status
+                Dispatcher.Invoke(new Action(() => footswitch_TAP.SetStatus(FootswitchStatus.Red)));
+                System.Threading.Thread.Sleep(Constants.FOOTSWITCH_BLINK_PERIOD);
+            }
+        }
+
+        /*
         Sets the given message as an error
         */
         private void HandleErrorMessage(string sMessage)
@@ -273,17 +306,17 @@ namespace MidiControl
         private void HandleFootswitchPressed(object sender, EventArgs e)
         {
             //Check if any footswitch is blinking
-            if (!footswitch_A.Blinking && !footswitch_B.Blinking && !footswitch_C.Blinking && !footswitch_TAP.Blinking && !footswitch_ADD.Blinking)
+            if (!footswitch_A.Blinking && !footswitch_B.Blinking && !footswitch_C.Blinking)
             {
+                //Get the selected MIDI channel
+                int iChannel = IControlConfig.Instance.GetChannelMIDI();
+
                 //Check the type of footswitch
                 switch (((Footswitch)sender).Name.Split('_').Last())
                 {
                     case "A":
                     case "B":
                     case "C":
-                        //Get the selected MIDI channel
-                        int iChannel = IControlConfig.Instance.GetChannelMIDI();
-
                         //Check the pressed button
                         switch (((Footswitch)sender).Status)
                         {
@@ -338,11 +371,18 @@ namespace MidiControl
 
                         break;
                     case "TAP":
-                        //TODO: Set tap tempo value
+                        //Get the next note subdivision setting
+                        List<int> listSubdivisions = Enum.GetValues(typeof(TimeSubdivisions)).Cast<int>().ToList();
+                        int iDelayNotes = listSubdivisions.IndexOf(configCurrent.iDelayNotes) + 1;
+
+                        //Set the note subdivision variable
+                        iCurrentSubdivision = iDelayNotes < Enum.GetValues(typeof(TimeSubdivisions)).Cast<int>().ToList().Count ? iDelayNotes : 0;
+
+                        Console.WriteLine("Changed: {0}ms", Constants.DICT_SUBDIVISIONS[(TimeSubdivisions)iCurrentSubdivision]);
                         break;
-                    case "ADD":
-                        //Reset the MIDI device
-                        IControlMIDI.Instance.DisconnectDevice();
+                    case "SET":
+                        //Save the current preset
+                        SaveCurrentPreset();
                         break;
                 }
             }
@@ -352,6 +392,14 @@ namespace MidiControl
         Footswitch hold handler function
         */
         private void HandleFootswitchHold(object sender, EventArgs e)
+        {
+            SaveCurrentPreset();
+        }
+
+        /*
+        Saves the current device configuration
+        */
+        private void SaveCurrentPreset()
         {
             int iPreset = 0;
 

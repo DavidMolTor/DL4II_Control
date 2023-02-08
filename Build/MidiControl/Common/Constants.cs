@@ -43,7 +43,7 @@ namespace MidiControl
         public const int FOOTSWITCH_BLINK_COUNT     = 4;
 
         /*
-        Delay models list
+        Delay models dictionary
         */
         public static readonly Dictionary<DelayModels, string> DICT_DELAY = new Dictionary<DelayModels, string>()
         {
@@ -66,7 +66,7 @@ namespace MidiControl
         };
 
         /*
-        Legacy models list
+        Legacy models dictionary
         */
         public static readonly Dictionary<LegacyModels, string> DICT_LEGACY = new Dictionary<LegacyModels, string>()
         {
@@ -89,7 +89,7 @@ namespace MidiControl
         };
 
         /*
-        Reverb models list
+        Reverb models dictionary
         */
         public static readonly Dictionary<ReverbModels, string> DICT_REVERB = new Dictionary<ReverbModels, string>()
         {
@@ -109,6 +109,22 @@ namespace MidiControl
             { ReverbModels.HotSprings,      "SPRING COUNT" },
             { ReverbModels.Hall,            "PREDELAY" },
             { ReverbModels.Glitz,           "MOD DEPTH" }
+        };
+
+        /*
+        Note subdivisions models dictionary
+        */
+        public static readonly Dictionary<TimeSubdivisions, int> DICT_SUBDIVISIONS = new Dictionary<TimeSubdivisions, int>()
+        {
+            { TimeSubdivisions.EighthTriplet,   425 },
+            { TimeSubdivisions.EighthFull,      500 },
+            { TimeSubdivisions.EighthDotted,    750 },
+            { TimeSubdivisions.QuarterTriplet,  875 },
+            { TimeSubdivisions.QuarterFull,     1000 },
+            { TimeSubdivisions.QuarterDotted,   1500 },
+            { TimeSubdivisions.HalfTripplet,    1750 },
+            { TimeSubdivisions.HalfFull,        2000 },
+            { TimeSubdivisions.HalfDotted,      3000 }
         };
     }
 }
