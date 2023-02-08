@@ -12,9 +12,7 @@ DeviceControl.cs
 using System;
 using System.Linq;
 using System.Timers;
-using System.Threading.Tasks;
 using System.Windows.Controls;
-using System.Collections.Generic;
 
 //MIDI libraries
 using Sanford.Multimedia.Midi;
@@ -30,36 +28,32 @@ namespace MidiControl
         {
             InitializeComponent();
 
+            //Set the error handling call
+            IControlMIDI.Instance.ErrorMessage += HandleErrorMessage;
+
             //Set the alternative button event
             altButton.AltButtonPressed += HandleAltButtonPressed;
 
             //Set the footswitch events
-            footswitch_A.FootswitchPressed  += HandleFootswitchPressed;
-            footswitch_A.FootswitchHold     += HandleFootswitchHold;
-            footswitch_B.FootswitchPressed  += HandleFootswitchPressed;
-            footswitch_B.FootswitchHold     += HandleFootswitchHold;
-            footswitch_C.FootswitchPressed  += HandleFootswitchPressed;
-            footswitch_C.FootswitchHold     += HandleFootswitchHold;
+            footswitch_A.FootswitchPressed      += HandleFootswitchPressed;
+            footswitch_A.FootswitchHold         += HandleFootswitchHold;
+            footswitch_B.FootswitchPressed      += HandleFootswitchPressed;
+            footswitch_B.FootswitchHold         += HandleFootswitchHold;
+            footswitch_C.FootswitchPressed      += HandleFootswitchPressed;
+            footswitch_C.FootswitchHold         += HandleFootswitchHold;
+
+            //Set the tap and additional footswitches
+            footswitch_TAP.FootswitchPressed += HandleFootswitchPressed;
+            footswitch_ADD.FootswitchPressed += HandleFootswitchPressed;
 
             //Set the current preset configuration
             DeviceConfig configInitial = IControlConfig.Instance.GetPreset(IControlConfig.Instance.GetSelectedPreset());
             SetDevice(configInitial);
 
-            //Try connecting to the device
-            IControlMIDI.Instance.ConnectDevice();
-
-            //Initialize the device connection timer
-            Timer timerConnection   = new Timer(Constants.DEVICE_CONNECTION_PERIOD);
-            timerConnection.Elapsed += TimerConnection_Elapsed;
-            timerConnection.Enabled = true;
-
             //Initialize the device update timer
             Timer timerUpdateDevice     = new Timer(Constants.DEVICE_UPDATE_PERIOD);
             timerUpdateDevice.Elapsed   += TimerUpdateDevice_Elapsed;
             timerUpdateDevice.Enabled   = true;
-
-            //Start the error management task
-            Task.Run(ErrorManagement);
         }
 
         //Current configuration structure
@@ -133,29 +127,9 @@ namespace MidiControl
         }
 
         /*
-        Device connection timer elapsed function
-        */
-        private void TimerConnection_Elapsed(object source, ElapsedEventArgs e)
-        {
-            //Check the device connection status
-            if (!IControlMIDI.Instance.ConnectDevice())
-            {
-                Dispatcher.Invoke(new Action(() => SetError("DEVICE NOT CONNECTED")));
-            }
-        }
-
-        /*
         Device update timer elapsed function
         */
         private void TimerUpdateDevice_Elapsed(object source, ElapsedEventArgs e)
-        {
-            UpdateDevice(false);
-        }
-
-        /*
-        Updates the device status
-        */
-        private void UpdateDevice(bool bForce)
         {
             //Store the current configuration
             DeviceConfig configPrevious = new DeviceConfig(configCurrent);
@@ -177,78 +151,62 @@ namespace MidiControl
             int iChannel = IControlConfig.Instance.GetChannelMIDI();
 
             //Send the selected delay command if able
-            if (configCurrent.iDelaySelected != configPrevious.iDelaySelected || bForce)
+            if (configCurrent.iDelaySelected != configPrevious.iDelaySelected)
             {
                 if (configCurrent.iDelaySelected == (int)DelayModels.Looper)
                 {
                     //Enable the classic looper mode
-                    if (!IControlMIDI.Instance.SendCommand(ChannelCommand.Controller, iChannel, (int)SettingsCC.LooperMode, 64))
-                        SetError("LOOPER MODE ON COMMAND");
+                    IControlMIDI.Instance.AddCommand(ChannelCommand.Controller, iChannel, (int)SettingsCC.LooperMode, 64);
                 }
                 else
                 {
                     //Disable the classic looper mode
-                    if (!IControlMIDI.Instance.SendCommand(ChannelCommand.Controller, iChannel, (int)SettingsCC.LooperMode, 0))
-                        SetError("LOOPER MODE OFF COMMAND");
-
-                    //Wait between commands
-                    System.Threading.Thread.Sleep(Constants.DEVICE_UPDATE_PERIOD / 2);
+                    IControlMIDI.Instance.AddCommand(ChannelCommand.Controller, iChannel, (int)SettingsCC.LooperMode, 0);
 
                     //Set the selected delay model
-                    if (!IControlMIDI.Instance.SendCommand(ChannelCommand.Controller, iChannel, (int)SettingsCC.DelaySelected, configCurrent.iDelaySelected))
-                        SetError("DELAY SELECT COMMAND");
+                    IControlMIDI.Instance.AddCommand(ChannelCommand.Controller, iChannel, (int)SettingsCC.DelaySelected, configCurrent.iDelaySelected);
                 }
             }
 
             //Send the delay time command if able
-            if (configCurrent.iDelayTime != configPrevious.iDelayTime || bForce)
-                if (!IControlMIDI.Instance.SendCommand(ChannelCommand.Controller, iChannel, (int)SettingsCC.DelayTime, configCurrent.iDelayTime))
-                    SetError("DELAY TIME COMMAND");
+            if (configCurrent.iDelayTime != configPrevious.iDelayTime)
+                IControlMIDI.Instance.AddCommand(ChannelCommand.Controller, iChannel, (int)SettingsCC.DelayTime, configCurrent.iDelayTime);
 
             //Send the delay repeats command if able
-            if (configCurrent.iDelayRepeats != configPrevious.iDelayRepeats || bForce)
-                if (!IControlMIDI.Instance.SendCommand(ChannelCommand.Controller, iChannel, (int)SettingsCC.DelayRepeats, configCurrent.iDelayRepeats))
-                    SetError("DELAY REPEATS COMMAND");
+            if (configCurrent.iDelayRepeats != configPrevious.iDelayRepeats)
+                IControlMIDI.Instance.AddCommand(ChannelCommand.Controller, iChannel, (int)SettingsCC.DelayRepeats, configCurrent.iDelayRepeats);
 
             //Send the delay tweak command if able
-            if (configCurrent.iDelayTweak != configPrevious.iDelayTweak || bForce)
-                if (!IControlMIDI.Instance.SendCommand(ChannelCommand.Controller, iChannel, (int)SettingsCC.DelayTweak, configCurrent.iDelayTweak))
-                    SetError("DELAY TWEAK COMMAND");
+            if (configCurrent.iDelayTweak != configPrevious.iDelayTweak)
+                IControlMIDI.Instance.AddCommand(ChannelCommand.Controller, iChannel, (int)SettingsCC.DelayTweak, configCurrent.iDelayTweak);
 
             //Send the delay tweez command if able
-            if (configCurrent.iDelayTweez != configPrevious.iDelayTweez || bForce)
-                if (!IControlMIDI.Instance.SendCommand(ChannelCommand.Controller, iChannel, (int)SettingsCC.DelayTweez, configCurrent.iDelayTweez))
-                    SetError("DELAY TWEEZ COMMAND");
+            if (configCurrent.iDelayTweez != configPrevious.iDelayTweez)
+                IControlMIDI.Instance.AddCommand(ChannelCommand.Controller, iChannel, (int)SettingsCC.DelayTweez, configCurrent.iDelayTweez);
 
             //Send the delay mix command if able
-            if (configCurrent.iDelayMix != configPrevious.iDelayMix || bForce)
-                if (!IControlMIDI.Instance.SendCommand(ChannelCommand.Controller, iChannel, (int)SettingsCC.DelayMix, configCurrent.iDelayMix))
-                    SetError("DELAY MIX COMMAND");
+            if (configCurrent.iDelayMix != configPrevious.iDelayMix)
+                IControlMIDI.Instance.AddCommand(ChannelCommand.Controller, iChannel, (int)SettingsCC.DelayMix, configCurrent.iDelayMix);
 
             //Send the reverb selected command if able
-            if (configCurrent.iReverbSelected != configPrevious.iReverbSelected || bForce)
-                if (!IControlMIDI.Instance.SendCommand(ChannelCommand.Controller, iChannel, (int)SettingsCC.ReverbSelected, configCurrent.iReverbSelected))
-                    SetError("REVERB SELECT COMMAND");
+            if (configCurrent.iReverbSelected != configPrevious.iReverbSelected)
+                IControlMIDI.Instance.AddCommand(ChannelCommand.Controller, iChannel, (int)SettingsCC.ReverbSelected, configCurrent.iReverbSelected);
 
             //Send the reverb decay command if able
-            if (configCurrent.iReverbDecay != configPrevious.iReverbDecay || bForce)
-                if (!IControlMIDI.Instance.SendCommand(ChannelCommand.Controller, iChannel, (int)SettingsCC.ReverbDecay, configCurrent.iReverbDecay))
-                    SetError("REVERB DECAY COMMAND");
+            if (configCurrent.iReverbDecay != configPrevious.iReverbDecay)
+                IControlMIDI.Instance.AddCommand(ChannelCommand.Controller, iChannel, (int)SettingsCC.ReverbDecay, configCurrent.iReverbDecay);
 
             //Send the reverb tweak command if able
-            if (configCurrent.iReverbTweak != configPrevious.iReverbTweak || bForce)
-                if (!IControlMIDI.Instance.SendCommand(ChannelCommand.Controller, iChannel, (int)SettingsCC.ReverbTweak, configCurrent.iReverbTweak))
-                    SetError("REVERB TWEAK COMMAND");
+            if (configCurrent.iReverbTweak != configPrevious.iReverbTweak)
+                IControlMIDI.Instance.AddCommand(ChannelCommand.Controller, iChannel, (int)SettingsCC.ReverbTweak, configCurrent.iReverbTweak);
 
             //Send the reverb routing command if able
-            if (configCurrent.iReverbRouting != configPrevious.iReverbRouting || bForce)
-                if (!IControlMIDI.Instance.SendCommand(ChannelCommand.Controller, iChannel, (int)SettingsCC.ReverbRouting, configCurrent.iReverbRouting))
-                    SetError("REVERB ROUTING COMMAND");
+            if (configCurrent.iReverbRouting != configPrevious.iReverbRouting)
+                IControlMIDI.Instance.AddCommand(ChannelCommand.Controller, iChannel, (int)SettingsCC.ReverbRouting, configCurrent.iReverbRouting);
 
             //Send the reverb mix command if able
-            if (configCurrent.iReverbMix != configPrevious.iReverbMix || bForce)
-                if (!IControlMIDI.Instance.SendCommand(ChannelCommand.Controller, iChannel, (int)SettingsCC.ReverbMix, configCurrent.iReverbMix))
-                    SetError("REVERB MIX COMMAND");
+            if (configCurrent.iReverbMix != configPrevious.iReverbMix)
+                IControlMIDI.Instance.AddCommand(ChannelCommand.Controller, iChannel, (int)SettingsCC.ReverbMix, configCurrent.iReverbMix);
 
             //Check the delay selector status and set the labels
             if (configCurrent.iDelaySelected < Constants.ALTDELAY_INITIAL)
@@ -280,44 +238,12 @@ namespace MidiControl
             }
         }
 
-        //Pending errors list
-        List<string> listErrors = new List<string>();
-
-        /*
-        Store the given message as an error
-        */
-        private void SetError(string sMessage)
-        {
-            lock (listErrors)
-            {
-                listErrors.Add(sMessage);
-            }
-        }
-
         /*
         Sets the given message as an error
         */
-        private void ErrorManagement()
+        private void HandleErrorMessage(string sMessage)
         {
-            while (this != null)
-            {
-                lock (listErrors)
-                {
-                    //Check if there are any pending errors
-                    if (listErrors.Count > 1)
-                    {
-                        Dispatcher.Invoke(new Action(() => labelError.Content = listErrors[0]));
-                        listErrors.RemoveAt(0);
-                    }
-                    else
-                    {
-                        Dispatcher.Invoke(new Action(() => labelError.Content = "NONE"));
-                    }
-                }
-
-                //Wait for some time until the next loop
-                System.Threading.Thread.Sleep(Constants.DEVICE_ERROR_PERIOD);
-            }
+            Dispatcher.Invoke(new Action(() => labelError.Content = sMessage));
         }
 
         /*
@@ -347,65 +273,76 @@ namespace MidiControl
         private void HandleFootswitchPressed(object sender, EventArgs e)
         {
             //Check if any footswitch is blinking
-            if (!footswitch_A.Blinking && !footswitch_B.Blinking && !footswitch_C.Blinking && !footswitch_TAP.Blinking)
+            if (!footswitch_A.Blinking && !footswitch_B.Blinking && !footswitch_C.Blinking && !footswitch_TAP.Blinking && !footswitch_ADD.Blinking)
             {
-                //Get the selected MIDI channel
-                int iChannel = IControlConfig.Instance.GetChannelMIDI();
-
-                //Check the pressed button
-                switch (((Footswitch)sender).Status)
+                //Check the type of footswitch
+                switch (((Footswitch)sender).Name.Split('_').Last())
                 {
-                    case FootswitchStatus.Off:
-                        //Check the footswitch pressed
-                        if (sender == footswitch_A)
-                        {
-                            //Send the preset change command
-                            if (!IControlMIDI.Instance.SendCommand(ChannelCommand.ProgramChange, iChannel, 0))
-                                SetError("PRESET SELECT COMMAND");
+                    case "A":
+                    case "B":
+                    case "C":
+                        //Get the selected MIDI channel
+                        int iChannel = IControlConfig.Instance.GetChannelMIDI();
 
-                            //Set the current configuration and store the selected preset
-                            DeviceConfig config = IControlConfig.Instance.GetPreset(1);
-                            IControlConfig.Instance.SaveSelectedPreset(1);
-                            SetDevice(config);
-                        }
-                        else if (sender == footswitch_B)
+                        //Check the pressed button
+                        switch (((Footswitch)sender).Status)
                         {
-                            //Send the preset change command
-                            if (!IControlMIDI.Instance.SendCommand(ChannelCommand.ProgramChange, iChannel, 1))
-                                SetError("PRESET SELECT COMMAND");
+                            case FootswitchStatus.Off:
+                                //Check the footswitch pressed
+                                if (sender == footswitch_A)
+                                {
+                                    //Send the preset change command
+                                    IControlMIDI.Instance.AddCommand(ChannelCommand.ProgramChange, iChannel, 0);
 
-                            //Set the current configuration and store the selected preset
-                            DeviceConfig config = IControlConfig.Instance.GetPreset(2);
-                            IControlConfig.Instance.SaveSelectedPreset(2);
-                            SetDevice(config);
-                        }
-                        else if (sender == footswitch_C)
-                        {
-                            //Send the preset change command
-                            if (!IControlMIDI.Instance.SendCommand(ChannelCommand.ProgramChange, iChannel, 2))
-                                SetError("PRESET SELECT COMMAND");
+                                    //Set the current configuration and store the selected preset
+                                    DeviceConfig config = IControlConfig.Instance.GetPreset(1);
+                                    IControlConfig.Instance.SaveSelectedPreset(1);
+                                    SetDevice(config);
+                                }
+                                else if (sender == footswitch_B)
+                                {
+                                    //Send the preset change command
+                                    IControlMIDI.Instance.AddCommand(ChannelCommand.ProgramChange, iChannel, 1);
 
-                            //Set the current configuration and store the selected preset
-                            DeviceConfig config = IControlConfig.Instance.GetPreset(3);
-                            IControlConfig.Instance.SaveSelectedPreset(3);
-                            SetDevice(config);
+                                    //Set the current configuration and store the selected preset
+                                    DeviceConfig config = IControlConfig.Instance.GetPreset(2);
+                                    IControlConfig.Instance.SaveSelectedPreset(2);
+                                    SetDevice(config);
+                                }
+                                else if (sender == footswitch_C)
+                                {
+                                    //Send the preset change command
+                                    IControlMIDI.Instance.AddCommand(ChannelCommand.ProgramChange, iChannel, 2);
+
+                                    //Set the current configuration and store the selected preset
+                                    DeviceConfig config = IControlConfig.Instance.GetPreset(3);
+                                    IControlConfig.Instance.SaveSelectedPreset(3);
+                                    SetDevice(config);
+                                }
+                                break;
+                            case FootswitchStatus.Green:
+                                //Send the preset bypass command
+                                IControlMIDI.Instance.AddCommand(ChannelCommand.Controller, iChannel, (int)SettingsCC.PresetBypass, 64);
+
+                                //Set the footswitch status
+                                ((Footswitch)sender).SetStatus(FootswitchStatus.Dim);
+                                break;
+                            case FootswitchStatus.Dim:
+                                //Send the preset bypass command
+                                IControlMIDI.Instance.AddCommand(ChannelCommand.Controller, iChannel, (int)SettingsCC.PresetBypass, 0);
+
+                                //Set the footswitch status
+                                ((Footswitch)sender).SetStatus(FootswitchStatus.Green);
+                                break;
                         }
+
                         break;
-                    case FootswitchStatus.Green:
-                        //Send the preset bypass command
-                        if (!IControlMIDI.Instance.SendCommand(ChannelCommand.Controller, iChannel, (int)SettingsCC.PresetBypass, 64))
-                            SetError("PRESET BYPASS COMMAND");
-
-                        //Set the footswitch status
-                        ((Footswitch)sender).SetStatus(FootswitchStatus.Dim);
+                    case "TAP":
+                        //TODO: Set tap tempo value
                         break;
-                    case FootswitchStatus.Dim:
-                        //Send the preset bypass command
-                        if (!IControlMIDI.Instance.SendCommand(ChannelCommand.Controller, iChannel, (int)SettingsCC.PresetBypass, 0))
-                            SetError("PRESET ENABLE COMMAND");
-
-                        //Set the footswitch status
-                        ((Footswitch)sender).SetStatus(FootswitchStatus.Green);
+                    case "ADD":
+                        //Reset the MIDI device
+                        IControlMIDI.Instance.DisconnectDevice();
                         break;
                 }
             }
@@ -426,10 +363,6 @@ namespace MidiControl
             {
                 IControlConfig.Instance.SavePreset(iPreset, configCurrent);
             }
-            else
-            {
-                SetError("INVALID PRESET");
-            }
         }
 
         /*
@@ -440,8 +373,9 @@ namespace MidiControl
             //Check if the channel text is empty
             if (!string.IsNullOrEmpty(textboxChannel.Text))
             {
-                //Get the current selected MIDI channel
                 int iChannel = 0;
+
+                //Get the current selected MIDI channel
                 Dispatcher.Invoke(new Action(() => iChannel = int.Parse(textboxChannel.Text)));
 
                 //Save the selected MIDI channel
@@ -457,8 +391,9 @@ namespace MidiControl
             //Check if the preset text is empty
             if (!string.IsNullOrEmpty(textboxPreset.Text))
             {
-                //Get the current selected preset
                 int iPreset;
+
+                //Get the current selected preset
                 bool bParse = int.TryParse(textboxPreset.Text, out iPreset);
 
                 if (bParse)
@@ -471,16 +406,11 @@ namespace MidiControl
                     IControlConfig.Instance.SaveSelectedPreset(iPreset);
 
                     //Send the preset command if able
-                    if (!IControlMIDI.Instance.SendCommand(ChannelCommand.ProgramChange, IControlConfig.Instance.GetChannelMIDI(), iPreset - 1))
-                        SetError("PRESET SELECT COMMAND");
+                    IControlMIDI.Instance.AddCommand(ChannelCommand.ProgramChange, IControlConfig.Instance.GetChannelMIDI(), iPreset - 1);
 
                     //Set the device configuration
                     DeviceConfig config = IControlConfig.Instance.GetPreset(iPreset);
                     SetDevice(config);
-                }
-                else
-                {
-                    SetError("INVALID PRESET");
                 }
             }
         }

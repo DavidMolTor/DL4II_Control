@@ -15,13 +15,14 @@ namespace MidiControl
 {
     internal class Constants
     {
+        //DL4 MIDI device name
+        public const string DL4_PRODUCT_NAME        = "DL4 MkII MIDI";
+
         //Device configuration parameters
         public const int DEVICE_CONNECTION_PERIOD   = 2000;
         public const int DEVICE_UPDATE_PERIOD       = 100;
         public const int DEVICE_ERROR_PERIOD        = 2000;
-
-        //DL4 MIDI device name
-        public const string DL4_PRODUCT_NAME        = "DL4 MkII MIDI";
+        public const int DEVICE_MIDI_PERIOD         = 10;
 
         //DL4 knob rotation steps and limits
         public const double KNOB_ROTATION_MIN       = -150;

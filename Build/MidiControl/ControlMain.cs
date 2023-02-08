@@ -26,9 +26,14 @@ namespace MidiControl
             //Load the main configuration
             IControlConfig.Instance.LoadConfig();
 
+            //Set the MIDI control system
+            IControlMIDI.Instance.Initialize();
+
             //Run the main application
             Application.Run(new MainWindow());
-            Environment.Exit(0);
+
+            //Reset the MIDI control system
+            IControlMIDI.Instance.Deinitialize();
         }
     }
 }
