@@ -22,7 +22,7 @@ namespace MidiControl
         public const int DEVICE_CONNECTION_PERIOD   = 2000;
         public const int DEVICE_UPDATE_PERIOD       = 100;
         public const int DEVICE_ERROR_PERIOD        = 2000;
-        public const int DEVICE_MIDI_PERIOD         = 10;
+        public const int DEVICE_MIDI_PERIOD         = 100;
 
         //DL4 knob rotation steps and limits
         public const double KNOB_ROTATION_MIN       = -150;

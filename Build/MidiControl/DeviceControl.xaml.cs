@@ -57,8 +57,8 @@ namespace MidiControl
             timerUpdateDevice.Elapsed   += TimerUpdateDevice_Elapsed;
             timerUpdateDevice.Enabled   = true;
 
-            //Initialize the tap blink task
-            Task.Run(TapBlink);
+            //Initialize the tempo blink task
+            Task.Run(TempoBlinkTask);
         }
 
         //Current configuration structure
@@ -255,9 +255,9 @@ namespace MidiControl
         }
 
         /*
-        Tap blink task function
+        Tempo blink task function
         */
-        private void TapBlink()
+        private void TempoBlinkTask()
         {
             while (true)
             {
@@ -324,9 +324,6 @@ namespace MidiControl
                                 //Check the footswitch pressed
                                 if (sender == footswitch_A)
                                 {
-                                    //Send the preset change command
-                                    IControlMIDI.Instance.AddCommand(ChannelCommand.ProgramChange, iChannel, 0);
-
                                     //Set the current configuration and store the selected preset
                                     DeviceConfig config = IControlConfig.Instance.GetPreset(1);
                                     IControlConfig.Instance.SaveSelectedPreset(1);
@@ -334,9 +331,6 @@ namespace MidiControl
                                 }
                                 else if (sender == footswitch_B)
                                 {
-                                    //Send the preset change command
-                                    IControlMIDI.Instance.AddCommand(ChannelCommand.ProgramChange, iChannel, 1);
-
                                     //Set the current configuration and store the selected preset
                                     DeviceConfig config = IControlConfig.Instance.GetPreset(2);
                                     IControlConfig.Instance.SaveSelectedPreset(2);
@@ -344,9 +338,6 @@ namespace MidiControl
                                 }
                                 else if (sender == footswitch_C)
                                 {
-                                    //Send the preset change command
-                                    IControlMIDI.Instance.AddCommand(ChannelCommand.ProgramChange, iChannel, 2);
-
                                     //Set the current configuration and store the selected preset
                                     DeviceConfig config = IControlConfig.Instance.GetPreset(3);
                                     IControlConfig.Instance.SaveSelectedPreset(3);
@@ -377,8 +368,6 @@ namespace MidiControl
 
                         //Set the note subdivision variable
                         iCurrentSubdivision = iDelayNotes < Enum.GetValues(typeof(TimeSubdivisions)).Cast<int>().ToList().Count ? iDelayNotes : 0;
-
-                        Console.WriteLine("Changed: {0}ms", Constants.DICT_SUBDIVISIONS[(TimeSubdivisions)iCurrentSubdivision]);
                         break;
                     case "SET":
                         //Save the current preset

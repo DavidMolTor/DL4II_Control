@@ -11,7 +11,6 @@ IControlMIDI.cs
 
 using System;
 using System.Timers;
-using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
@@ -52,19 +51,20 @@ namespace MidiControl
         */
         public void Initialize()
         {
-            //Try conencting for the first time
-            ConnectDevice(this, null);
-
             //Initialize the device connection timer
-            Timer timerConnection   = new Timer(Constants.DEVICE_CONNECTION_PERIOD);
-            timerConnection.Elapsed += ConnectDevice;
-            timerConnection.Enabled = true;
+            Timer timerConnectionDevice     = new Timer(Constants.DEVICE_CONNECTION_PERIOD);
+            timerConnectionDevice.Elapsed   += TimerConnection_Elapsed;
+            timerConnectionDevice.Enabled   = true;
 
-            //Start the command sending task
-            Task.Run(SendCommands);
+            //Initialize the send commands timer
+            Timer timerSendCommands     = new Timer(Constants.DEVICE_MIDI_PERIOD);
+            timerSendCommands.Elapsed   += TimerSendCommands_Elapsed;
+            timerSendCommands.Enabled   = true;
 
-            //Start the error management task
-            Task.Run(ErrorManagement);
+            //Initialize the send commands timer
+            Timer timerErrorManagement      = new Timer(Constants.DEVICE_ERROR_PERIOD);
+            timerErrorManagement.Elapsed    += TimerErrorManagement_Elapsed;
+            timerErrorManagement.Enabled    = true;
         }
 
         /*
@@ -75,28 +75,35 @@ namespace MidiControl
             DisconnectDevice();
         }
 
-        //Midi output device object
+        //Midi output device objects
+        object lockDevice   = new object();
         OutputDevice device = null;
 
         /*
         Initializes the output device
         */
-        public void ConnectDevice(object sender, ElapsedEventArgs e)
+        public void ConnectDevice()
         {
-            for (int i = 0; i < OutputDevice.DeviceCount; i++)
+            lock (lockDevice)
             {
-                //Check the MIDI device name
-                if (OutputDevice.GetDeviceCapabilities(i).name == Constants.DL4_PRODUCT_NAME)
+                for (int i = 0; i < OutputDevice.DeviceCount; i++)
                 {
-                    //Check if the device is already connected
-                    if (device == null)
+                    //Check the MIDI device name
+                    if (OutputDevice.GetDeviceCapabilities(i).name == Constants.DL4_PRODUCT_NAME)
                     {
-                        device = new OutputDevice(i);
+                        //Check if the device is already connected
+                        if (device == null)
+                        {
+                            device = new OutputDevice(i);
+                            device.Reset();
+                        }
+
+                        break;
                     }
-                }
-                else if (i == OutputDevice.DeviceCount - 1)
-                {
-                    DisconnectDevice();
+                    else if (i == OutputDevice.DeviceCount - 1)
+                    {
+                        DisconnectDevice();
+                    }
                 }
             }
         }
@@ -106,11 +113,22 @@ namespace MidiControl
         */
         public void DisconnectDevice()
         {
-            if (device != null)
+            lock (lockDevice)
             {
-                device.Dispose();
-                device = null;
+                if (device != null)
+                {
+                    device.Dispose();
+                    device = null;
+                }
             }
+        }
+
+        /*
+        Device connection timer elapsed function
+        */
+        private void TimerConnection_Elapsed(object source, ElapsedEventArgs e)
+        {
+            ConnectDevice();
         }
 
         //MIDI commands queue object
@@ -136,32 +154,30 @@ namespace MidiControl
         }
 
         /*
-        Sends the pending commands
+        Send commands timer elapsed function
         */
-        private void SendCommands()
+        private void TimerSendCommands_Elapsed(object source, ElapsedEventArgs e)
         {
-            while (true)
+            //Check if there is any command to send
+            if (listCommands.Count > 0)
             {
-                //Check if there is any command to send
-                if (listCommands.Count > 0)
+                try
                 {
-                    try
+                    lock (lockDevice)
                     {
                         device.Send(listCommands[0]);
+                    }
+
+                    listCommands.RemoveAt(0);
+                }
+                catch (NullReferenceException)
+                {
+                    lock (listErrors)
+                    {
+                        listErrors.Add(listCommands[0]);
                         listCommands.RemoveAt(0);
                     }
-                    catch (NullReferenceException)
-                    {
-                        lock (listErrors)
-                        {
-                            listErrors.Add(listCommands[0]);
-                            listCommands.RemoveAt(0);
-                        }
-                    }
                 }
-
-                //Wait for some time until the next loop
-                System.Threading.Thread.Sleep(Constants.DEVICE_MIDI_PERIOD);
             }
         }
 
@@ -171,42 +187,36 @@ namespace MidiControl
         List<ChannelMessage> listErrors = new List<ChannelMessage>();
 
         /*
-        Error management task
+        Error management timer elapsed function
         */
-        private void ErrorManagement()
+        private void TimerErrorManagement_Elapsed(object source, ElapsedEventArgs e)
         {
-            while (true)
+            lock (listErrors)
             {
-                lock (listErrors)
+                //Check if there are any pending errors
+                if (listErrors.Count > 0)
                 {
-                    //Check if there are any pending errors
-                    if (listErrors.Count > 0)
+                    //Check the type of command
+                    switch (listErrors[0].Command)
                     {
-                        //Check the type of command
-                        switch (listErrors[0].Command)
-                        {
-                            case ChannelCommand.ProgramChange:
-                                ErrorMessage?.Invoke("PRESET SELECT COMMAND");
-                                break;
-                            case ChannelCommand.Controller:
-                                ErrorMessage?.Invoke(Regex.Replace(((SettingsCC)listErrors[0].Data1).ToString(), "([a-z])([A-Z])", "$1 $2").ToUpper() + " COMMAND");
-                                break;
-                            default:
-                                ErrorMessage?.Invoke("UNKNOWN ERROR");
-                                break;
-                        }
+                        case ChannelCommand.ProgramChange:
+                            ErrorMessage?.Invoke("PRESET SELECT COMMAND");
+                            break;
+                        case ChannelCommand.Controller:
+                            ErrorMessage?.Invoke(Regex.Replace(((SettingsCC)listErrors[0].Data1).ToString(), "([a-z])([A-Z])", "$1 $2").ToUpper() + " COMMAND");
+                            break;
+                        default:
+                            ErrorMessage?.Invoke("UNKNOWN ERROR");
+                            break;
+                    }
 
-                        //Remove all similar errors
-                        listErrors.RemoveAll(x => x.Command == listErrors[0].Command && x.Data1 == listErrors[0].Data1);
-                    }
-                    else
-                    {
-                        ErrorMessage?.Invoke("NONE");
-                    }
+                    //Remove all similar errors
+                    listErrors.RemoveAll(x => x.Command == listErrors[0].Command && x.Data1 == listErrors[0].Data1);
                 }
-
-                //Wait for some time until the next loop
-                System.Threading.Thread.Sleep(Constants.DEVICE_ERROR_PERIOD);
+                else
+                {
+                    ErrorMessage?.Invoke("NONE");
+                }
             }
         }
     }
