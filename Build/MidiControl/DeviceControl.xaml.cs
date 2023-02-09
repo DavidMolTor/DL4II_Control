@@ -51,23 +51,6 @@ namespace MidiControl
             //Set the current preset configuration
             SetDevice(IControlConfig.Instance.GetPreset(IControlConfig.Instance.GetSelectedPreset()));
 
-            //Set the current configuration object
-            configCurrent = new DeviceConfig()
-            {
-                iDelaySelected  = -1,
-                iDelayTime      = -1,
-                iDelayNotes     = -1,
-                iDelayRepeats   = -1,
-                iDelayTweak     = -1,
-                iDelayTweez     = -1,
-                iDelayMix       = -1,
-                iReverbSelected = -1,
-                iReverbDecay    = -1,
-                iReverbTweak    = -1,
-                iReverbRouting  = -1,
-                iReverbMix      = -1
-            };
-
             //Initialize the device update timer
             Timer timerUpdateDevice     = new Timer(Constants.DEVICE_UPDATE_PERIOD);
             timerUpdateDevice.Elapsed   += TimerUpdateDevice_Elapsed;
@@ -88,6 +71,23 @@ namespace MidiControl
         */
         private void SetDevice(DeviceConfig config)
         {
+            //Reset the current configuration
+            configCurrent = new DeviceConfig()
+            {
+                iDelaySelected  = -1,
+                iDelayTime      = -1,
+                iDelayNotes     = -1,
+                iDelayRepeats   = -1,
+                iDelayTweak     = -1,
+                iDelayTweez     = -1,
+                iDelayMix       = -1,
+                iReverbSelected = -1,
+                iReverbDecay    = -1,
+                iReverbTweak    = -1,
+                iReverbRouting  = -1,
+                iReverbMix      = -1
+            };
+
             //Set the configurable elements
             textboxChannel.Text = IControlConfig.Instance.GetChannelMIDI().ToString();
             textboxPreset.Text  = IControlConfig.Instance.GetSelectedPreset().ToString();
