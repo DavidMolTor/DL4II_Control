@@ -31,10 +31,10 @@ namespace MidiControl
             InitializeComponent();
 
             //Set the error handling call
-            IControlMIDI.Instance.ErrorMessage += HandleErrorMessage;
+            IControlMIDI.Instance.ErrorMessage  += HandleErrorMessage;
 
             //Set the alternative button event
-            altButton.AltButtonPressed += HandleAltButtonPressed;
+            altButton.AltButtonPressed          += HandleAltButtonPressed;
 
             //Set the footswitch events
             footswitch_A.FootswitchPressed      += HandleFootswitchPressed;
@@ -45,12 +45,28 @@ namespace MidiControl
             footswitch_C.FootswitchHold         += HandleFootswitchHold;
 
             //Set the tap and set footswitches
-            footswitch_TAP.FootswitchPressed += HandleFootswitchPressed;
-            footswitch_SET.FootswitchPressed += HandleFootswitchPressed;
+            footswitch_TAP.FootswitchPressed    += HandleFootswitchPressed;
+            footswitch_SET.FootswitchPressed    += HandleFootswitchPressed;
 
             //Set the current preset configuration
-            DeviceConfig configInitial = IControlConfig.Instance.GetPreset(IControlConfig.Instance.GetSelectedPreset());
-            SetDevice(configInitial);
+            SetDevice(IControlConfig.Instance.GetPreset(IControlConfig.Instance.GetSelectedPreset()));
+
+            //Set the current configuration object
+            configCurrent = new DeviceConfig()
+            {
+                iDelaySelected  = -1,
+                iDelayTime      = -1,
+                iDelayNotes     = -1,
+                iDelayRepeats   = -1,
+                iDelayTweak     = -1,
+                iDelayTweez     = -1,
+                iDelayMix       = -1,
+                iReverbSelected = -1,
+                iReverbDecay    = -1,
+                iReverbTweak    = -1,
+                iReverbRouting  = -1,
+                iReverbMix      = -1
+            };
 
             //Initialize the device update timer
             Timer timerUpdateDevice     = new Timer(Constants.DEVICE_UPDATE_PERIOD);
@@ -62,7 +78,7 @@ namespace MidiControl
         }
 
         //Current configuration structure
-        DeviceConfig configCurrent = new DeviceConfig();
+        DeviceConfig configCurrent;
 
         //Current note subdivision variable
         int iCurrentSubdivision = 0;

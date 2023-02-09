@@ -51,15 +51,18 @@ namespace MidiControl
         */
         public void Initialize()
         {
+            //Try connecting for the first time
+            ConnectDevice();
+
             //Initialize the device connection timer
             Timer timerConnectionDevice     = new Timer(Constants.DEVICE_CONNECTION_PERIOD);
             timerConnectionDevice.Elapsed   += TimerConnection_Elapsed;
             timerConnectionDevice.Enabled   = true;
 
             //Initialize the send commands timer
-            Timer timerSendCommands     = new Timer(Constants.DEVICE_MIDI_PERIOD);
-            timerSendCommands.Elapsed   += TimerSendCommands_Elapsed;
-            timerSendCommands.Enabled   = true;
+            Timer timerSendCommands         = new Timer(Constants.DEVICE_MIDI_PERIOD);
+            timerSendCommands.Elapsed       += TimerSendCommands_Elapsed;
+            timerSendCommands.Enabled       = true;
 
             //Initialize the send commands timer
             Timer timerErrorManagement      = new Timer(Constants.DEVICE_ERROR_PERIOD);
