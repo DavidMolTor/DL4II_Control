@@ -1,7 +1,7 @@
-RMDIR "./Bin/Debug" /S /Q
-RMDIR "./Bin/Release" /S /Q
+RMDIR "./bin/Debug" /S /Q
+RMDIR "./bin/Release" /S /Q
 
-RMDIR "./Obj/Debug" /S /Q
-RMDIR "./Obj/Release" /S /Q
+RMDIR "./obj/Debug" /S /Q
+RMDIR "./obj/Release" /S /Q
 
-RMDIR "./Install/DL4MkII Control" /S /Q
+RMDIR "./install/DL4MkII Control" /S /Q

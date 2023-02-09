@@ -6,9 +6,6 @@
 # Build results
 [Dd]ebug/
 [Rr]elease/
-[Ii]nstall/
-[Bb]in/
-[Oo]bj/
 x64/
 # build folder is nowadays used for build scripts and should not be ignored
 #build/

@@ -50,10 +50,10 @@ rem ----------------------------------------------------------------------------
 rem ---- COPY GENERATED FILES TO TARGET DIRECTORY
 rem ----------------------------------------------------------------------------
 
-mkdir "%PROJECT_ROOT%..\..\Install"
-rmdir "%PROJECT_ROOT%..\..\Install\DL4MkII Control" /S /Q >NUL
-mkdir "%PROJECT_ROOT%..\..\Install\DL4MkII Control"
-xcopy "%OUT_FOLDER%" "%PROJECT_ROOT%..\..\Install\DL4MkII Control\" /S /E /Y >NUL
+mkdir "%PROJECT_ROOT%..\..\install" >NUL
+rmdir "%PROJECT_ROOT%..\..\install\DL4MkII Control" /S /Q >NUL
+mkdir "%PROJECT_ROOT%..\..\install\DL4MkII Control" >NUL
+xcopy "%OUT_FOLDER%" "%PROJECT_ROOT%..\..\install\DL4MkII Control\" /S /E /Y >NUL
 
 goto END
 
