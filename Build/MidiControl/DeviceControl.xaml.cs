@@ -196,13 +196,13 @@ namespace MidiControl
                 }
             }
 
+            //Send the delay notes command if able
+            if (configCurrent.iDelayNotes != configPrevious.iDelayNotes && configCurrent.iDelayTime == configPrevious.iDelayTime)
+                IControlMIDI.Instance.AddCommand(ChannelCommand.Controller, iChannel, (int)SettingsCC.DelayNotes, configCurrent.iDelayNotes);
+
             //Send the delay time command if able
             if (configCurrent.iDelayTime != configPrevious.iDelayTime)
                 IControlMIDI.Instance.AddCommand(ChannelCommand.Controller, iChannel, (int)SettingsCC.DelayTime, configCurrent.iDelayTime);
-
-            //Send the delay notes command if able
-            if (configCurrent.iDelayNotes != configPrevious.iDelayNotes)
-                IControlMIDI.Instance.AddCommand(ChannelCommand.Controller, iChannel, (int)SettingsCC.DelayNotes, configCurrent.iDelayNotes);
 
             //Send the delay repeats command if able
             if (configCurrent.iDelayRepeats != configPrevious.iDelayRepeats)
@@ -383,7 +383,7 @@ namespace MidiControl
                         int iDelayNotes = listSubdivisions.IndexOf(configCurrent.iDelayNotes) + 1;
 
                         //Set the note subdivision variable
-                        iCurrentSubdivision = iDelayNotes < Enum.GetValues(typeof(TimeSubdivisions)).Cast<int>().ToList().Count ? iDelayNotes : 0;
+                        iCurrentSubdivision = iDelayNotes < listSubdivisions.Count ? iDelayNotes : 0;
                         break;
                     case "SET":
                         //Save the current preset
