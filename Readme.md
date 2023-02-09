@@ -10,7 +10,7 @@ This projects aims to deliver all the selection system of the DL4 MkII from any 
 
 The application splits the delay and reverb selection systems allowing you to select each one without needing to navigate between complex menus.
 
-<p align="center"><img src="/Build/MidiControl/Resources/Original/DL4MkII Control.gif" alt="DL4MkII CONTROL"></p>
+<p align="center"><img src="/build/MidiControl/Resources/Original/DL4MkII Control.gif" alt="DL4MkII CONTROL"></p>
 
 ## Features
 
