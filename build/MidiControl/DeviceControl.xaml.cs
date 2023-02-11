@@ -61,7 +61,8 @@ namespace MidiControl
         }
 
         //Current configuration structure
-        DeviceConfig configCurrent;
+        bool bReload = false;
+        DeviceConfig configDevice;
 
         //Current note subdivision variable
         int iCurrentSubdivision = 0;
@@ -71,8 +72,11 @@ namespace MidiControl
         */
         private void SetDevice(DeviceConfig config)
         {
+            //Set the reaload flag
+            bReload = true;
+
             //Reset the current configuration
-            configCurrent = new DeviceConfig()
+            configDevice = new DeviceConfig()
             {
                 iDelaySelected  = -1,
                 iDelayTime      = -1,
@@ -159,21 +163,24 @@ namespace MidiControl
         private void TimerUpdateDevice_Elapsed(object source, ElapsedEventArgs e)
         {
             //Store the current configuration
-            DeviceConfig configPrevious = new DeviceConfig(configCurrent);
+            DeviceConfig configPrevious = new DeviceConfig(configDevice);
 
             //Set the new configuration parameters
-            configCurrent.iDelaySelected    = knobDelaySelected.Status;
-            configCurrent.iDelayTime        = knobDelayTime.Status;
-            configCurrent.iDelayNotes       = iCurrentSubdivision;
-            configCurrent.iDelayRepeats     = knobDelayRepeats.Status;
-            configCurrent.iDelayTweak       = knobDelayTweak.Status;
-            configCurrent.iDelayTweez       = knobDelayTweez.Status;
-            configCurrent.iDelayMix         = knobDelayMix.Status;
-            configCurrent.iReverbSelected   = knobReverbSelected.Status;
-            configCurrent.iReverbDecay      = knobReverbDecay.Status;
-            configCurrent.iReverbTweak      = knobReverbTweak.Status;
-            configCurrent.iReverbRouting    = knobReverbRouting.Status;
-            configCurrent.iReverbMix        = knobReverbMix.Status;
+            DeviceConfig configCurrent = new DeviceConfig()
+            {
+                iDelaySelected  = knobDelaySelected.Status,
+                iDelayTime      = knobDelayTime.Status,
+                iDelayNotes     = iCurrentSubdivision,
+                iDelayRepeats   = knobDelayRepeats.Status,
+                iDelayTweak     = knobDelayTweak.Status,
+                iDelayTweez     = knobDelayTweez.Status,
+                iDelayMix       = knobDelayMix.Status,
+                iReverbSelected = knobReverbSelected.Status,
+                iReverbDecay    = knobReverbDecay.Status,
+                iReverbTweak    = knobReverbTweak.Status,
+                iReverbRouting  = knobReverbRouting.Status,
+                iReverbMix      = knobReverbMix.Status
+            };
 
             //Get the selected MIDI channel
             int iChannel = IControlConfig.Instance.GetChannelMIDI();
@@ -268,6 +275,16 @@ namespace MidiControl
                     Dispatcher.Invoke(new Action(() => labelReverbRouting.Content = "DELAY ► REVERB"));
                     break;
             }
+
+            //Set the device configuration
+            if (!bReload)
+            {
+                configDevice = new DeviceConfig(configCurrent);
+            }
+            else
+            {
+                bReload = false;
+            }
         }
 
         /*
@@ -303,12 +320,12 @@ namespace MidiControl
             //Set the delay select knob list
             if (altButton.Status == AltButtonStatus.White)
             {
-                int iSelected = Constants.DICT_DELAY.Keys.ToList().IndexOf((DelayModels)configCurrent.iDelaySelected);
+                int iSelected = Constants.DICT_DELAY.Keys.ToList().IndexOf((DelayModels)configDevice.iDelaySelected);
                 knobDelaySelected.SetKnob((int)Constants.DICT_LEGACY.ElementAt(iSelected).Key, Constants.DICT_LEGACY.Select(x => (int)x.Key).ToList(), false);
             }
             else
             {
-                int iSelected = Constants.DICT_LEGACY.Keys.ToList().IndexOf((LegacyModels)configCurrent.iDelaySelected);
+                int iSelected = Constants.DICT_LEGACY.Keys.ToList().IndexOf((LegacyModels)configDevice.iDelaySelected);
                 knobDelaySelected.SetKnob((int)Constants.DICT_DELAY.ElementAt(iSelected).Key, Constants.DICT_DELAY.Select(x => (int)x.Key).ToList(), false);
             }
 
@@ -380,7 +397,7 @@ namespace MidiControl
                     case "TAP":
                         //Get the next note subdivision setting
                         List<int> listSubdivisions = Enum.GetValues(typeof(TimeSubdivisions)).Cast<int>().ToList();
-                        int iDelayNotes = listSubdivisions.IndexOf(configCurrent.iDelayNotes) + 1;
+                        int iDelayNotes = listSubdivisions.IndexOf(configDevice.iDelayNotes) + 1;
 
                         //Set the note subdivision variable
                         iCurrentSubdivision = iDelayNotes < listSubdivisions.Count ? iDelayNotes : 0;
@@ -414,7 +431,7 @@ namespace MidiControl
             //Check the preset number
             if (iPreset >= Constants.PRESET_COUNT_MIN && iPreset <= Constants.PRESET_COUNT_MAX)
             {
-                IControlConfig.Instance.SavePreset(iPreset, configCurrent);
+                IControlConfig.Instance.SavePreset(iPreset, configDevice);
             }
         }
 
