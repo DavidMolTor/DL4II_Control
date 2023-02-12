@@ -53,6 +53,32 @@ namespace MidiControl
         }
 
         /*
+        Returns the configured MIDI device name
+        */
+        public string GetDeviceMIDI()
+        {
+            return configMain.AppSettings.Settings["DEVICE_MIDI"].Value;
+        }
+
+        /*
+        Saves the configured MIDI device name
+        */
+        public bool SaveDeviceMIDI(string sDeviceMIDI)
+        {
+            try
+            {
+                configMain.AppSettings.Settings["DEVICE_MIDI"].Value = sDeviceMIDI;
+                configMain.Save(ConfigurationSaveMode.Minimal, false);
+            }
+            catch (ConfigurationErrorsException)
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        /*
         Returns the configured MIDI channel
         */
         public int GetChannelMIDI()

@@ -15,9 +15,6 @@ namespace MidiControl
 {
     internal class Constants
     {
-        //DL4 MIDI device name
-        public const string DL4_PRODUCT_NAME        = "DL4 MkII MIDI";
-
         //Device configuration parameters
         public const int DEVICE_CONNECTION_PERIOD   = 2000;
         public const int DEVICE_UPDATE_PERIOD       = 100;

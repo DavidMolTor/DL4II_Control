@@ -92,9 +92,15 @@ namespace MidiControl
                 iReverbMix      = -1
             };
 
+            //Get the currently selected preset
+            int iPreset = IControlConfig.Instance.GetSelectedPreset();
+
             //Set the configurable elements
+            textboxPreset.Text  = iPreset.ToString();
             textboxChannel.Text = IControlConfig.Instance.GetChannelMIDI().ToString();
-            textboxPreset.Text  = IControlConfig.Instance.GetSelectedPreset().ToString();
+
+            //Send the preset command if able
+            IControlMIDI.Instance.AddCommand(ChannelCommand.ProgramChange, IControlConfig.Instance.GetChannelMIDI(), iPreset - 1);
 
             //Set the delay select control
             if (config.iDelaySelected < Constants.ALTDELAY_INITIAL)
@@ -461,12 +467,8 @@ namespace MidiControl
             //Check if the preset text is empty
             if (!string.IsNullOrEmpty(textboxPreset.Text))
             {
-                int iPreset;
-
                 //Get the current selected preset
-                bool bParse = int.TryParse(textboxPreset.Text, out iPreset);
-
-                if (bParse)
+                if (int.TryParse(textboxPreset.Text, out int iPreset))
                 {
                     //Check if the preset is outside bounds
                     iPreset = iPreset > Constants.PRESET_COUNT_MAX ? Constants.PRESET_COUNT_MAX : iPreset;
@@ -474,9 +476,6 @@ namespace MidiControl
 
                     //Save the selected preset
                     IControlConfig.Instance.SaveSelectedPreset(iPreset);
-
-                    //Send the preset command if able
-                    IControlMIDI.Instance.AddCommand(ChannelCommand.ProgramChange, IControlConfig.Instance.GetChannelMIDI(), iPreset - 1);
 
                     //Set the device configuration
                     DeviceConfig config = IControlConfig.Instance.GetPreset(iPreset);

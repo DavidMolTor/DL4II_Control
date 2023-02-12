@@ -92,7 +92,7 @@ namespace MidiControl
                 for (int i = 0; i < OutputDevice.DeviceCount; i++)
                 {
                     //Check the MIDI device name
-                    if (OutputDevice.GetDeviceCapabilities(i).name == Constants.DL4_PRODUCT_NAME)
+                    if (OutputDevice.GetDeviceCapabilities(i).name == IControlConfig.Instance.GetDeviceMIDI())
                     {
                         //Check if the device is already connected
                         if (device == null)

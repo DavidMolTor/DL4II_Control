@@ -74,7 +74,7 @@
 
 
             <TextBox x:Name="textboxChannel" Style="{StaticResource PaddedTextBox}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,100,215" Width="160" MaxLength="1" HorizontalContentAlignment="Center" PreviewTextInput="TextBoxNumber_PreviewTextInput" TextChanged="TextboxChannel_TextChanged"/>
-            <TextBox x:Name="textboxPreset" Style="{StaticResource PaddedTextBox}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="100,0,0,215" Width="160" Height="46" MaxLength="3" HorizontalContentAlignment="Center" PreviewTextInput="TextBoxNumber_PreviewTextInput" TextChanged="TextboxPreset_TextChanged"/>
+            <TextBox x:Name="textboxPreset" Style="{StaticResource PaddedTextBox}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="100,0,0,215" Width="160" MaxLength="3" HorizontalContentAlignment="Center" PreviewTextInput="TextBoxNumber_PreviewTextInput" TextChanged="TextboxPreset_TextChanged"/>
 
             <Label x:Name="labelDelayTweak" Content="VALUE" HorizontalAlignment="Center" Margin="0,0,100,65" VerticalAlignment="Center" Width="160" Foreground="#FFCCCCCC" HorizontalContentAlignment="Center" FontFamily="Bahnschrift SemiBold Condensed" FontSize="14"/>
             <Label x:Name="labelDelayTweez" Content="VALUE" HorizontalAlignment="Center" Margin="100,0,0,65" VerticalAlignment="Center" Width="160" Foreground="#FFCCCCCC" HorizontalContentAlignment="Center" FontFamily="Bahnschrift SemiBold Condensed" FontSize="14"/>
