@@ -99,6 +99,8 @@ namespace MidiControl
                         {
                             device = new OutputDevice(i);
                             device.Reset();
+
+                            ErrorMessage?.Invoke("NONE");
                         }
 
                         break;
@@ -106,6 +108,8 @@ namespace MidiControl
                     else if (i == OutputDevice.DeviceCount - 1)
                     {
                         DisconnectDevice();
+
+                        ErrorMessage?.Invoke("NO DEVICE CONNECTED");
                     }
                 }
             }
@@ -168,7 +172,10 @@ namespace MidiControl
                 {
                     lock (lockDevice)
                     {
-                        device.Send(listCommands[0]);
+                        if (device != null)
+                        {
+                            device.Send(listCommands[0]);
+                        }
                     }
 
                     listCommands.RemoveAt(0);

@@ -21,5 +21,13 @@
 
         <Label Content="MIDI ERROR" HorizontalAlignment="Center" Margin="0,206,0,0" VerticalAlignment="Center" Width="160" Foreground="#FF41A25F" HorizontalContentAlignment="Center" FontFamily="Bahnschrift SemiBold Condensed" FontSize="20"/>
 
+        <TextBlock x:Name="textInfo" VerticalAlignment="Top" HorizontalAlignment="Left" TextAlignment="Left" TextWrapping="WrapWithOverflow" FontFamily="Bahnschrift SemiBold Condensed" FontSize="17" Width="180" Height="80" Margin="45,60,0,0" Visibility="Hidden">
+            Developed by David Molina Toro<LineBreak/>
+            GNU General Public License<LineBreak/>
+            This software uses Leslie Sanford's MIDI Toolkit
+        </TextBlock>
+
+        <Button x:Name="buttonInfo" VerticalAlignment="Top" HorizontalAlignment="Right" Opacity="0" Width="38" Height="38" Margin="0,103,45,0" Click="ButtonInfo_Click" MouseEnter="ButtonInfo_MouseEnter" MouseLeave="ButtonInfo_MouseLeave"/>
+
     </Grid>
 </UserControl>
