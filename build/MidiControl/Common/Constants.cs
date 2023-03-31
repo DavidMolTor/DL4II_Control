@@ -27,6 +27,10 @@ namespace MidiControl
         public const double KNOB_ROTATION_RATE      = 10;
 
         //Number of presets available
+        public const int CHANNEL_COUNT_MIN          = 1;
+        public const int CHANNEL_COUNT_MAX          = 16;
+
+        //Number of presets available
         public const int PRESET_COUNT_MIN           = 1;
         public const int PRESET_COUNT_MAX           = 128;
 

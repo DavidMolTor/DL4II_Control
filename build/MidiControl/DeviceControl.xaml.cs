@@ -93,11 +93,12 @@ namespace MidiControl
             };
 
             //Get the currently selected preset
-            int iPreset = IControlConfig.Instance.GetSelectedPreset();
+            int iPreset     = IControlConfig.Instance.GetSelectedPreset();
+            int iChannel    = IControlConfig.Instance.GetChannelMIDI();
 
             //Set the configurable elements
             textboxPreset.Text  = iPreset.ToString();
-            textboxChannel.Text = IControlConfig.Instance.GetChannelMIDI().ToString();
+            textboxChannel.Text = iChannel.ToString();
 
             //Send the preset command if able
             IControlMIDI.Instance.AddCommand(ChannelCommand.ProgramChange, IControlConfig.Instance.GetChannelMIDI(), iPreset - 1);
@@ -300,13 +301,20 @@ namespace MidiControl
         {
             while (true)
             {
-                //Reset the footswitch blink status
-                Dispatcher.Invoke(new Action(() => footswitch_TAP.SetStatus(FootswitchStatus.Off)));
-                System.Threading.Thread.Sleep(Constants.DICT_SUBDIVISIONS[(TimeSubdivisions)iCurrentSubdivision]);
+                try
+                {
+                    //Reset the footswitch blink status
+                    Dispatcher.Invoke(new Action(() => footswitch_TAP.SetStatus(FootswitchStatus.Off)));
+                    System.Threading.Thread.Sleep(Constants.DICT_SUBDIVISIONS[(TimeSubdivisions)iCurrentSubdivision]);
 
-                //Set the footswitch blink status
-                Dispatcher.Invoke(new Action(() => footswitch_TAP.SetStatus(FootswitchStatus.Red)));
-                System.Threading.Thread.Sleep(Constants.FOOTSWITCH_BLINK_PERIOD);
+                    //Set the footswitch blink status
+                    Dispatcher.Invoke(new Action(() => footswitch_TAP.SetStatus(FootswitchStatus.Red)));
+                    System.Threading.Thread.Sleep(Constants.FOOTSWITCH_BLINK_PERIOD);
+                }
+                catch (KeyNotFoundException)
+                {
+                    continue;
+                }
             }
         }
 
@@ -441,6 +449,35 @@ namespace MidiControl
         }
 
         /*
+        Channel button clicked event handler
+        */
+        private void ButtonChannel_Click(object sender, System.Windows.RoutedEventArgs e)
+        {
+            //Get the current selected channel
+            if (int.TryParse(textboxChannel.Text, out int iChannel))
+            {
+                //Get the type of button pressed and set the channel
+                string sDirection = ((Button)sender).Name.Split('_').Last();
+                switch (sDirection)
+                {
+                    case "Up":
+                        iChannel++;
+                        break;
+                    case "Down":
+                        iChannel--;
+                        break;
+                }
+
+                //Check if the channel is outside bounds
+                iChannel = iChannel > Constants.CHANNEL_COUNT_MAX ? Constants.CHANNEL_COUNT_MAX : iChannel;
+                iChannel = iChannel < Constants.CHANNEL_COUNT_MIN ? Constants.CHANNEL_COUNT_MIN : iChannel;
+
+                //Set the channel text
+                textboxChannel.Text = iChannel.ToString();
+            }
+        }
+
+        /*
         Channel text changed event handler
         */
         private void TextboxChannel_TextChanged(object sender, TextChangedEventArgs e)
@@ -448,13 +485,45 @@ namespace MidiControl
             //Check if the channel text is empty
             if (!string.IsNullOrEmpty(textboxChannel.Text))
             {
-                int iChannel = 0;
+                //Get the current selected channel
+                if (int.TryParse(textboxChannel.Text, out int iChannel))
+                {
+                    //Check if the channel is outside bounds
+                    iChannel = iChannel > Constants.CHANNEL_COUNT_MAX ? Constants.CHANNEL_COUNT_MAX : iChannel;
+                    iChannel = iChannel < Constants.CHANNEL_COUNT_MIN ? Constants.CHANNEL_COUNT_MIN : iChannel;
 
-                //Get the current selected MIDI channel
-                Dispatcher.Invoke(new Action(() => iChannel = int.Parse(textboxChannel.Text)));
+                    //Save the selected MIDI channel
+                    IControlConfig.Instance.SaveChannelMIDI(iChannel);
+                }
+            }
+        }
 
-                //Save the selected MIDI channel
-                IControlConfig.Instance.SaveChannelMIDI(iChannel);
+        /*
+        Preset button clicked event handler
+        */
+        private void ButtonPreset_Click(object sender, System.Windows.RoutedEventArgs e)
+        {
+            //Get the current selected preset
+            if (int.TryParse(textboxPreset.Text, out int iPreset))
+            {
+                //Get the type of button pressed and set the preset
+                string sDirection = ((Button)sender).Name.Split('_').Last();
+                switch (sDirection)
+                {
+                    case "Up":
+                        iPreset++;
+                        break;
+                    case "Down":
+                        iPreset--;
+                        break;
+                }
+
+                //Check if the preset is outside bounds
+                iPreset = iPreset > Constants.PRESET_COUNT_MAX ? Constants.PRESET_COUNT_MAX : iPreset;
+                iPreset = iPreset < Constants.PRESET_COUNT_MIN ? Constants.PRESET_COUNT_MIN : iPreset;
+
+                //Set the preset text
+                textboxPreset.Text = iPreset.ToString();
             }
         }
 

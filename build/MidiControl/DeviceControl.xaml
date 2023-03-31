@@ -7,6 +7,23 @@
              mc:Ignorable="d"
              d:DesignHeight="700" d:DesignWidth="1375" Height="700" Width="1375" IsEnabled="true">
     <UserControl.Resources>
+        <Style x:Key="SimpleButton" TargetType="Button">
+            <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Grid Name="HoverGrid" RenderTransformOrigin="{TemplateBinding RenderTransformOrigin}" Background="{TemplateBinding Background}">
+                            <Grid.RenderTransform>
+                                <ScaleTransform />
+                            </Grid.RenderTransform>
+                            <Border BorderThickness="0">
+                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                            </Border>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
         <Style x:Key="PaddedTextBox"  TargetType="{x:Type TextBox}">
             <Setter Property="Margin" Value="0"/>
             <Setter Property="TextWrapping" Value="NoWrap"/>
@@ -72,9 +89,13 @@
 
             <local:Footswitch x:Name="footswitch_SET" Width="75" Height="75" VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="0,0,0,82"/>
 
+            <TextBox x:Name="textboxChannel" Style="{StaticResource PaddedTextBox}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,100,215" Width="35" MaxLength="1" HorizontalContentAlignment="Center" PreviewTextInput="TextBoxNumber_PreviewTextInput" TextChanged="TextboxChannel_TextChanged"/>
+            <Button x:Name="buttonChannel_Up" Style="{StaticResource SimpleButton}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,50,228" Width="20" Content="▲" Foreground="#FF41A25F" BorderBrush="#00000000" Background="#00000000" Click="ButtonChannel_Click"/>
+            <Button x:Name="buttonChannel_Down" Style="{StaticResource SimpleButton}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,50,202" Width="20" Content="▼" Foreground="#FF41A25F" BorderBrush="#00000000" Background="#00000000" Click="ButtonChannel_Click"/>
 
-            <TextBox x:Name="textboxChannel" Style="{StaticResource PaddedTextBox}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,100,215" Width="160" MaxLength="1" HorizontalContentAlignment="Center" PreviewTextInput="TextBoxNumber_PreviewTextInput" TextChanged="TextboxChannel_TextChanged"/>
-            <TextBox x:Name="textboxPreset" Style="{StaticResource PaddedTextBox}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="100,0,0,215" Width="160" MaxLength="3" HorizontalContentAlignment="Center" PreviewTextInput="TextBoxNumber_PreviewTextInput" TextChanged="TextboxPreset_TextChanged"/>
+            <TextBox x:Name="textboxPreset" Style="{StaticResource PaddedTextBox}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="100,0,0,215" Width="35" MaxLength="3" HorizontalContentAlignment="Center" PreviewTextInput="TextBoxNumber_PreviewTextInput" TextChanged="TextboxPreset_TextChanged"/>
+            <Button x:Name="buttonPreset_Up" Style="{StaticResource SimpleButton}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="150,0,0,228" Width="20" Content="▲" Foreground="#FF41A25F" BorderBrush="#00000000" Background="#00000000" Click="ButtonPreset_Click"/>
+            <Button x:Name="buttonPreset_Down" Style="{StaticResource SimpleButton}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="150,0,0,202" Width="20" Content="▼" Foreground="#FF41A25F" BorderBrush="#00000000" Background="#00000000" Click="ButtonPreset_Click"/>
 
             <Label x:Name="labelDelayTweak" Content="VALUE" HorizontalAlignment="Center" Margin="0,0,100,65" VerticalAlignment="Center" Width="160" Foreground="#FFCCCCCC" HorizontalContentAlignment="Center" FontFamily="Bahnschrift SemiBold Condensed" FontSize="14"/>
             <Label x:Name="labelDelayTweez" Content="VALUE" HorizontalAlignment="Center" Margin="100,0,0,65" VerticalAlignment="Center" Width="160" Foreground="#FFCCCCCC" HorizontalContentAlignment="Center" FontFamily="Bahnschrift SemiBold Condensed" FontSize="14"/>
