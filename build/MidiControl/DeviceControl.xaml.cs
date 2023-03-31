@@ -398,7 +398,6 @@ namespace MidiControl
                                 ((Footswitch)sender).SetStatus(FootswitchStatus.Green);
                                 break;
                         }
-
                         break;
                     case "TAP":
                         //Get the next note subdivision setting
