@@ -70,10 +70,16 @@ namespace MidiControl
         /*
         Sets the given configuration
         */
-        private void SetDevice(DeviceConfig config)
+        private void SetDevice(DeviceConfig config, bool bReset = false)
         {
             //Set the reaload flag
             bReload = true;
+
+            //Remove all commands if needed
+            if (bReset)
+            {
+                IControlMIDI.Instance.RemoveCommands();
+            }
 
             //Reset the current configuration
             configDevice = new DeviceConfig()
@@ -374,21 +380,21 @@ namespace MidiControl
                                     //Set the current configuration and store the selected preset
                                     DeviceConfig config = IControlConfig.Instance.GetPreset(1);
                                     IControlConfig.Instance.SaveSelectedPreset(1);
-                                    SetDevice(config);
+                                    SetDevice(config, true);
                                 }
                                 else if (sender == footswitch_B)
                                 {
                                     //Set the current configuration and store the selected preset
                                     DeviceConfig config = IControlConfig.Instance.GetPreset(2);
                                     IControlConfig.Instance.SaveSelectedPreset(2);
-                                    SetDevice(config);
+                                    SetDevice(config, true);
                                 }
                                 else if (sender == footswitch_C)
                                 {
                                     //Set the current configuration and store the selected preset
                                     DeviceConfig config = IControlConfig.Instance.GetPreset(3);
                                     IControlConfig.Instance.SaveSelectedPreset(3);
-                                    SetDevice(config);
+                                    SetDevice(config, true);
                                 }
                                 break;
                             case FootswitchStatus.Green:
@@ -547,7 +553,7 @@ namespace MidiControl
 
                     //Set the device configuration
                     DeviceConfig config = IControlConfig.Instance.GetPreset(iPreset);
-                    SetDevice(config);
+                    SetDevice(config, true);
                 }
             }
         }

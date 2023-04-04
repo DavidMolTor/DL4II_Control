@@ -151,13 +151,24 @@ namespace MidiControl
             {
                 MidiChannel = iChannel - 1,
                 Command     = iType,
-                Data1       = (int)iCommand,
+                Data1       = iCommand,
                 Data2       = iValue
             };
             builder.Build();
 
             //Add the command to the queue
             listCommands.Add(builder.Result);
+        }
+
+        /*
+        Removes all commands from the queue
+        */
+        public void RemoveCommands()
+        {
+            lock (lockDevice)
+            {
+                listCommands.Clear();
+            }
         }
 
         /*
@@ -176,9 +187,9 @@ namespace MidiControl
                         {
                             device.Send(listCommands[0]);
                         }
-                    }
 
-                    listCommands.RemoveAt(0);
+                        listCommands.RemoveAt(0);
+                    }
                 }
                 catch (NullReferenceException)
                 {
