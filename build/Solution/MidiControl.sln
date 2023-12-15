@@ -1,9 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.4.33213.308
+VisualStudioVersion = 17.8.34330.188
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MidiControl", "..\MidiControl\MidiControl.csproj", "{BBD3D331-C43C-4845-81FE-9E4C357E1EA6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MidiControl", "..\MidiControl\MidiControl.csproj", "{669023D0-9B17-4B5C-9DFC-7D8F3542CFD7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,15 +11,15 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{BBD3D331-C43C-4845-81FE-9E4C357E1EA6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{BBD3D331-C43C-4845-81FE-9E4C357E1EA6}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{BBD3D331-C43C-4845-81FE-9E4C357E1EA6}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{BBD3D331-C43C-4845-81FE-9E4C357E1EA6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{669023D0-9B17-4B5C-9DFC-7D8F3542CFD7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{669023D0-9B17-4B5C-9DFC-7D8F3542CFD7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{669023D0-9B17-4B5C-9DFC-7D8F3542CFD7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{669023D0-9B17-4B5C-9DFC-7D8F3542CFD7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {ED495DC4-8075-48AC-BED1-9E9D0B9A7287}
+		SolutionGuid = {853D7832-039E-4AEE-A2F8-5EA9D7B552DA}
 	EndGlobalSection
 EndGlobal

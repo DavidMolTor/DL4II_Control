@@ -4,16 +4,16 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{BBD3D331-C43C-4845-81FE-9E4C357E1EA6}</ProjectGuid>
+    <ProjectGuid>{669023D0-9B17-4B5C-9DFC-7D8F3542CFD7}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <RootNamespace>MidiControl</RootNamespace>
     <AssemblyName>MidiControl</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <WarningLevel>4</WarningLevel>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
-    <NuGetPackageImportStamp>
-    </NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>x64</PlatformTarget>
@@ -39,119 +39,45 @@
   <PropertyGroup>
     <ApplicationIcon>DL4MkII.ico</ApplicationIcon>
   </PropertyGroup>
-  <PropertyGroup>
-    <StartupObject />
-  </PropertyGroup>
   <ItemGroup>
-    <Reference Include="PresentationCore" />
-    <Reference Include="PresentationFramework" />
     <Reference Include="Sanford.Multimedia.Midi, Version=6.6.2.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\Solution\packages\Sanford.Multimedia.Midi.6.6.2\lib\net20\Sanford.Multimedia.Midi.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Xaml" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Deployment" />
-    <Reference Include="System.Drawing" />
     <Reference Include="System.Net.Http" />
-    <Reference Include="System.Windows.Forms" />
-    <Reference Include="System.Xml" />
-    <Reference Include="UIAutomationProvider" />
+    <Reference Include="System.Xaml">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
     <Reference Include="WindowsBase" />
-    <Reference Include="WindowsFormsIntegration" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Classes\DeviceAux.xaml.cs">
-      <DependentUpon>DeviceAux.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Classes\AltButton.xaml.cs">
-      <DependentUpon>AltButton.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Classes\Footswitch.xaml.cs">
-      <DependentUpon>Footswitch.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Classes\IControlMIDI.cs" />
-    <Compile Include="Classes\DeviceMain.xaml.cs">
-      <DependentUpon>DeviceMain.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Classes\RotaryKnob.xaml.cs">
-      <DependentUpon>RotaryKnob.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Common\Constants.cs" />
-    <Compile Include="DeviceControl.xaml.cs">
-      <DependentUpon>DeviceControl.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Common\Enums.cs" />
-    <Compile Include="Common\Functions.cs" />
-    <Compile Include="Classes\IControlConfig.cs" />
-    <Compile Include="MainWindow.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="MainWindow.Designer.cs">
-      <DependentUpon>MainWindow.cs</DependentUpon>
-    </Compile>
-    <Compile Include="ControlMain.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Common\Structs.cs" />
-    <EmbeddedResource Include="MainWindow.resx">
-      <DependentUpon>MainWindow.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Resources.resx</DependentUpon>
-      <DesignTime>True</DesignTime>
-    </Compile>
-    <None Include="packages.config" />
-    <None Include="Properties\Settings.settings">
-      <Generator>SettingsSingleFileGenerator</Generator>
-      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
-    </None>
-    <Compile Include="Properties\Settings.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Settings.settings</DependentUpon>
-      <DesignTimeSharedInput>True</DesignTimeSharedInput>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="App.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="DL4MkII.ico" />
-    <Resource Include="Resources\DL4MkII Labeled.png" />
-    <Resource Include="Resources\DL4MkII Addon.png" />
-    <Resource Include="Resources\DL4 MkII Foot Dim.png" />
-    <Resource Include="Resources\DL4 MkII Alt White.png" />
-    <Resource Include="Resources\DL4 MkII Alt Green.png" />
-    <Resource Include="Resources\DL4MkII Empty.png" />
-    <Resource Include="Resources\DL4 MkII Knob.png" />
-    <Resource Include="Resources\DL4 MkII Foot Red.png" />
-    <Resource Include="Resources\DL4 MkII Foot None.png" />
-    <Resource Include="Resources\DL4 MkII Foot Green.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Page Include="Classes\DeviceAux.xaml">
-      <SubType>Designer</SubType>
+    <ApplicationDefinition Include="App.xaml">
       <Generator>MSBuild:Compile</Generator>
-    </Page>
+      <SubType>Designer</SubType>
+    </ApplicationDefinition>
     <Page Include="Classes\AltButton.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Classes\Footswitch.xaml">
+    <Page Include="Classes\DeviceAux.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Classes\DeviceMain.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Classes\Footswitch.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -160,10 +86,107 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="DeviceControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Compile Include="App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Classes\AltButton.xaml.cs">
+      <DependentUpon>AltButton.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Classes\DeviceAux.xaml.cs">
+      <DependentUpon>DeviceAux.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Classes\DeviceMain.xaml.cs">
+      <DependentUpon>DeviceMain.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Classes\Footswitch.xaml.cs">
+      <DependentUpon>Footswitch.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Classes\IControlConfig.cs" />
+    <Compile Include="Classes\IControlMIDI.cs" />
+    <Compile Include="Classes\RotaryKnob.xaml.cs">
+      <DependentUpon>RotaryKnob.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Common\Constants.cs" />
+    <Compile Include="Common\Enums.cs" />
+    <Compile Include="Common\Functions.cs" />
+    <Compile Include="Common\Structs.cs" />
+    <Compile Include="DeviceControl.xaml.cs">
+      <DependentUpon>DeviceControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MainWindow.xaml.cs">
+      <DependentUpon>MainWindow.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="DL4MkII.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\DL4 MkII Alt Green.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\DL4 MkII Alt White.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\DL4 MkII Foot Dim.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\DL4 MkII Foot Green.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\DL4 MkII Foot None.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\DL4 MkII Foot Red.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\DL4 MkII Knob.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\DL4MkII Addon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\DL4MkII Empty.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\DL4MkII Labeled.png" />
+  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>rd "$(ProjectDir)bin" /S /Q
