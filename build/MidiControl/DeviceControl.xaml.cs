@@ -130,7 +130,7 @@ namespace MidiControl
             knobReverbSelected.SetKnob(config.iReverbSelected, Constants.DICT_REVERB.Select(x => (int)x.Key).ToList(), false);
 
             //Set the reverb routing knob steps
-            knobReverbRouting.SetKnob(config.iReverbRouting, Enum.GetValues(typeof(ReverRouting)).Cast<ReverRouting>().Select(x => (int)x).ToList());
+            knobReverbRouting.SetKnob(config.iReverbRouting, Enum.GetValues(typeof(ReverRouting)).Cast<ReverRouting>().Select(x => (int)x).ToList(), true, true);
 
             //Set all delay control knobs
             knobReverbDecay.SetKnob(config.iReverbDecay,    Enumerable.Range(0, Constants.MAX_KNOB_VALUES).ToList());

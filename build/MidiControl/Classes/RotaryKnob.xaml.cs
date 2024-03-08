@@ -35,10 +35,13 @@ namespace MidiControl
         //Rotation limit variable
         public bool Limited = true;
 
+        //Coarse knob variable
+        public bool Coarse = false;
+
         /*
         Sets the knob status
         */
-        public void SetKnob(int iStatus, List<int> listSteps, bool bLimited = true)
+        public void SetKnob(int iStatus, List<int> listSteps, bool bLimited = true, bool bCoarse = false)
         {
             //Set the knob status
             Status = iStatus;
@@ -48,6 +51,9 @@ namespace MidiControl
 
             //Set if the knob is limited
             Limited = bLimited;
+
+            //Set if the knob is coarse
+            Coarse = bCoarse;
 
             //Check if the knob is limited
             if (Limited)
@@ -113,8 +119,19 @@ namespace MidiControl
         */
         private void Knob_MouseWheel(object sender, System.Windows.Input.MouseWheelEventArgs e)
         {
-            //Add gap to the currenat angle
-            dAngleActual = transformKnob.Angle + Math.Sign(e.Delta) * Constants.KNOB_ROTATION_RATE;
+            //Add gap to the current angle
+            if (Coarse)
+            {
+                dAngleActual = transformKnob.Angle + Math.Sign(e.Delta) * (Constants.KNOB_ROTATION_MAX - Constants.KNOB_ROTATION_MIN) / (Steps.Count - 1);
+            }
+            else if (Limited)
+            {
+                dAngleActual = transformKnob.Angle + Math.Sign(e.Delta) * Constants.KNOB_ROTATION_RATE;
+            }
+            else
+            {
+                dAngleActual = transformKnob.Angle + Math.Sign(e.Delta) * 360.0 / Steps.Count;
+            }
 
             //Set the current knob rotation
             SetRotation(ref dAngleActual);
