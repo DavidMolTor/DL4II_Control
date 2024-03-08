@@ -22,9 +22,9 @@ namespace MidiControl
         public const int DEVICE_MIDI_PERIOD         = 100;
 
         //DL4 knob rotation steps and limits
-        public const double KNOB_ROTATION_MIN       = -150;
-        public const double KNOB_ROTATION_MAX       = 150;
-        public const double KNOB_ROTATION_RATE      = 10;
+        public const double KNOB_ROTATION_MIN       = -150.0;
+        public const double KNOB_ROTATION_MAX       = 150.0;
+        public const double KNOB_ROTATION_RATE      = 10.0;
 
         //Number of presets available
         public const int CHANNEL_COUNT_MIN          = 1;
