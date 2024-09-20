@@ -120,13 +120,10 @@ namespace MidiControl
         */
         public void DisconnectDevice()
         {
-            lock (lockDevice)
+            if (device != null)
             {
-                if (device != null)
-                {
-                    device.Dispose();
-                    device = null;
-                }
+                device.Dispose();
+                device = null;
             }
         }
 

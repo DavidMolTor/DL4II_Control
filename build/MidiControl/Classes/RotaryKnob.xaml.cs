@@ -150,7 +150,7 @@ namespace MidiControl
                 dAngle = dAngle < Constants.KNOB_ROTATION_MIN ? Constants.KNOB_ROTATION_MIN : dAngle;
 
                 //Calculate the knob status and set its angle
-                Status = Steps[(int)Math.Floor((dAngle - Constants.KNOB_ROTATION_MIN) / (Constants.KNOB_ROTATION_MAX - Constants.KNOB_ROTATION_MIN) * (Steps.Count - 1))];
+                Status = Steps[(int)Math.Round((dAngle - Constants.KNOB_ROTATION_MIN) / (Constants.KNOB_ROTATION_MAX - Constants.KNOB_ROTATION_MIN) * (Steps.Count - 1))];
                 transformKnob.Angle = Constants.KNOB_ROTATION_MIN + (Constants.KNOB_ROTATION_MAX - Constants.KNOB_ROTATION_MIN) * (double)Steps.IndexOf(Status) / (Steps.Count - 1);
             }
             else
