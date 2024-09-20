@@ -40,7 +40,7 @@ namespace MidiControl
 
         //Footswitch parameters
         public const int FOOTSWITCH_HOLD_TIME       = 2000;
-        public const int FOOTSWITCH_BLINK_PERIOD    = 200;
+        public const int FOOTSWITCH_BLINK_PERIOD    = 500;
         public const int FOOTSWITCH_BLINK_COUNT     = 4;
 
         /*
@@ -117,15 +117,15 @@ namespace MidiControl
         */
         public static readonly Dictionary<TimeSubdivisions, int> DICT_SUBDIVISIONS = new Dictionary<TimeSubdivisions, int>()
         {
-            { TimeSubdivisions.EighthTriplet,   425 },
-            { TimeSubdivisions.EighthFull,      500 },
-            { TimeSubdivisions.EighthDotted,    750 },
-            { TimeSubdivisions.QuarterTriplet,  875 },
-            { TimeSubdivisions.QuarterFull,     1000 },
-            { TimeSubdivisions.QuarterDotted,   1500 },
-            { TimeSubdivisions.HalfTripplet,    1750 },
-            { TimeSubdivisions.HalfFull,        2000 },
-            { TimeSubdivisions.HalfDotted,      3000 }
+            { TimeSubdivisions.EighthTriplet,   12 },
+            { TimeSubdivisions.EighthFull,      25 },
+            { TimeSubdivisions.EighthDotted,    38 },
+            { TimeSubdivisions.QuarterTriplet,  50 },
+            { TimeSubdivisions.QuarterFull,     64 },
+            { TimeSubdivisions.QuarterDotted,   75 },
+            { TimeSubdivisions.HalfTripplet,    89 },
+            { TimeSubdivisions.HalfFull,        102 },
+            { TimeSubdivisions.HalfDotted,      116 }
         };
     }
 }

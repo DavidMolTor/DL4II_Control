@@ -12,6 +12,7 @@ DeviceControl.cs
 using System;
 using System.Linq;
 using System.Timers;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Collections.Generic;
@@ -52,9 +53,9 @@ namespace MidiControl
             SetDevice(IControlConfig.Instance.GetPreset(IControlConfig.Instance.GetSelectedPreset()));
 
             //Initialize the device update timer
-            Timer timerUpdateDevice     = new Timer(Constants.DEVICE_UPDATE_PERIOD);
-            timerUpdateDevice.Elapsed   += TimerUpdateDevice_Elapsed;
-            timerUpdateDevice.Enabled   = true;
+            System.Timers.Timer timerUpdateDevice   = new System.Timers.Timer(Constants.DEVICE_UPDATE_PERIOD);
+            timerUpdateDevice.Elapsed               += TimerUpdateDevice_Elapsed;
+            timerUpdateDevice.Enabled               = true;
 
             //Initialize the tempo blink task
             Task.Run(TempoBlinkTask);
@@ -66,6 +67,11 @@ namespace MidiControl
 
         //Current note subdivision variable
         int iCurrentSubdivision = 0;
+
+        //Tap footswitch control objects
+        bool bTapMode               = false;
+        object lockTapMode          = new object();
+        AutoResetEvent eventTapMode = new AutoResetEvent(false);
 
         /*
         Sets the given configuration
@@ -216,13 +222,22 @@ namespace MidiControl
                 }
             }
 
-            //Send the delay notes command if able
-            if (configCurrent.iDelayNotes != configPrevious.iDelayNotes && configCurrent.iDelayTime == configPrevious.iDelayTime)
-                IControlMIDI.Instance.AddCommand(ChannelCommand.Controller, iChannel, (int)SettingsCC.DelayNotes, configCurrent.iDelayNotes);
+            lock (lockTapMode)
+            {
+                //Check the tap mode status
+                if (bTapMode)
+                {
+                    bTapMode = Constants.DICT_SUBDIVISIONS.Values.Contains(configCurrent.iDelayTime);
+                }
 
-            //Send the delay time command if able
-            if (configCurrent.iDelayTime != configPrevious.iDelayTime)
-                IControlMIDI.Instance.AddCommand(ChannelCommand.Controller, iChannel, (int)SettingsCC.DelayTime, configCurrent.iDelayTime);
+                //Send the delay notes command if able
+                if (configCurrent.iDelayNotes != configPrevious.iDelayNotes && bTapMode)
+                    IControlMIDI.Instance.AddCommand(ChannelCommand.Controller, iChannel, (int)SettingsCC.DelayNotes, configCurrent.iDelayNotes);
+
+                //Send the delay time command if able
+                if (configCurrent.iDelayTime != configPrevious.iDelayTime && !bTapMode)
+                    IControlMIDI.Instance.AddCommand(ChannelCommand.Controller, iChannel, (int)SettingsCC.DelayTime, configCurrent.iDelayTime);
+            }
 
             //Send the delay repeats command if able
             if (configCurrent.iDelayRepeats != configPrevious.iDelayRepeats)
@@ -309,13 +324,26 @@ namespace MidiControl
             {
                 try
                 {
-                    //Reset the footswitch blink status
-                    Dispatcher.Invoke(new Action(() => footswitch_TAP.SetStatus(FootswitchStatus.Off)));
-                    System.Threading.Thread.Sleep(Constants.DICT_SUBDIVISIONS[(TimeSubdivisions)iCurrentSubdivision]);
+                    //Get the tap mode value
+                    bool bValue;
+                    lock (lockTapMode)
+                    {
+                        bValue = bTapMode;
+                    }
+
+                    //Check the tap mode value
+                    if (!bValue)
+                    {
+                        eventTapMode.WaitOne();
+                    }
 
                     //Set the footswitch blink status
                     Dispatcher.Invoke(new Action(() => footswitch_TAP.SetStatus(FootswitchStatus.Red)));
-                    System.Threading.Thread.Sleep(Constants.FOOTSWITCH_BLINK_PERIOD);
+                    Thread.Sleep(Constants.FOOTSWITCH_BLINK_PERIOD / 2);
+
+                    //Reset the footswitch blink status
+                    Dispatcher.Invoke(new Action(() => footswitch_TAP.SetStatus(FootswitchStatus.Off)));
+                    Thread.Sleep(Constants.FOOTSWITCH_BLINK_PERIOD);
                 }
                 catch (KeyNotFoundException)
                 {
@@ -414,12 +442,31 @@ namespace MidiControl
                         }
                         break;
                     case "TAP":
-                        //Get the next note subdivision setting
-                        List<int> listSubdivisions = Enum.GetValues(typeof(TimeSubdivisions)).Cast<int>().ToList();
-                        int iDelayNotes = listSubdivisions.IndexOf(configDevice.iDelayNotes) + 1;
+                        lock (lockTapMode)
+                        {
+                            //Get the next note subdivision setting
+                            List<int> listSubdivisions = Enum.GetValues(typeof(TimeSubdivisions)).Cast<int>().ToList();
+                            int iDelayNotes = listSubdivisions.IndexOf(configDevice.iDelayNotes) + (bTapMode ? 1 : 0);
 
-                        //Set the note subdivision variable
-                        iCurrentSubdivision = iDelayNotes < listSubdivisions.Count ? iDelayNotes : 0;
+                            //Set the note subdivision variable
+                            iCurrentSubdivision = iDelayNotes < listSubdivisions.Count ? iDelayNotes : 0;
+
+                            //Set the subdivisions knob
+                            knobDelayTime.SetKnob(Constants.DICT_SUBDIVISIONS[(TimeSubdivisions)iCurrentSubdivision], Enumerable.Range(0, Constants.MAX_KNOB_VALUES).ToList());
+
+                            //Check the tap mode value
+                            if (!bTapMode)
+                            {
+                                //Send the delay notes command
+                                IControlMIDI.Instance.AddCommand(ChannelCommand.Controller, iChannel, (int)SettingsCC.DelayNotes, iCurrentSubdivision);
+
+                                //Set the tap mode value
+                                bTapMode = true;
+
+                                //Set the tap mode event
+                                eventTapMode.Set();
+                            }
+                        }
                         break;
                     case "SET":
                         //Save the current preset
@@ -434,6 +481,7 @@ namespace MidiControl
         */
         private void HandleFootswitchHold(object sender, EventArgs e)
         {
+            //Save the current preset
             SaveCurrentPreset();
         }
 
