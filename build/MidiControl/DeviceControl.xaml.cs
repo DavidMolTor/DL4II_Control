@@ -427,14 +427,14 @@ namespace MidiControl
                                 break;
                             case FootswitchStatus.Green:
                                 //Send the preset bypass command
-                                IControlMIDI.Instance.AddCommand(ChannelCommand.Controller, iChannel, (int)SettingsCC.PresetBypass, 64);
+                                IControlMIDI.Instance.AddCommand(ChannelCommand.Controller, iChannel, (int)SettingsCC.PresetBypass, 0);
 
                                 //Set the footswitch status
                                 ((Footswitch)sender).SetStatus(FootswitchStatus.Dim);
                                 break;
                             case FootswitchStatus.Dim:
                                 //Send the preset bypass command
-                                IControlMIDI.Instance.AddCommand(ChannelCommand.Controller, iChannel, (int)SettingsCC.PresetBypass, 0);
+                                IControlMIDI.Instance.AddCommand(ChannelCommand.Controller, iChannel, (int)SettingsCC.PresetBypass, 64);
 
                                 //Set the footswitch status
                                 ((Footswitch)sender).SetStatus(FootswitchStatus.Green);
