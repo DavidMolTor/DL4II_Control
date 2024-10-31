@@ -6,7 +6,7 @@ Functions.cs
 - Description: Functions class
 - Author: David Molina Toro
 - Date: 02 - 02 - 2023
-- Version: 0.1
+- Version: 1.7
 */
 
 using System.Windows;

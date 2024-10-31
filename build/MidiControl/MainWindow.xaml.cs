@@ -6,7 +6,7 @@ MainWindow.cs
 - Description: Main window control
 - Author: David Molina Toro
 - Date: 15 - 12 - 2023
-- Version: 0.1
+- Version: 1.7
 */
 
 using System.Windows;

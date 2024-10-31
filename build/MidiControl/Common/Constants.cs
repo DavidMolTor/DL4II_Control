@@ -6,7 +6,7 @@ Constants.cs
 - Description: Constants declaration script
 - Author: David Molina Toro
 - Date: 01 - 02 - 2023
-- Version: 0.1
+- Version: 1.7
 */
 
 using System.Collections.Generic;

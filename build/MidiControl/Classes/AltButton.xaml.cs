@@ -6,7 +6,7 @@ AltButton.cs
 - Description: Alternative button element class
 - Author: David Molina Toro
 - Date: 03 - 02 - 2023
-- Version: 0.1
+- Version: 1.7
 */
 
 using System;
